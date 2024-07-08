@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "styled-components";
+import CampoForm from "../componentes/CampoForm";
 
-const StyledContainer = styled.div`
+const ContainerEstilizado = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -10,7 +11,7 @@ const StyledContainer = styled.div`
     background-color: #383838;
 `;
 
-const StyledForm = styled.form`
+const FormEstilizado = styled.form`
     display: flex;
     padding: 3rem;
     flex-direction:column;
@@ -46,12 +47,14 @@ export const SubContainerSign = styled.div`
 
 const Login = () => {
     return (
-        <StyledContainer>
-            <StyledForm>
+        <ContainerEstilizado>
+            <FormEstilizado>
                 <h1>Faça seu login</h1>
+                <CampoForm placeholder="Digite seu login" name="login"/>
+                <CampoForm placeholder="Digite seu login" type="password" name="senha"/>
                 <p>Não possui conta?</p> <a>Cadastrar</a>
-            </StyledForm>
-        </StyledContainer>
+            </FormEstilizado>
+        </ContainerEstilizado>
     );
 }
 
