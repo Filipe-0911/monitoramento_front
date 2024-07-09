@@ -1,6 +1,5 @@
 import axios from "axios";
 
-
 export default class UserService {
     constructor() {
         const BASE_URL = import.meta.env.VITE_LOGIN_API;
