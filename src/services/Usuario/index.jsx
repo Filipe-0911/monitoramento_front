@@ -45,12 +45,14 @@ export default class UserService {
         return tempoDecorrido <= (3600 * 3); // 1h = 3600s | OBS: MODIFICAR CASO SEJA AUMENTADO O TEMPO DE VALIDADE TO JWT
     }
 
-    async logout() {
+    logout() {
+        
         localStorage.removeItem('Authorization');
         localStorage.removeItem('nome');
         localStorage.removeItem('login');
         localStorage.removeItem('id');
         localStorage.removeItem('horarioLogin');
+
     }
 
     async cadastrar (dados) {

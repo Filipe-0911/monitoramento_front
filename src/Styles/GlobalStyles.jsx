@@ -11,6 +11,11 @@ const GlobalStyle = createGlobalStyle`
         height: 100vh;
         background-color: #f0f2f5;
         font-family: 'Poppins', sans-serif;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        min-width: 100vw;
+        background-color: #383838;
     }
 `
 
