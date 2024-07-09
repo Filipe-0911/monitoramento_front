@@ -19,9 +19,9 @@ const InputEstilizado = styled.input`
 `
 
 const CampoForm = (props) => {
-    const { placeholder, type = "text", name } = props
+    const { placeholder, type = "text", name, onChange } = props
     return (
-        <InputEstilizado type={type} name={name} placeholder={placeholder} />
+        <InputEstilizado type={type} name={name} placeholder={placeholder} onChange={onChange}/>
     );
 }
 

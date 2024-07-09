@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import CampoForm from "../componentes/CampoForm";
+import BotaoEstilizado from "../componentes/Botao";
 
 const ContainerEstilizado = styled.div`
     display: flex;
@@ -46,12 +47,43 @@ export const SubContainerSign = styled.div`
 `
 
 const Login = () => {
+    const [loading, setLoading] = useState(false);
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        try {
+            setLoading(true);
+            console.log(event)
+            alert("Login success")
+            setLoading(false);
+        } catch (error) {
+            alert(error.message)
+        }
+    }
+    
+    const handleChanger = (event) => {
+        event.preventDefault();
+        console.log(event.target.name + ": " + event.target.value);
+    }
+
     return (
         <ContainerEstilizado>
-            <FormEstilizado>
+            <FormEstilizado method="post" onSubmit={handleSubmit}> 
                 <h1>Faça seu login</h1>
-                <CampoForm placeholder="Digite seu login" name="login"/>
-                <CampoForm placeholder="Digite seu login" type="password" name="senha"/>
+                <CampoForm
+                    placeholder="Digite seu login"
+                    name="login"
+                    onChange={handleChanger}
+                />
+                <CampoForm
+                    placeholder="Digite seu login"
+                    type="password"
+                    name="senha"
+                    onChange={handleChanger}
+                />
+                <BotaoEstilizado type="submit">
+                    Fazer Login
+                </BotaoEstilizado>
                 <p>Não possui conta?</p> <a>Cadastrar</a>
             </FormEstilizado>
         </ContainerEstilizado>
