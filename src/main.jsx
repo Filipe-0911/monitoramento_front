@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import Login from './Paginas'
+import Login from './Paginas/Login'
 import GlobalStyle from './Styles/GlobalStyles'
 
 ReactDOM.createRoot(document.getElementById('root')).render(

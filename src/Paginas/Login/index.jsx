@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import CampoForm from "../componentes/CampoForm";
-import BotaoEstilizado from "../componentes/Botao";
-import { ValidadorEmail, ValidadorSenha } from "../Utils/Validadores";
+import CampoForm from "../../componentes/CampoForm";
+import BotaoEstilizado from "../../componentes/Botao";
+import { ValidadorEmail, ValidadorSenha } from "../../Utils/Validadores";
+import UserService from "../../services/Usuario"
+const userService = new UserService();
 
 const ContainerEstilizado = styled.div`
     display: flex;
@@ -55,7 +57,8 @@ const Login = () => {
         event.preventDefault();
         try {
             setLoading(true);
-            alert("Login success")
+            const response = await userService.login(form);
+            response ? console.log("Login success", response) : console.log("Login failed", response);
             setLoading(false);
         } catch (error) {
             alert(error.message)
@@ -65,7 +68,6 @@ const Login = () => {
     const handleChanger = (event) => {
         setForm({...form, [event.target.name]: event.target.value });
         console.log('Form', form);
-        console.log(validadorInput(form))
     }
     const validadorInput = (form) => {
         return ValidadorEmail(form.login) && ValidadorSenha(form.senha);
