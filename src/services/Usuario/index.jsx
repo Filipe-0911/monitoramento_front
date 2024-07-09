@@ -53,6 +53,15 @@ export default class UserService {
         localStorage.removeItem('horarioLogin');
     }
 
+    async cadastrar (dados) {
+        try {
+            const response = await this.axios.post('/usuario/addUser', dados);
+            return response;
+        } catch (error) {
+            return error.response;
+        }
+    }
+
     getHeaderWithTokenFromLocalStorage() {
         return {
             headers: {
