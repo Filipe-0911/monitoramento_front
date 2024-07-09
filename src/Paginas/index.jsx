@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import CampoForm from "../componentes/CampoForm";
 import BotaoEstilizado from "../componentes/Botao";
+import { ValidadorEmail, ValidadorSenha } from "../Utils/Validadores";
 
 const ContainerEstilizado = styled.div`
     display: flex;
@@ -48,24 +49,28 @@ export const SubContainerSign = styled.div`
 
 const Login = () => {
     const [loading, setLoading] = useState(false);
+    const [form, setForm] = useState({});
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
             setLoading(true);
-            console.log(event)
             alert("Login success")
             setLoading(false);
         } catch (error) {
             alert(error.message)
         }
     }
-    
-    const handleChanger = (event) => {
-        event.preventDefault();
-        console.log(event.target.name + ": " + event.target.value);
-    }
 
+    const handleChanger = (event) => {
+        setForm({...form, [event.target.name]: event.target.value });
+        console.log('Form', form);
+        console.log(validadorInput(form))
+    }
+    const validadorInput = (form) => {
+        return ValidadorEmail(form.login) && ValidadorSenha(form.senha);
+    }
+    
     return (
         <ContainerEstilizado>
             <FormEstilizado method="post" onSubmit={handleSubmit}> 
@@ -81,7 +86,10 @@ const Login = () => {
                     name="senha"
                     onChange={handleChanger}
                 />
-                <BotaoEstilizado type="submit">
+                <BotaoEstilizado 
+                type="submit"
+                disabled={loading === true || !validadorInput(form)}
+                >
                     Fazer Login
                 </BotaoEstilizado>
                 <p>Não possui conta?</p> <a>Cadastrar</a>
