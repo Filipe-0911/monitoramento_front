@@ -24,16 +24,41 @@ export default class UserService {
     }
 
     async pegaDadosUsuario() {
-        const { data } = await this.axios.get('/usuario', {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('Authorization')}`,
-            }
-        });
+        const { data } = await this.axios.get('/usuario', this.getHeaderWithTokenFromLocalStorage());
 
         if (data) {
             localStorage.setItem('nome', JSON.stringify(data.nome));
             localStorage.setItem('login', JSON.stringify(data.login));
             localStorage.setItem('id', JSON.stringify(data.id));
+            localStorage.setItem('horarioLogin', JSON.stringify(new Date()));
         }
+    }
+
+    async usuarioAutenticado() {
+        const { status } = await this.axios.get("/verify-token", this.getHeaderWithTokenFromLocalStorage());
+        return status === 200;
+    }
+
+    verificaHaQuantoTempoFoiFeitoOLogin() {
+        const horarioLogin = new Date(JSON.parse(localStorage.getItem('horarioLogin')));
+        const tempoDecorrido = (new Date() - horarioLogin) / 1000;
+        return tempoDecorrido <= (3600 * 3); // 1h = 3600s | OBS: MODIFICAR CASO SEJA AUMENTADO O TEMPO DE VALIDADE TO JWT
+    }
+
+    async logout() {
+        localStorage.removeItem('Authorization');
+        localStorage.removeItem('nome');
+        localStorage.removeItem('login');
+        localStorage.removeItem('id');
+        localStorage.removeItem('horarioLogin');
+    }
+
+    getHeaderWithTokenFromLocalStorage() {
+        return {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('Authorization')}`,
+            }
+        }
+
     }
 }
