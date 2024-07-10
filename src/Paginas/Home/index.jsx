@@ -23,7 +23,12 @@ const Home = () => {
 
     const [tarefas, setTarefas] = useState([]);
     const [modalAberto, setModalAberto] = useState(false);
-    const [form, setForm] = useState({});
+    const [form, setForm] = useState({
+        titulo: "",
+        descricao: "",
+        data: "",
+        id: null
+    });
     const [adicionarOuAlterar, setAdicionarOuAlterar] = useState("");
 
     useEffect(() => {
@@ -32,7 +37,12 @@ const Home = () => {
 
     function openModal(tarefa, event) {
         if (event.target.id === 'adicionar' || event.target.name === 'adicionar') {
-            setForm('');
+            setForm({
+                titulo: "",
+                descricao: "",
+                data: "",
+                id: null
+            });
             setAdicionarOuAlterar("Adicionar");
 
         } else {
@@ -42,11 +52,10 @@ const Home = () => {
                 descricao: tarefa.descricao,
                 data: new Date(tarefa.data).toISOString().substring(0, 16),
                 id: tarefa.id,
-            })
+            });
         }
 
         setModalAberto(true);
-
     }
 
     function closeModal() {
@@ -72,11 +81,6 @@ const Home = () => {
         setForm({ ...form, [name]: value });
     }
 
-    const middlewareRequest = (event) => {
-        event.preventDefault();
-        console.log(event.target)
-    }
-
     const alterarTarefa = (event) => {
         event.preventDefault();
         tarefaService.alterarTarefa(form).then((response) => {
@@ -84,12 +88,12 @@ const Home = () => {
             closeModal();
         });
     }
+
     const adicionarTarefa = (event) => {
         event.preventDefault();
         tarefaService.adicionarTarefa(form).then((response) => {
             const { titulo, descricao, data } = response;
-            console.log(response.data)
-            setTarefas([...tarefas, {titulo: titulo, descricao: descricao, data: data}]);
+            setTarefas([...tarefas, { titulo, descricao, data }]);
             closeModal();
         });
     }
@@ -102,14 +106,14 @@ const Home = () => {
                 <h2>Visualize abaixo sua lista de tarefas pendentes / a concluir: </h2>
                 <SectionAdicionarTarefa>
                     <h4>Adicionar Tarefa</h4>
-                    <BotaorCard name="adicionar" $type="adicionar" onClick={(event) => openModal(null, event)} >
+                    <BotaorCard name="adicionar" $type="adicionar" onClick={(event) => openModal(null, event)}>
                         <MdOutlineAddToPhotos id="adicionar" size={15} style={{ cursor: 'pointer' }} />
                         Adicionar
                     </BotaorCard>
                 </SectionAdicionarTarefa>
                 <ContainerTarefas>
-                    {tarefas.map(tarefa => (
-                        <CardTarefas key={tarefa.id} tarefa={tarefa} concluirTarefa={concluirTarefa} transformarDataEmString={tarefaService.transformarDataEmString} deletarTarefa={deletarTarefa} openModal={openModal} />
+                    {tarefas.map((tarefa, index) => (
+                        <CardTarefas key={index} tarefa={tarefa} concluirTarefa={concluirTarefa} transformarDataEmString={tarefaService.transformarDataEmString} deletarTarefa={deletarTarefa} openModal={openModal} />
                     ))}
                 </ContainerTarefas>
                 <ModalComponent modalIsOpen={modalAberto} closeModal={closeModal} tituloEBotao={adicionarOuAlterar}>
@@ -126,3 +130,4 @@ const Home = () => {
 }
 
 export default Home;
+

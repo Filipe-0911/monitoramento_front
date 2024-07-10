@@ -4,9 +4,9 @@ import { MdCancel } from "react-icons/md";
 import { CardTarefasEstilizado } from "../ComponentesHome";
 import { BotaorCard } from '../ComponentesHome';
 
-export default function CardTarefas({ tarefa, transformarDataEmString, concluirTarefa, deletarTarefa, openModal}) {
+export default function CardTarefas({ tarefa, transformarDataEmString, concluirTarefa, deletarTarefa, openModal }) {
     return (
-        <CardTarefasEstilizado key={tarefa.id} $concluido={tarefa.concluido}>
+        <CardTarefasEstilizado $concluido={tarefa.concluido}>
             <h4>{tarefa.titulo}</h4>
             <div className="principal">
                 <p>{tarefa.descricao}</p>
