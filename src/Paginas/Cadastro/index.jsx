@@ -76,7 +76,7 @@ const Cadastro = () => {
                 />
                 <BotaoEstilizado
                     type="submit"
-                    disabled={loading === true || !validadorInput(form)}
+                    $disabled={loading === true || !validadorInput(form)}
                 >
                     Cadastrar
                 </BotaoEstilizado>

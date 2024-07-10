@@ -56,12 +56,19 @@ export default class TarefaService {
     }
 
     alterarTarefa = async (tarefa) => {
+        const { id, titulo, descricao } = tarefa;
+        let tarefaAlterada = { titulo: titulo, descricao: descricao, data: this.transformarDataEmString(tarefa.data) };
+
         try {
-            const { data } = await this.axios.put(`/tarefas/${tarefa.id}`, tarefa, this.userService.getHeaderWithTokenFromLocalStorage());
+            const { data } = await this.axios.put(`/tarefas/${id}`, tarefaAlterada, this.userService.getHeaderWithTokenFromLocalStorage());
             return data;
         } catch (error) {
             return error.response;
         }
+    }
+
+    transformarDataEmString(data) {
+        return new Date(data).toLocaleString().replace(',', '').substring(0,16);
     }
 
 }

@@ -24,7 +24,7 @@ export const CardTarefasEstilizado = styled.div`
     border: 1px solid transparent;
     border-radius: 5px;
     box-shadow: 5px 5px 5px 2px rgba(0, 0, 0, 0.3);
-    max-width: 230px;
+    max-width: 300px;
     background-color: ${(props) => (props.$concluido ? "#004F4D" : "#BDE038")};
     
     h4 {

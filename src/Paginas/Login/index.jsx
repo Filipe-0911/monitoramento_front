@@ -50,7 +50,7 @@ const Login = () => {
                 />
                 <BotaoEstilizado
                     type="submit"
-                    disabled={loading === true || !validadorInput(form)}
+                    $disabled={loading === true || !validadorInput(form)}
                 >
                     Fazer Login
                 </BotaoEstilizado>

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const InputEstilizado = styled.input`
+const TextAreaEstilizado = styled.textarea`
     color: #ffffff;
     font-size: 20px;
     background-color: transparent;
@@ -10,6 +10,7 @@ const InputEstilizado = styled.input`
     box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2);
     padding: 16px 20px;
     width: 100%;
+    height: 200px;
 
     input::placeholder {
         color: #fff;
@@ -18,13 +19,4 @@ const InputEstilizado = styled.input`
     }
 `
 
-
-
-const CampoForm = (props) => {
-    const { placeholder, type = "text", name, onChange, defaultValue } = props
-    return (
-        <InputEstilizado type={type} name={name} placeholder={placeholder} onChange={onChange} value={defaultValue}/>
-    );
-}
-
-export default CampoForm;
+export default TextAreaEstilizado;
