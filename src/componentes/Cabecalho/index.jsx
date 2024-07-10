@@ -1,7 +1,7 @@
 import { GiOpenBook } from "react-icons/gi";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { DivEstilizadaHeader, DivPaiDoMenuEBotaoMenu, HeaderEstilizado, MenuHamburguer, NavEstilizado } from "./ComponentesHeader";
+import { DivEstilizadaHeader, DivPaiDoMenuEBotaoMenu, HeaderEstilizado, MenuHamburguer, NavEstilizado, CloseMenuHamburguer } from "./ComponentesHeader";
 import UserService from "../../services/Usuario";
 
 const usuarioService = new UserService();
@@ -81,7 +81,9 @@ const Cabecalho = (props) => {
                         </li>
                     </ul>
                 </NavEstilizado>
-                <MenuHamburguer size={30} onClick={exibeMenu} display="none" />
+                {!menuEscondido
+                    ? <MenuHamburguer size={30} onClick={exibeMenu} display="none" />
+                    : <CloseMenuHamburguer size={30} onClick={exibeMenu} />}
             </DivPaiDoMenuEBotaoMenu>
         </HeaderEstilizado>
     );

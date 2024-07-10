@@ -1,14 +1,21 @@
-import Cabecalho from "../../componentes/Cabecalho";
-import { FaCheckCircle } from "react-icons/fa";
-import { MdCancel } from "react-icons/md";
 import { useEffect, useState } from "react";
-import TarefaService from "../../services/Tarefas";
-import { BotaorCard, CardTarefasEstilizado, ContainerTarefas, MainEstilizada } from "../../componentes/ComponentesHome";
-import ModalComponent from "../../componentes/Modal";
+
+//icons
+import { FaCheckCircle, FaPencilAlt } from "react-icons/fa";
+import { MdCancel, MdOutlineAddToPhotos } from "react-icons/md";
+
+// Componentes auxiliares
+import { BotaorCard, CardTarefasEstilizado, ContainerTarefas, MainEstilizada, SectionAdicionarTarefa } from "../../componentes/ComponentesHome";
 import { FormEstilizado } from "../../componentes/ContainerLoginEstilizado";
-import CampoForm from "../../componentes/CampoForm";
-import TextAreaEstilizado from "../../componentes/TextAreaEstilizado";
-import BotaoEstilizado from "../../componentes/Botao";
+
+// Componentes default
+import Cabecalho from "../../componentes/Cabecalho";
+import ModalComponent from "../../componentes/Modal";
+
+//Services
+import TarefaService from "../../services/Tarefas";
+import FormEstilizadoTarefa from "../../componentes/FormEstilizadoTarefa";
+import CardTarefas from "../../componentes/CardTarefas";
 
 const Home = () => {
     const nomeUsuario = localStorage.getItem('nome').toString();
@@ -17,19 +24,29 @@ const Home = () => {
     const [tarefas, setTarefas] = useState([]);
     const [modalAberto, setModalAberto] = useState(false);
     const [form, setForm] = useState({});
+    const [adicionarOuAlterar, setAdicionarOuAlterar] = useState("");
 
     useEffect(() => {
         tarefaService.buscaTarefas().then((tarefas) => setTarefas(tarefas));
     }, []);
 
-    function openModal(tarefa) {
-        setForm({
-            titulo: tarefa.titulo || '',
-            descricao: tarefa.descricao || '',
-            data: tarefa.data ? new Date(tarefa.data).toISOString().substring(0, 16) : '',
-            id: tarefa.id || null,
-        });
+    function openModal(tarefa, event) {
+        if (event.target.id === 'adicionar' || event.target.name === 'adicionar') {
+            setForm('');
+            setAdicionarOuAlterar("Adicionar");
+
+        } else {
+            setAdicionarOuAlterar("Alterar");
+            setForm({
+                titulo: tarefa.titulo,
+                descricao: tarefa.descricao,
+                data: new Date(tarefa.data).toISOString().substring(0, 16),
+                id: tarefa.id,
+            })
+        }
+
         setModalAberto(true);
+
     }
 
     function closeModal() {
@@ -50,17 +67,31 @@ const Home = () => {
         });
     }
 
+    const handleChanger = (event) => {
+        const { name, value } = event.target;
+        setForm({ ...form, [name]: value });
+    }
+
+    const middlewareRequest = (event) => {
+        event.preventDefault();
+        console.log(event.target)
+    }
+
     const alterarTarefa = (event) => {
         event.preventDefault();
-        console.log(form);
         tarefaService.alterarTarefa(form).then((response) => {
             setTarefas(tarefas.map(tarefa => tarefa.id === form.id ? { ...tarefa, ...form } : tarefa));
             closeModal();
         });
     }
-    const handleChanger = (event) => {
-        const { name, value } = event.target;
-        setForm({ ...form, [name]: value });
+    const adicionarTarefa = (event) => {
+        event.preventDefault();
+        tarefaService.adicionarTarefa(form).then((response) => {
+            const { titulo, descricao, data } = response;
+            console.log(response.data)
+            setTarefas([...tarefas, {titulo: titulo, descricao: descricao, data: data}]);
+            closeModal();
+        });
     }
 
     return (
@@ -68,71 +99,26 @@ const Home = () => {
             <Cabecalho nome={JSON.parse(nomeUsuario)} />
             <MainEstilizada>
                 <h1>Home</h1>
+                <h2>Visualize abaixo sua lista de tarefas pendentes / a concluir: </h2>
+                <SectionAdicionarTarefa>
+                    <h4>Adicionar Tarefa</h4>
+                    <BotaorCard name="adicionar" $type="adicionar" onClick={(event) => openModal(null, event)} >
+                        <MdOutlineAddToPhotos id="adicionar" size={15} style={{ cursor: 'pointer' }} />
+                        Adicionar
+                    </BotaorCard>
+                </SectionAdicionarTarefa>
                 <ContainerTarefas>
                     {tarefas.map(tarefa => (
-                        <CardTarefasEstilizado key={tarefa.id} $concluido={tarefa.concluido} onClick={() => openModal(tarefa)}>
-                            <h4>{tarefa.titulo}</h4>
-                            <div className="principal">
-                                <p>{tarefa.descricao}</p>
-                                <p>Concluir até: {tarefaService.transformarDataEmString(tarefa.data)}</p>
-                            </div>
-                            <div className="rodape_card">
-                                {tarefa.concluido === false ? (
-                                    <BotaorCard $type="concluir" onClick={() => concluirTarefa(tarefa.id)}>
-                                        <FaCheckCircle /> Concluir
-                                    </BotaorCard>
-                                ) : (
-                                    <BotaorCard $type="concluir" disabled>
-                                        <FaCheckCircle /> Concluído
-                                    </BotaorCard>
-                                )}
-                                <BotaorCard $type="excluir" onClick={() => deletarTarefa(tarefa.id)}>
-                                    <MdCancel /> Excluir
-                                </BotaorCard>
-                            </div>
-                        </CardTarefasEstilizado>
+                        <CardTarefas key={tarefa.id} tarefa={tarefa} concluirTarefa={concluirTarefa} transformarDataEmString={tarefaService.transformarDataEmString} deletarTarefa={deletarTarefa} openModal={openModal} />
                     ))}
                 </ContainerTarefas>
-                <ModalComponent modalIsOpen={modalAberto} closeModal={closeModal}>
-                    <div style={{width: '100%', display: 'flex', justifyContent: 'flex-end'}}>
-                    <BotaorCard onClick={closeModal}>
-                        <MdCancel />
-                    </BotaorCard>
+                <ModalComponent modalIsOpen={modalAberto} closeModal={closeModal} tituloEBotao={adicionarOuAlterar}>
+                    <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
+                        <BotaorCard $type="excluir" onClick={closeModal}>
+                            <MdCancel />
+                        </BotaorCard>
                     </div>
-                    <FormEstilizado onSubmit={alterarTarefa}>
-                        <input
-                            defaultValue={form.id}
-                            type="number"
-                            hidden
-                        />
-                        <p>Editar</p>
-                        <label>Título</label>
-                        <CampoForm
-                            defaultValue={form.titulo}
-                            onChange={handleChanger}
-                            type="text"
-                            name="titulo"
-                            placeholder="Título"
-                        />
-                        <label>Descrição</label>
-                        <TextAreaEstilizado
-                            defaultValue={form.descricao}
-                            onChange={handleChanger}
-                            placeholder="Descrição"
-                            name="descricao"
-                        />
-                        <label>Data de conclusão</label>
-                        <CampoForm
-                            defaultValue={form.data}
-                            onChange={handleChanger}
-                            type="datetime-local"
-                            name="data"
-                            placeholder="Data de conclusão"
-                        />
-                        <BotaoEstilizado $disable={false} type="submit">
-                            Alterar
-                        </BotaoEstilizado>
-                    </FormEstilizado>
+                    <FormEstilizadoTarefa tituloEBotao={adicionarOuAlterar} onClick={adicionarOuAlterar === "Adicionar" ? adicionarTarefa : alterarTarefa} form={form} handleChanger={handleChanger} />
                 </ModalComponent>
             </MainEstilizada>
         </>

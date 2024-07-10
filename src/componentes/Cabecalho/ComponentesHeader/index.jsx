@@ -1,14 +1,16 @@
 import styled from "styled-components";
 import { TiThMenu } from "react-icons/ti";
+import { RiCloseLargeFill } from "react-icons/ri";
 
 export const HeaderEstilizado = styled.header`
     position: fixed;
     top: 0;
     width: 100vw;
-    background-color: #1F2024;
+    background-color: #0D0D0D;
     display:flex;
     justify-content: space-between;
     align-items: center;
+
 
     @media (max-width: 562px) {
         align-items: ${(props) => (props.open ? 'flex-start' : 'center')};
@@ -21,8 +23,8 @@ export const HeaderEstilizado = styled.header`
 export const DivEstilizadaHeader = styled.div`
     position: relative;
     left: 0;
-    border: 2px solid rgba(0, 79, 77, 1);
-    box-shadow: 5px 5px 5px 2px rgba(0, 79, 77, 0.2);
+    border: 2px solid #36BFB1;
+    box-shadow: 2px 2px 2px #36BFB1;
     background-color: #1F2024;
     border-radius: 5px;
     display: flex;
@@ -30,10 +32,6 @@ export const DivEstilizadaHeader = styled.div`
     align-items: center;
     padding: 10px 20px;
     width: 170px;
-
-    p {
-        color: rgba(0, 79, 77, 1);
-    }
 
     @media (max-width: 562px) {
         padding: 0;
@@ -60,7 +58,6 @@ export const NavEstilizado = styled.nav`
         gap: 20px;
 
         li a {
-            color: white;
             text-decoration: none;
             cursor: pointer;
 
@@ -83,7 +80,15 @@ export const NavEstilizado = styled.nav`
 `
 export const MenuHamburguer = styled(TiThMenu)`
     cursor: pointer;
-    color: #fff;
+    width: 30px;
+
+    @media (max-width: 562px) {
+        display: block;
+    }
+`
+
+export const CloseMenuHamburguer = styled(RiCloseLargeFill)`
+    cursor: pointer;
     width: 30px;
 
     @media (max-width: 562px) {

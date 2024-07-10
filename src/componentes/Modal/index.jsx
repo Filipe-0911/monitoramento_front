@@ -1,7 +1,6 @@
 // ModalComponent.jsx
 import React from 'react';
 import Modal from 'react-modal';
-import styled from 'styled-components';
 
 const customStyles = {
   content: {

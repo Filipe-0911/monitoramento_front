@@ -67,6 +67,18 @@ export default class TarefaService {
         }
     }
 
+    adicionarTarefa = async (tarefa) => {
+        const { titulo, descricao } = tarefa;
+        let tarefaNova = { titulo: titulo, descricao: descricao, data: this.transformarDataEmString(tarefa.data) };
+
+        try {
+            const { data } = await this.axios.post(`/tarefas`, tarefaNova, this.userService.getHeaderWithTokenFromLocalStorage());
+            return data;
+        } catch (error) {
+            return error.response;
+        }
+    }
+
     transformarDataEmString(data) {
         return new Date(data).toLocaleString().replace(',', '').substring(0,16);
     }
