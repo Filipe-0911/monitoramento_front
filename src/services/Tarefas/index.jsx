@@ -1,5 +1,6 @@
 import axios from "axios";
 import UserService from "../Usuario";
+import DataService from "../DataService";
 
 export default class TarefaService {
     constructor() {
@@ -11,6 +12,7 @@ export default class TarefaService {
             },
         })
         this.userService = new UserService();
+        this.dataService = new DataService();
     }
 
     buscaTarefas = async () => {
@@ -57,7 +59,7 @@ export default class TarefaService {
 
     alterarTarefa = async (tarefa) => {
         const { id, titulo, descricao } = tarefa;
-        let tarefaAlterada = { titulo: titulo, descricao: descricao, data: this.transformarDataEmString(tarefa.data) };
+        let tarefaAlterada = { titulo: titulo, descricao: descricao, data: this.dataService.transformarDataEmString(tarefa.data) };
 
         try {
             const { data } = await this.axios.put(`/tarefas/${id}`, tarefaAlterada, this.userService.getHeaderWithTokenFromLocalStorage());
@@ -69,7 +71,7 @@ export default class TarefaService {
 
     adicionarTarefa = async (tarefa) => {
         const { titulo, descricao } = tarefa;
-        let tarefaNova = { titulo: titulo, descricao: descricao, data: this.transformarDataEmString(tarefa.data) };
+        let tarefaNova = { titulo: titulo, descricao: descricao, data: this.dataService.transformarDataEmString(tarefa.data) };
 
         try {
             const { data } = await this.axios.post(`/tarefas`, tarefaNova, this.userService.getHeaderWithTokenFromLocalStorage());
@@ -77,10 +79,6 @@ export default class TarefaService {
         } catch (error) {
             return error.response;
         }
-    }
-
-    transformarDataEmString(data) {
-        return new Date(data).toLocaleString().replace(',', '').substring(0,16);
     }
 
 }

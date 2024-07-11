@@ -1,15 +1,25 @@
-import { GiOpenBook } from "react-icons/gi";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { DivEstilizadaHeader, DivPaiDoMenuEBotaoMenu, HeaderEstilizado, MenuHamburguer, NavEstilizado, CloseMenuHamburguer } from "./ComponentesHeader";
+
+import {
+    DivEstilizadaHeader,
+    DivPaiDoMenuEBotaoMenu,
+    HeaderEstilizado,
+    MenuHamburguer,
+    NavEstilizado,
+    CloseMenuHamburguer,
+    ImgIconeDoHeaderEstilizado
+} from "./ComponentesHeader";
+
 import UserService from "../../services/Usuario";
 
-const usuarioService = new UserService();
 
 
-const Cabecalho = (props) => {
-    const { nome } = props;
-    const [primeiroNome] = nome.split(" ");
+const Cabecalho = () => {
+    const nomeUsuario = localStorage.getItem('nome').toString();
+    const [primeiroNome] = nomeUsuario.split(" ");
+
+    const usuarioService = new UserService();
     const navigate = useNavigate();
     const [menuEscondido, setMenuEscondido] = useState(false);
 
@@ -43,7 +53,7 @@ const Cabecalho = (props) => {
     return (
         <HeaderEstilizado open={menuEscondido}>
             <DivEstilizadaHeader>
-                <GiOpenBook size={25} color="white" />
+                <ImgIconeDoHeaderEstilizado src="/imagens/icones/livro.png"/>
                 <p>Olá, {primeiroNome}!</p>
             </DivEstilizadaHeader>
             <DivPaiDoMenuEBotaoMenu>
@@ -55,7 +65,7 @@ const Cabecalho = (props) => {
                             </NavLink>
                         </li>
                         <li>
-                            <NavLink to="/home">
+                            <NavLink to="/provas">
                                 Provas
                             </NavLink>
                         </li>

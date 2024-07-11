@@ -2,27 +2,35 @@ import styled from "styled-components";
 import { TiThMenu } from "react-icons/ti";
 import { RiCloseLargeFill } from "react-icons/ri";
 
+export const ImgIconeDoHeaderEstilizado = styled.img`
+    width: 30px;
+`
+
 export const HeaderEstilizado = styled.header`
     position: fixed;
     top: 0;
     width: 100vw;
-    background-color: #0D0D0D;
+    background-color: rgba(13, 13, 13, 0.95);
     display:flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
-
-
+    min-height: 57px;
+    
     @media (max-width: 562px) {
         align-items: ${(props) => (props.open ? 'flex-start' : 'center')};
         width: ${(props) => (props.open ? '70vw' : '100vw')};
         right: 0;
+        border: 1px solid transparent;
+        border-radius: 10px;
+        
     }
 
 `
 
 export const DivEstilizadaHeader = styled.div`
-    position: relative;
+    position: absolute;
     left: 0;
+    top:0;
     border: 2px solid #36BFB1;
     box-shadow: 2px 2px 2px #36BFB1;
     background-color: #1F2024;
@@ -36,9 +44,10 @@ export const DivEstilizadaHeader = styled.div`
     @media (max-width: 562px) {
         padding: 0;
         width: 150px;
+        min-height: 56px;
 
         p {
-            font-size: 14px;
+            font-size: 16px;
         }
     }
 
@@ -50,7 +59,6 @@ export const NavEstilizado = styled.nav`
     align-items: center;
     gap: 20px;
     margin: 0 auto;
-    
 
     ul {
         list-style: none;
@@ -59,6 +67,7 @@ export const NavEstilizado = styled.nav`
 
         li a {
             text-decoration: none;
+            font-size: 24px;
             cursor: pointer;
 
             &:hover {
@@ -72,7 +81,7 @@ export const NavEstilizado = styled.nav`
             flex-direction: column;
             align-items: flex-end;
             display: ${(props) => (props.open ? 'flex' : 'none')};
-            padding: 0 2em;
+            padding: 2em;
 
         }
     }
@@ -84,6 +93,8 @@ export const MenuHamburguer = styled(TiThMenu)`
 
     @media (max-width: 562px) {
         display: block;
+        width: 50px;
+        height: 50px;
     }
 `
 
@@ -93,6 +104,8 @@ export const CloseMenuHamburguer = styled(RiCloseLargeFill)`
 
     @media (max-width: 562px) {
         display: block;
+        width: 50px;
+        height: 50px;
     }
 `
 

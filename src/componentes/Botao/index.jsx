@@ -12,20 +12,20 @@ const BotaoEstilizado = styled.button`
     box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2);
     cursor: pointer;
 
-    ${props => props.$disabled && `
+    ${props => props.disabled && `
         &:hover {
             opacity:0.4;
             transition: 0.5s;
         }
     `}
 
-${props => props.$disabled === false && `
-        &:hover {
-            background-color: #fff;
-            color: #454545;
-            transition: 0.5s;
-        }
-    `}
+    ${props => props.disabled === false && `
+            &:hover {
+                background-color: #fff;
+                color: #454545;
+                transition: 0.5s;
+            }
+        `}
 `
 
 export default BotaoEstilizado;

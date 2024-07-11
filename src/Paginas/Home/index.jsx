@@ -1,25 +1,25 @@
 import { useEffect, useState } from "react";
 
 //icons
-import { FaCheckCircle, FaPencilAlt } from "react-icons/fa";
 import { MdCancel, MdOutlineAddToPhotos } from "react-icons/md";
 
 // Componentes auxiliares
-import { BotaorCard, CardTarefasEstilizado, ContainerTarefas, MainEstilizada, SectionAdicionarTarefa } from "../../componentes/ComponentesHome";
-import { FormEstilizado } from "../../componentes/ContainerLoginEstilizado";
+import { BotaorCard, ContainerTarefas, SectionAdicionarTarefa } from "../../componentes/ComponentesHome";
+import MainEstilizada from "../../componentes/Main";
 
 // Componentes default
 import Cabecalho from "../../componentes/Cabecalho";
 import ModalComponent from "../../componentes/Modal";
-
-//Services
-import TarefaService from "../../services/Tarefas";
 import FormEstilizadoTarefa from "../../componentes/FormEstilizadoTarefa";
 import CardTarefas from "../../componentes/CardTarefas";
 
+//Services
+import TarefaService from "../../services/Tarefas";
+import DataService from "../../services/DataService";
+
 const Home = () => {
-    const nomeUsuario = localStorage.getItem('nome').toString();
     const tarefaService = new TarefaService();
+    const dataService = new DataService();
 
     const [tarefas, setTarefas] = useState([]);
     const [modalAberto, setModalAberto] = useState(false);
@@ -100,7 +100,7 @@ const Home = () => {
 
     return (
         <>
-            <Cabecalho nome={JSON.parse(nomeUsuario)} />
+            <Cabecalho />
             <MainEstilizada>
                 <h1>Home</h1>
                 <h2>Visualize abaixo sua lista de tarefas pendentes / a concluir: </h2>
@@ -113,7 +113,7 @@ const Home = () => {
                 </SectionAdicionarTarefa>
                 <ContainerTarefas>
                     {tarefas.map((tarefa, index) => (
-                        <CardTarefas key={index} tarefa={tarefa} concluirTarefa={concluirTarefa} transformarDataEmString={tarefaService.transformarDataEmString} deletarTarefa={deletarTarefa} openModal={openModal} />
+                        <CardTarefas key={index} tarefa={tarefa} concluirTarefa={concluirTarefa} transformarDataEmString={dataService.transformarDataEmString} deletarTarefa={deletarTarefa} openModal={openModal} />
                     ))}
                 </ContainerTarefas>
                 <ModalComponent modalIsOpen={modalAberto} closeModal={closeModal} tituloEBotao={adicionarOuAlterar}>

@@ -1,14 +1,5 @@
 import styled from "styled-components";
 
-export const MainEstilizada = styled.main`
-    margin: 3em 0 !important;
-    width: 100vw;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    gap: 1em;
-`;
-
 export const ContainerTarefas = styled.section`
     margin: 2em 0;
     max-width: 70vw;
