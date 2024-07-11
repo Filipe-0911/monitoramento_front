@@ -15,7 +15,7 @@ const customStyles = {
     backgroundColor: '#201d1d',
   },
   overlay: {
-    backgroundColor: 'rgba(0, 0, 0, 0.75)', // Fundo escuro
+    backgroundColor: 'rgba(0, 0, 0, 0.75)',
   },
 };
 

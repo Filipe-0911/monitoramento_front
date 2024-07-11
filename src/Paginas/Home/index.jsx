@@ -23,6 +23,7 @@ const Home = () => {
 
     const [tarefas, setTarefas] = useState([]);
     const [modalAberto, setModalAberto] = useState(false);
+
     const [form, setForm] = useState({
         titulo: "",
         descricao: "",
@@ -116,13 +117,18 @@ const Home = () => {
                         <CardTarefas key={index} tarefa={tarefa} concluirTarefa={concluirTarefa} transformarDataEmString={dataService.transformarDataEmString} deletarTarefa={deletarTarefa} openModal={openModal} />
                     ))}
                 </ContainerTarefas>
-                <ModalComponent modalIsOpen={modalAberto} closeModal={closeModal} tituloEBotao={adicionarOuAlterar}>
+
+                <ModalComponent modalIsOpen={modalAberto} closeModal={closeModal}>
                     <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
                         <BotaorCard $type="excluir" onClick={closeModal}>
                             <MdCancel />
                         </BotaorCard>
                     </div>
-                    <FormEstilizadoTarefa tituloEBotao={adicionarOuAlterar} onClick={adicionarOuAlterar === "Adicionar" ? adicionarTarefa : alterarTarefa} form={form} handleChanger={handleChanger} />
+                    <FormEstilizadoTarefa
+                        tituloEBotao={adicionarOuAlterar}
+                        onClick={adicionarOuAlterar === "Adicionar" ? adicionarTarefa : alterarTarefa}
+                        form={form}
+                        handleChanger={handleChanger} />
                 </ModalComponent>
             </MainEstilizada>
         </>

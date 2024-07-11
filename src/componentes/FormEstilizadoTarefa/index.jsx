@@ -11,7 +11,7 @@ const FormEstilizadoTarefa = ({ onClick, form, handleChanger, tituloEBotao }) =>
                 type="number"
                 hidden
             />
-            <p>Editar</p>
+            <p>{tituloEBotao}</p>
             <label>Título</label>
             <CampoForm
                 defaultValue={form.titulo}
