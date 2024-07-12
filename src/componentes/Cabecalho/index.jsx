@@ -53,7 +53,7 @@ const Cabecalho = () => {
     return (
         <HeaderEstilizado open={menuEscondido}>
             <DivEstilizadaHeader>
-                <ImgIconeDoHeaderEstilizado src="/imagens/icones/livro.png"/>
+                <ImgIconeDoHeaderEstilizado src="/imagens/icones/livro.png" color="white"/>
                 <p>Olá, {primeiroNome}!</p>
             </DivEstilizadaHeader>
             <DivPaiDoMenuEBotaoMenu>

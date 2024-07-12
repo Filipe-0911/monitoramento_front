@@ -40,7 +40,7 @@ export const DivEstilizadaHeader = styled.div`
     align-items: center;
     padding: 10px 20px;
     width: 170px;
-
+    color: #FFFFFF;
     @media (max-width: 562px) {
         padding: 0;
         width: 150px;
@@ -69,7 +69,7 @@ export const NavEstilizado = styled.nav`
             text-decoration: none;
             font-size: 24px;
             cursor: pointer;
-
+            color: #fff;
             &:hover {
                 text-decoration: underline;
             }
@@ -92,6 +92,7 @@ export const MenuHamburguer = styled(TiThMenu)`
     width: 30px;
 
     @media (max-width: 562px) {
+        color: #fff;
         display: block;
         width: 50px;
         height: 50px;
@@ -101,8 +102,9 @@ export const MenuHamburguer = styled(TiThMenu)`
 export const CloseMenuHamburguer = styled(RiCloseLargeFill)`
     cursor: pointer;
     width: 30px;
-
+    
     @media (max-width: 562px) {
+        color: #fff;
         display: block;
         width: 50px;
         height: 50px;

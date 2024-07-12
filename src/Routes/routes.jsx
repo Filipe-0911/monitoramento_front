@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Cadastro from "../Paginas/Cadastro";
 import Home from "../Paginas/Home";
 import Provas from "../Paginas/Provas/indes";
+import ProvaEspecifica from "../Paginas/ProvaEspecifica";
 
 const Routering = () => {
     return (
@@ -21,6 +22,11 @@ const Routering = () => {
                 <Route path="/provas" element={
                     <ProtectedRoutes>
                         <Provas />
+                    </ProtectedRoutes>
+                } />
+                <Route path="/provas/:id/*" element={
+                    <ProtectedRoutes>
+                        <ProvaEspecifica />
                     </ProtectedRoutes>
                 } />
             </Routes>

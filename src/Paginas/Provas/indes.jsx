@@ -7,14 +7,16 @@ import TabelaEstilizada from "../../componentes/Tabela";
 import { BotaorCard } from "../../componentes/ComponentesHome";
 import { MdCancel } from "react-icons/md";
 import { FaPencilAlt } from "react-icons/fa";
+import { TbListDetails } from "react-icons/tb";
 import styled from "styled-components";
 import Botao from "../../componentes/Botao";
 import ModalComponent from "../../componentes/Modal";
 import { FormEstilizado } from "../../componentes/ContainerLoginEstilizado";
 import CampoForm from "../../componentes/CampoForm";
+import { useNavigate } from "react-router-dom";
 
 const SectionProvasEstilizada = styled.section`
-    width: 100%;
+    width: 70%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -37,6 +39,7 @@ const Provas = () => {
     const [provas, setProvas] = useState([]);
     const [modalAberto, setModalAberto] = useState(false);
     const [adicionarOuAlterar, setAdicionarOuAlterar] = useState("");
+    const navigate = useNavigate();
 
     const [form, setForm] = useState({ id: 0 , titulo: "", dataDaProva: "" });
 
@@ -140,6 +143,15 @@ const Provas = () => {
         }).catch(error => console.log(error));
         setModalAberto(false);
     }
+
+    const buscarProvaEspecifica = (id) => {
+        provasService.buscaProvaPorId(id)
+           .then((prova) => {
+            console.log(prova);
+                // setForm({ id: prova.id, titulo: prova.titulo, dataDaProva: prova.dataDaProva });
+            })
+           .catch(erro => console.error(erro));
+    }
     return (
         <>
             <Cabecalho />
@@ -196,6 +208,13 @@ const Provas = () => {
                                                 onClick={() => deletarProva(prova.id)}>
                                                 <MdCancel />
                                                 Deletar
+                                            </BotaorCard>
+                                            <BotaorCard
+                                                $type="detalhar"
+                                                name="detalhar"
+                                                onClick={() => navigate(`/provas/${prova.id}`)}>
+                                                <TbListDetails />
+                                                Detalhar
                                             </BotaorCard>
                                         </div>
                                     </td>

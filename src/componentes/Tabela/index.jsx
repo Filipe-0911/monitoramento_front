@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const TabelaEstilizada = styled.table`
-    width: 90%;
+    width: 100%;
     border-collapse: collapse;
     border: 1px solid transparent;
     border-radius: 10px;
