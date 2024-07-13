@@ -16,8 +16,8 @@ import UserService from "../../services/Usuario";
 
 
 const Cabecalho = () => {
-    const nomeUsuario = localStorage.getItem('nome').toString();
-    const [primeiroNome] = nomeUsuario.split(" ");
+    const nomeUsuario = JSON.parse(localStorage.getItem('nome'));
+    const [ primeiroNome ] = nomeUsuario.split(" ");
 
     const usuarioService = new UserService();
     const navigate = useNavigate();

@@ -13,6 +13,7 @@ const customStyles = {
     padding: 0,
     border: 'none',
     backgroundColor: '#201d1d',
+    color: '#fff'
   },
   overlay: {
     backgroundColor: 'rgba(0, 0, 0, 0.75)',

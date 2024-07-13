@@ -5,6 +5,7 @@ import Cabecalho from "../../componentes/Cabecalho";
 import MainEstilizada from "../../componentes/Main";
 import Accordion from "../../componentes/Accordion";
 import DataService from "../../services/DataService";
+import PaginaEspecifaNotFound from "../ProvaEspecificaNotFound";
 
 const ProvaEspecifica = () => {
     const dataService = new DataService();
@@ -15,20 +16,28 @@ const ProvaEspecifica = () => {
 
     useEffect(() => {
         provaService.buscaProvaPorId(+parametros.id).then(res => {
-            setProva(res);
-            setIsLoading(false);
+            if (res.request && res.request.status === 404) {
+                setIsLoading(false);
+                setProva(null);
+                return;
+            } else {
+                setIsLoading(false);
+                setProva(res);
+            }
+
         }).catch(err => {
             console.error(err);
             setIsLoading(false);
         });
+
     }, [parametros.id]);
 
     if (isLoading) {
         return <p>Carregando...</p>;
     }
 
-    if (!prova) {
-        return <p>Prova não encontrada</p>;
+    if (prova === null) {
+        return <PaginaEspecifaNotFound erro="Prova não encontrada"/>; // Renderize a página não encontrada
     }
 
     return (

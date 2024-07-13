@@ -47,6 +47,10 @@ export const CardTarefasEstilizado = styled.div`
         flex-wrap: wrap;
         gap: 1em;
     }
+
+    @media (max-width: 562px) {
+        width: 100vw;
+    }
 `;
 
 export const BotaorCard = styled.button`

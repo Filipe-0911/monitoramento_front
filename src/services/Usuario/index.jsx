@@ -46,13 +46,11 @@ export default class UserService {
     }
 
     logout() {
-        
         localStorage.removeItem('Authorization');
         localStorage.removeItem('nome');
         localStorage.removeItem('login');
         localStorage.removeItem('id');
         localStorage.removeItem('horarioLogin');
-
     }
 
     async cadastrar (dados) {
