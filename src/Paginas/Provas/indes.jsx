@@ -15,12 +15,17 @@ import { FormEstilizado } from "../../componentes/ContainerLoginEstilizado";
 import CampoForm from "../../componentes/CampoForm";
 import { useNavigate } from "react-router-dom";
 
-const SectionProvasEstilizada = styled.section`
+export const SectionProvasEstilizada = styled.section`
     width: 70%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    @media (max-width: 562px) {
+        width: 100%;
+        margin: 1em 0;
+    }
 `
 
 const DivEstatisticasEstilizada = styled.div`
@@ -65,7 +70,7 @@ const Provas = () => {
         let totalAssuntos = 0;
         provas.forEach(prova => {
             prova.listaDeMaterias.forEach(materia => {
-                totalAssuntos += materia.listaAssuntos.length;
+                totalAssuntos += materia.listaDeAssuntos.length;
             });
         });
         return totalAssuntos;
@@ -75,7 +80,7 @@ const Provas = () => {
         let totalPDFs = 0;
         provas.forEach(prova => {
             prova.listaDeMaterias.forEach(materia => {
-                materia.listaAssuntos.forEach(assunto => {
+                materia.listaDeAssuntos.forEach(assunto => {
                     totalPDFs += assunto.quantidadePdf;
                 });
             });
@@ -96,19 +101,19 @@ const Provas = () => {
     }
     const somaQuantidadeDeAssuntoPorProva = (prova) => {
         let valorInicial = 0;
-        prova.listaDeMaterias.forEach(materia => valorInicial += materia.listaAssuntos.length);
+        prova.listaDeMaterias.forEach(materia => valorInicial += materia.listaDeAssuntos.length);
         return valorInicial.toString();
     }
 
     const somaQuantidadeDePDFsPorProva = (prova) => {
         let valorInicial = 0;
-        prova.listaDeMaterias.forEach(materia => materia.listaAssuntos.forEach(assunto => valorInicial += assunto.quantidadePdf));
+        prova.listaDeMaterias.forEach(materia => materia.listaDeAssuntos.forEach(assunto => valorInicial += assunto.quantidadePdf));
         return valorInicial.toString();
     }
 
     const somaQuantidadeDeQuestoesPorProva = (prova) => {
         let valorInicial = 0;
-        prova.listaDeMaterias.forEach(materia => materia.listaAssuntos.forEach(assunto => valorInicial += assunto.quantidadeQuestoes));
+        prova.listaDeMaterias.forEach(materia => materia.listaDeAssuntos.forEach(assunto => valorInicial += assunto.quantidadeQuestoes));
         return valorInicial.toString();
     }
 

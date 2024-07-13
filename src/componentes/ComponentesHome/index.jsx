@@ -63,6 +63,12 @@ export const BotaorCard = styled.button`
     color: white;
     border-radius: 5px;
     cursor: pointer;
+
+    @media (max-width: 562px) {
+        flex-direction: column;
+        align-items: center;
+        gap: 1em;
+    }
 `;
 
 export const SectionAdicionarTarefa = styled.section`

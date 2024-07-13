@@ -53,6 +53,9 @@
         color: black;
         text-align: left;
         padding: 1em 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;;
 
         h5 {
             font-size: 14px;
@@ -73,4 +76,10 @@
 
 .rotated {
     transform: rotate(180deg);
+}
+
+@media screen and (max-width: 562px) {
+    .container {
+        width: 100%;
+    }
 }
