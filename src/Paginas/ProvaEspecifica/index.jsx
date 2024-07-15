@@ -1,13 +1,12 @@
 import { useParams } from "react-router-dom";
-import ProvasService from "../../services/Provas";
 import { useEffect, useState } from "react";
+import ProvasService from "../../services/Provas";
 import Cabecalho from "../../componentes/Cabecalho";
 import MainEstilizada from "../../componentes/Main";
-import AccordionMaterias from "../../componentes/Accordion";
 import DataService from "../../services/DataService";
 import PaginaEspecifaNotFound from "../ProvaEspecificaNotFound";
 import BotaoEstilizado from "../../componentes/Botao";
-import { SectionProvasEstilizada } from "../Provas/indes";
+import { SectionProvasEstilizada } from "../Provas";
 import styled from "styled-components";
 import ModalComponent from "../../componentes/Modal";
 import { FormEstilizado } from "../../componentes/ContainerLoginEstilizado";
@@ -15,6 +14,17 @@ import CampoForm from "../../componentes/CampoForm";
 import { BotaorCard } from "../../componentes/ComponentesHome";
 import { MdCancel, MdOutlineAddToPhotos } from "react-icons/md";
 import MateriasService from "../../services/MateriasService";
+import Accordion from "../../componentes/Accordion";
+
+export const DivBotoesCrudMateria = styled.div`
+    display: flex;
+    justify-content: space-evenly;
+    margin-bottom: 1em;
+
+    @media (max-width: 562px) {
+        justify-content: space-between
+    }
+`;
 
 const DivEstilizadaProvaEspecífica = styled.div`
     display: flex;
@@ -59,29 +69,29 @@ const ProvaEspecifica = () => {
         materiasService.deletaMateria(prova.id, idMateria).then(() => {
             setProva({
                 ...prova,
-                listaDeMaterias: prova.listaDeMaterias.filter(materia => materia.id!== idMateria)
+                listaDeMaterias: prova.listaDeMaterias.filter(materia => materia.id !== idMateria)
             })
         }).catch(erro => console.log(erro));
     }
-    
-        useEffect(() => {
-            provaService.buscaProvaPorId(+parametros.id).then(res => {
-                if (res.request && res.request.status === 404) {
-                    setIsLoading(false);
-                    setProva(null);
-                    return;
-                } else {
-                    setIsLoading(false);
-                    setProva(res);
-                    setForm({ idProva: res.id, nome: "" });
-                }
-    
-            }).catch(err => {
-                console.error(err);
+
+    useEffect(() => {
+        provaService.buscaProvaPorId(+parametros.id).then(res => {
+            if (res.request && res.request.status === 404) {
                 setIsLoading(false);
-            });
-    
-        }, [parametros.id]);
+                setProva(null);
+                return;
+            } else {
+                setIsLoading(false);
+                setProva(res);
+                setForm({ idProva: res.id, nome: "" });
+            }
+
+        }).catch(err => {
+            console.error(err);
+            setIsLoading(false);
+        });
+
+    }, [parametros.id]);
 
     const openModal = () => {
         setModalIsOpen(true);
@@ -104,9 +114,9 @@ const ProvaEspecifica = () => {
     const adicionaMateria = () => {
         materiasService.adicionaMateria(form).then(res => {
             const { nome, id, listaDeAssuntos } = res;
-            let novaMateria =  { nome: nome, id: id, listaDeAssuntos: listaDeAssuntos };
+            let novaMateria = { nome: nome, id: id, listaDeAssuntos: listaDeAssuntos };
 
-            setProva({...prova, listaDeMaterias: [...prova.listaDeMaterias, novaMateria] });
+            setProva({ ...prova, listaDeMaterias: [...prova.listaDeMaterias, novaMateria] });
         }).catch(err => console.error(err));
 
         console.log(form)
@@ -133,7 +143,51 @@ const ProvaEspecifica = () => {
                             </BotaoEstilizado>
                         </span>
                     </DivEstilizadaProvaEspecífica>
-                    <AccordionMaterias listaDeMaterias={prova.listaDeMaterias} excluirMateria={excluirMateria} />
+                    {prova.listaDeMaterias.map(materia => {
+                        console.log(materia);
+                        return (
+                            <Accordion key={materia.id} titulo={`Matéria: ${materia.nome}`}>
+                                <ul>
+                                    {materia.listaDeAssuntos.map(assunto => {
+                                        return (
+                                            <li key={assunto.id}>
+                                                <section>
+                                                    <h5>
+                                                        {assunto.nome}
+                                                    </h5>
+                                                    <p>
+                                                        Quantidade de pdfs: {assunto.quantidadePdf}
+                                                    </p>
+                                                    <p>
+                                                        Quantidade de questões feitas: {assunto.idQuestoes.length}
+                                                    </p>
+                                                </section>
+                                                <section>
+                                                    <BotaorCard $type="excluir">
+                                                        Excluir Assunto
+                                                    </BotaorCard>
+                                                    <BotaorCard $type="editar">
+                                                        Editar Assunto
+                                                    </BotaorCard>
+                                                </section>
+                                            </li>
+                                        );
+                                    })}
+                                </ul>
+                                <DivBotoesCrudMateria>
+                                    <BotaorCard $type="adicionar">
+                                        Adicionar Assunto
+                                    </BotaorCard>
+                                    <BotaorCard onClick={() => excluirMateria(materia.id)} $type="excluir">
+                                        Excluir Materia
+                                    </BotaorCard>
+                                    <BotaorCard $type="editar">
+                                        Editar Materia
+                                    </BotaorCard>
+                                </DivBotoesCrudMateria>
+                            </Accordion>
+                        );
+                    })}
                 </SectionProvasEstilizada>
                 <ModalComponent modalIsOpen={modalIsOpen} closeModal={closeModal}>
                     <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
@@ -153,7 +207,7 @@ const ProvaEspecifica = () => {
                         {
                             quantidadeDeInputs.map((input, index) => {
                                 return (
-                                    <InputAssunto input={input} key={index} index={index} onChange={handleChanger}/>
+                                    <InputAssunto input={input} key={index} index={index} onChange={handleChanger} />
                                 )
                             })
                         }
@@ -162,7 +216,7 @@ const ProvaEspecifica = () => {
                             Adicionar
                         </BotaoEstilizado>
                     </FormEstilizado>
-                    <section style={{ display: 'flex', justifyContent: 'flex-end', padding: '0 0 1em 0' }}>
+                    <section style={{ display: 'flex', justifyContent: 'flex-end', margin: '0 1em 1em 0' }}>
                         <BotaorCard
                             name="adicionar"
                             $type="adicionar"

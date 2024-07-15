@@ -17,11 +17,14 @@ export const HeaderEstilizado = styled.header`
     min-height: 57px;
     
     @media (max-width: 562px) {
+        transition-duration: 0.35s;
         align-items: ${(props) => (props.open ? 'flex-start' : 'center')};
         width: ${(props) => (props.open ? '70vw' : '100vw')};
         right: 0;
         border: 1px solid transparent;
-        border-radius: 10px;
+        /* border-radius: 10px; */
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
         
     }
 

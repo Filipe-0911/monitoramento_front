@@ -1,19 +1,71 @@
-import React, { useState } from "react";
 import styled from "styled-components";
-import styles from "./Accordion.module.css";
 import { GoChevronDown } from "react-icons/go";
-import { BotaorCard } from "../ComponentesHome";
+import { useState } from "react";
 
-const IconeSetaEstilizado = styled(GoChevronDown)`
-  width: 30px;
-  color: black !important;
-  transition: transform 0.2s linear;
-  &.rotated {
-    transform: rotate(180deg);
-  }
-`;
+export const ContainerAccordionEstilizado = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    color: #000;
+`
 
-const DivBotoesCrudMateria = styled.div`
+export const DivAccordionEstilizado = styled.div`
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 12px;
+    cursor: pointer;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
+`
+
+export const ButtonAccordionHeaderEstilizado = styled.button`
+    width: 100%;
+    min-height: 42px;
+    border: none;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 16px;
+    cursor: pointer;
+
+`
+
+export const ArrowEstilizado = styled(GoChevronDown)`
+    transform: ${(props) => (props.$activeIndex === true ? 'rotate(180deg)' : 'none')};
+    transition: transform .2s linear;
+    color: black;
+`
+
+export const AccordionBodyEstilizado = styled.div`
+    color: #444;
+    font-size: 14px;
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+    transition: opacity .3s, height .3s;
+
+    ${(props) => (props.$activeIndex ? `
+        height: auto;
+        opacity: 1;
+        padding: 5px 0px;
+    ` : "")}
+    
+    li {
+        color: black;
+        text-align: left;
+        padding: 1em 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;;
+
+        h5 {
+            font-size: 14px;
+        }
+    }
+`
+
+export const DivBotoesCrudEstilizado = styled.div`
     display: flex;
     justify-content: space-evenly;
     margin-bottom: 1em;
@@ -23,71 +75,29 @@ const DivBotoesCrudMateria = styled.div`
     }
 `;
 
-const AccordionMaterias = ({ listaDeMaterias, excluirMateria }) => {
-    const [activeIndex, setActiveIndex] = useState(null);
-    
-    const toggleAccordion = (index) => {
-        setActiveIndex(activeIndex === index ? null : index);
+export default function Accordion({ children, titulo }) {
+    const [activeIndex, setActiveIndex] = useState(false);
+
+    const toggleAccordion = () => {
+        setActiveIndex(!activeIndex);
     };
-    
+
     return (
-        <div className={styles.container} id="container">
-            {listaDeMaterias.map((materia, index) => (
-                <div key={materia.id} className={styles.accordion}>
-                    <button
-                        className={styles.accordionHeader}
-                        onClick={() => toggleAccordion(index)}
-                    >
-                        <span>Matéria: {materia.nome}</span>
-                        <IconeSetaEstilizado
-                            size={30}
-                            className={`${styles.arrow} ${activeIndex === index ? 'rotated' : ''}`}
-                        />
-                    </button>
+        <ContainerAccordionEstilizado>
+            <DivAccordionEstilizado>
+                <ButtonAccordionHeaderEstilizado
+                    onClick={() => toggleAccordion(!activeIndex)}
+                >
+                    <span>{titulo}</span>
+                    <ArrowEstilizado
 
-                    <div className={`${styles.accordionBody} ${activeIndex === index ? styles.active : ""}`}>
-                        <ul>
-                            {materia.listaDeAssuntos.map((assunto) => (
-                                <li key={assunto.id}>
-                                    <section>
-                                        <h5>
-                                            {assunto.nome}
-                                        </h5>
-                                        <p>
-                                            Quantidade de pdfs: {assunto.quantidadePdf}
-                                        </p>
-                                        <p>
-                                            Questões feitas: {assunto.idQuestoes.length}
-                                        </p>
-
-                                    </section>
-                                    <section style={{ display: 'flex', gap: "10px" }}>
-                                        <BotaorCard $type="excluir">
-                                            Excluir Assunto
-                                        </BotaorCard>
-                                        <BotaorCard $type="editar">
-                                            Editar Assunto
-                                        </BotaorCard>
-                                    </section>
-                                </li>
-                            ))}
-                        </ul>
-                        <DivBotoesCrudMateria>
-                            <BotaorCard $type="adicionar">
-                                Adicionar Assunto
-                            </BotaorCard>
-                            <BotaorCard onClick={() => excluirMateria(materia.id)} $type="excluir">
-                                Excluir Materia
-                            </BotaorCard>
-                            <BotaorCard $type="editar">
-                                Editar Materia
-                            </BotaorCard>
-                        </DivBotoesCrudMateria>
-                    </div>
-                </div>
-            ))}
-        </div>
+                        $activeIndex={activeIndex}
+                    />
+                </ButtonAccordionHeaderEstilizado>
+                <AccordionBodyEstilizado $activeIndex={activeIndex}>
+                    {children}
+                </AccordionBodyEstilizado>
+            </DivAccordionEstilizado>
+        </ContainerAccordionEstilizado>
     );
-};
-
-export default AccordionMaterias;
+}

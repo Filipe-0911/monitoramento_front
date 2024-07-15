@@ -14,6 +14,8 @@ import ModalComponent from "../../componentes/Modal";
 import { FormEstilizado } from "../../componentes/ContainerLoginEstilizado";
 import CampoForm from "../../componentes/CampoForm";
 import { useNavigate } from "react-router-dom";
+import Accordion from "../../componentes/Accordion";
+import { DivBotoesCrudEstilizado } from "../../componentes/Accordion";
 
 export const SectionProvasEstilizada = styled.section`
     width: 70%;
@@ -21,13 +23,13 @@ export const SectionProvasEstilizada = styled.section`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 16px;
 
     @media (max-width: 562px) {
         width: 100%;
         margin: 1em 0;
     }
 `
-
 const DivEstatisticasEstilizada = styled.div`
     display: flex;
     justify-content: space-evenly;
@@ -39,6 +41,23 @@ const DivEstatisticasEstilizada = styled.div`
     }
 `
 
+const DivBotaoAdicionarEstilizada = styled.div`
+    display: flex; 
+    justify-content: flex-end; 
+    margin: 2em; 
+    width: 100%;
+
+    span {
+        width: 20%;
+    }
+
+    @media (max-width: 562px) {
+        span {
+            width: 100%;
+        }
+    }
+`
+
 const Provas = () => {
     const provasService = new ProvasService();
     const [provas, setProvas] = useState([]);
@@ -46,7 +65,7 @@ const Provas = () => {
     const [adicionarOuAlterar, setAdicionarOuAlterar] = useState("");
     const navigate = useNavigate();
 
-    const [form, setForm] = useState({ id: 0 , titulo: "", dataDaProva: "" });
+    const [form, setForm] = useState({ id: 0, titulo: "", dataDaProva: "" });
 
 
     useEffect(() => {
@@ -136,26 +155,26 @@ const Provas = () => {
         provasService.adicionaProva(form)
             .then(response => setProvas([...provas, response]))
             .catch(error => console.log(error));
-        
-            setModalAberto(false);
+
+        setModalAberto(false);
     }
 
     const alterarProva = () => {
         provasService.alteraProva(form)
-        .then(response => {
-            setProvas(provas.map(prova => prova.id === form.id ? { ...prova, ...form } : prova));
-            console.log(response);
-        }).catch(error => console.log(error));
+            .then(response => {
+                setProvas(provas.map(prova => prova.id === form.id ? { ...prova, ...form } : prova));
+                console.log(response);
+            }).catch(error => console.log(error));
         setModalAberto(false);
     }
 
     const buscarProvaEspecifica = (id) => {
         provasService.buscaProvaPorId(id)
-           .then((prova) => {
-            console.log(prova);
+            .then((prova) => {
+                console.log(prova);
                 // setForm({ id: prova.id, titulo: prova.titulo, dataDaProva: prova.dataDaProva });
             })
-           .catch(erro => console.error(erro));
+            .catch(erro => console.error(erro));
     }
     return (
         <>
@@ -170,63 +189,65 @@ const Provas = () => {
                         <h2>Total de Materias: {somaQuantidadeDeAssunto(provas)}</h2>
                         <h2>Total de PDFs: {somaQuantidadeDePDFs(provas)}</h2>
                     </DivEstatisticasEstilizada>
-                    <div style={{ display: "flex", justifyContent: "flex-end", margin: "2em", width: '100%' }}>
-                        <span style={{ width: '20%' }}>
+                    <DivBotaoAdicionarEstilizada>
+                        <span>
                             <Botao onClick={(e) => openModal(e)} name="Adicionar">
                                 Adicionar Provas
                             </Botao>
                         </span>
-                    </div>
-                    <TabelaEstilizada>
-                        <thead>
-                            <tr>
-                                <th>Título</th>
-                                <th>Data da prova</th>
-                                <th>Quantidade de materias</th>
-                                <th>Quantidade de Assuntos por Matéria</th>
-                                <th>Quantidade de PDFS</th>
-                                <th>Quantidade de Questões feitas</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {provas.map(prova => (
-                                <tr key={prova.id}>
-                                    <td>{prova.titulo}</td>
-                                    <td>{new DataService().transformarDataEmString(prova.dataDaProva)}</td>
-                                    <td>{prova.listaDeMaterias?.length}</td>
-                                    <td>{somaQuantidadeDeAssuntoPorProva(prova)}</td>
-                                    <td>{somaQuantidadeDePDFsPorProva(prova)}</td>
-                                    <td>{somaQuantidadeDeQuestoesPorProva(prova)}</td>
-                                    <td>
-                                        <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-                                            <BotaorCard
-                                                $type="editar"
-                                                name="Editar"
-                                                onClick={(e) => openModal(e, prova)}>
-                                                <FaPencilAlt id="Editar" />
-                                                Editar
-                                            </BotaorCard>
-                                            <BotaorCard
-                                                $type="excluir"
-                                                name="excluir"
-                                                onClick={() => deletarProva(prova.id)}>
-                                                <MdCancel />
-                                                Deletar
-                                            </BotaorCard>
-                                            <BotaorCard
-                                                $type="detalhar"
-                                                name="detalhar"
-                                                onClick={() => navigate(`/provas/${prova.id}`)}>
-                                                <TbListDetails />
-                                                Detalhar
-                                            </BotaorCard>
-                                        </div>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </TabelaEstilizada>
+                    </DivBotaoAdicionarEstilizada>
+                    {provas.map(prova => {
+                        return (
+                            <Accordion key={prova.id} titulo={prova.titulo}>
+                                <ul>
+                                    <li>
+                                        <h5>Data da prova:</h5>
+                                        <p>{new DataService().transformarDataEmString(prova.dataDaProva)}</p>
+                                    </li>
+                                    <li>
+                                        <h5>Quantidade de matérias:</h5>
+                                        <p>{prova.listaDeMaterias?.length}</p>
+                                    </li>
+                                    <li>
+                                        <h5>Quantidade de assunto por prova:</h5>
+                                        <p>{somaQuantidadeDeAssuntoPorProva(prova)}</p>
+                                    </li>
+                                    <li>
+                                        <h5>Quantidade de PDFS por prova:</h5>
+                                        <p>{somaQuantidadeDePDFsPorProva(prova)}</p>
+                                    </li>
+                                    <li>
+                                        <h5>Quantidade de questões por prova:</h5>
+                                        <p>{somaQuantidadeDeQuestoesPorProva(prova)}</p>
+                                    </li>
+                                </ul>
+                                <DivBotoesCrudEstilizado>
+                                    <BotaorCard
+                                        $type="editar"
+                                        name="Editar"
+                                        onClick={(e) => openModal(e, prova)}>
+                                        <FaPencilAlt id="Editar" />
+                                        Editar
+                                    </BotaorCard>
+                                    <BotaorCard
+                                        $type="excluir"
+                                        name="excluir"
+                                        onClick={() => deletarProva(prova.id)}>
+                                        <MdCancel />
+                                        Deletar
+                                    </BotaorCard>
+                                    <BotaorCard
+                                        $type="detalhar"
+                                        name="detalhar"
+                                        onClick={() => navigate(`/provas/${prova.id}`)}>
+                                        <TbListDetails />
+                                        Detalhar
+                                    </BotaorCard>
+                                </DivBotoesCrudEstilizado>
+                            </Accordion>
+                        );
+                    })}
+
                 </SectionProvasEstilizada>
                 <ModalComponent
                     modalIsOpen={modalAberto}
@@ -239,7 +260,7 @@ const Provas = () => {
                     </div>
                     <FormEstilizado onSubmit={e => e.preventDefault()}>
                         <h4>{adicionarOuAlterar}</h4>
-                        <input type="number" hidden defaultValue={form.id}/>
+                        <input type="number" hidden defaultValue={form.id} />
                         <label>
                             Título da prova:
                         </label>

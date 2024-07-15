@@ -5,7 +5,7 @@ import ProtectedRoutes from "./ProtectedRoutes";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Cadastro from "../Paginas/Cadastro";
 import Home from "../Paginas/Home";
-import Provas from "../Paginas/Provas/indes";
+import Provas from "../Paginas/Provas";
 import ProvaEspecifica from "../Paginas/ProvaEspecifica";
 
 const Routering = () => {

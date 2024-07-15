@@ -71,16 +71,6 @@ const Cabecalho = () => {
                         </li>
                         <li>
                             <NavLink to="/home">
-                                Materias
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink to="/home">
-                                Assuntos
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink to="/home">
                                 Questões
                             </NavLink>
                         </li>

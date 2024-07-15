@@ -55,6 +55,7 @@ export const CardTarefasEstilizado = styled.div`
 
 export const BotaorCard = styled.button`
     display: flex;
+    flex-wrap: 'nowrap';
     align-items: center;
     gap: 5px;
     padding: 0.5em 1em;
@@ -65,7 +66,6 @@ export const BotaorCard = styled.button`
     cursor: pointer;
 
     @media (max-width: 562px) {
-        flex-direction: column;
         align-items: center;
         gap: 1em;
     }
