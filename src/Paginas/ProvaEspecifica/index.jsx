@@ -1,20 +1,24 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import styled from "styled-components";
+
 import ProvasService from "../../services/Provas";
+import DataService from "../../services/DataService";
+import MateriasService from "../../services/MateriasService";
+
+import { SectionProvasEstilizada } from "../Provas";
+import { FormEstilizado } from "../../componentes/ContainerLoginEstilizado";
+import { BotaorCard } from "../../componentes/ComponentesHome";
+
 import Cabecalho from "../../componentes/Cabecalho";
 import MainEstilizada from "../../componentes/Main";
-import DataService from "../../services/DataService";
 import PaginaEspecifaNotFound from "../ProvaEspecificaNotFound";
 import BotaoEstilizado from "../../componentes/Botao";
-import { SectionProvasEstilizada } from "../Provas";
-import styled from "styled-components";
 import ModalComponent from "../../componentes/Modal";
-import { FormEstilizado } from "../../componentes/ContainerLoginEstilizado";
-import CampoForm from "../../componentes/CampoForm";
-import { BotaorCard } from "../../componentes/ComponentesHome";
-import { MdCancel, MdOutlineAddToPhotos } from "react-icons/md";
-import MateriasService from "../../services/MateriasService";
 import Accordion from "../../componentes/Accordion";
+
+import { MdCancel, MdOutlineAddToPhotos } from "react-icons/md";
+import FormAdicionarMaterias from "./FormAdicionarMaterias";
 
 export const DivBotoesCrudMateria = styled.div`
     display: flex;
@@ -43,17 +47,6 @@ const DivEstilizadaProvaEspecífica = styled.div`
     }
 `
 
-const InputAssunto = ({ input, index, onChange }) => {
-    return (
-        <>
-            <label>Nome Assunto</label>
-            <CampoForm onChange={onChange} name={input.name} placeholder={input.placeholder} />
-            <label>Quantidade de PDFs</label>
-            <CampoForm onChange={onChange} type="number" name={`quantidade_input_${index}`} placeholder="Digite a quantidade" />
-        </>
-    );
-}
-
 const ProvaEspecifica = () => {
     const dataService = new DataService();
     const provaService = new ProvasService();
@@ -64,6 +57,7 @@ const ProvaEspecifica = () => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [form, setForm] = useState({ idProva: 0, nome: "" });
     const [quantidadeDeInputs, setQuantidadeDeInputs] = useState([]);
+    const [listaDeAssuntos, setListaDeAssuntos] = useState([]);
 
     const excluirMateria = (idMateria) => {
         materiasService.deletaMateria(prova.id, idMateria).then(() => {
@@ -99,9 +93,22 @@ const ProvaEspecifica = () => {
     const closeModal = () => {
         setModalIsOpen(false);
     }
+
     const handleChanger = (event) => {
-        setForm({ ...form, [event.target.name]: event.target.value });
+        const { name, value } = event.target;
+        setForm(prevForm => {
+            const updatedForm = { ...prevForm, [name]: value };                
+            if (listaDeAssuntos.length > 0) {
+                updatedForm.listaDeAssuntos = listaDeAssuntos;
+            }
+            aoDigitar(updatedForm);
+            return updatedForm;
+        });
+
+        aoDigitar(form);
+        
     }
+    
 
     if (isLoading) {
         return <p>Carregando...</p>;
@@ -115,19 +122,34 @@ const ProvaEspecifica = () => {
         materiasService.adicionaMateria(form).then(res => {
             const { nome, id, listaDeAssuntos } = res;
             let novaMateria = { nome: nome, id: id, listaDeAssuntos: listaDeAssuntos };
-
             setProva({ ...prova, listaDeMaterias: [...prova.listaDeMaterias, novaMateria] });
         }).catch(err => console.error(err));
 
-        console.log(form)
         setQuantidadeDeInputs([])
     }
 
-    const adicionaInputDeAssunto = () => {
-        let name = `nome_assunto_${quantidadeDeInputs.length}`;
-        console.log(name)
-        setQuantidadeDeInputs([...quantidadeDeInputs, { name: name, placeholder: "Digite o nome do assunto" }]);
+    const aoDigitar = (form) => {
+        const novoAssunto = { nome: '', quantidadePdf: 0 };
+        const lista = [...listaDeAssuntos];
+        let indexDoInput = 0;
+    
+        for (const key in form) {
+            if (key.includes('quantidade_input')) {
+                const [quantidade, input, index] = key.split('_');
+                indexDoInput = parseInt(index);
+                novoAssunto.quantidadePdf = parseInt(form[key]);
+            }
+            if (key.includes('nome_assunto')) {
+                const [nome, assunto, index] = key.split('_');
+                indexDoInput = parseInt(index);
+                novoAssunto.nome = form[key];
+            }
+        }
+    
+        lista[indexDoInput] = novoAssunto;
+        setListaDeAssuntos(lista);
     }
+    
 
     return (
         <>
@@ -143,8 +165,8 @@ const ProvaEspecifica = () => {
                             </BotaoEstilizado>
                         </span>
                     </DivEstilizadaProvaEspecífica>
+                    {/* Accordions aparecerão aqui */}
                     {prova.listaDeMaterias.map(materia => {
-                        console.log(materia);
                         return (
                             <Accordion key={materia.id} titulo={`Matéria: ${materia.nome}`}>
                                 <ul>
@@ -188,48 +210,21 @@ const ProvaEspecifica = () => {
                             </Accordion>
                         );
                     })}
+
                 </SectionProvasEstilizada>
+                {/* Modal add matéria */}
                 <ModalComponent modalIsOpen={modalIsOpen} closeModal={closeModal}>
                     <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
                         <BotaorCard $type="excluir" onClick={closeModal}>
                             <MdCancel />
                         </BotaorCard>
                     </div>
-                    <FormEstilizado onSubmit={e => e.preventDefault()}>
-                        <h3>Adicionar Materia</h3>
-                        <label>Nome da matéria</label>
-                        <CampoForm
-                            name="nome"
-                            onChange={handleChanger}
-                            placeholder="Nome da matéria"
-                        />
-                        {quantidadeDeInputs.length > 0 && <h3>Assuntos</h3>}
-                        {
-                            quantidadeDeInputs.map((input, index) => {
-                                return (
-                                    <InputAssunto input={input} key={index} index={index} onChange={handleChanger} />
-                                )
-                            })
-                        }
-                        <BotaoEstilizado
-                            onClick={adicionaMateria}>
-                            Adicionar
-                        </BotaoEstilizado>
-                    </FormEstilizado>
-                    <section style={{ display: 'flex', justifyContent: 'flex-end', margin: '0 1em 1em 0' }}>
-                        <BotaorCard
-                            name="adicionar"
-                            $type="adicionar"
-                            onClick={e => adicionaInputDeAssunto()}
-                        >
-                            <MdOutlineAddToPhotos
-                                id="adicionar"
-                                size={15}
-                                style={{ cursor: 'pointer' }}
-                            />
-                            Adicionar Assuntos
-                        </BotaorCard>
-                    </section>
+                    <FormAdicionarMaterias
+                        quantidadeDeInputs={quantidadeDeInputs}
+                        adicionaMateria={adicionaMateria}
+                        handleChanger={handleChanger}
+                        setInput={setQuantidadeDeInputs}
+                    />
                 </ModalComponent>
             </MainEstilizada>
         </>
