@@ -37,6 +37,7 @@ export default class MateriasService {
     async adicionaMateria(assunto) {
         const { nome, idProva, listaDeAssuntos } = assunto;
         let materia = { nome: nome, listaDeAssuntos: listaDeAssuntos };
+        console.log(materia)
         try {
             const response = await this.axios.post(`/provas/${idProva}/materias`, materia, this.userService.getHeaderWithTokenFromLocalStorage());
             return response.data;

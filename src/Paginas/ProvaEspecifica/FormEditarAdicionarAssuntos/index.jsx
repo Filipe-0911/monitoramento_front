@@ -15,7 +15,7 @@ const InputAssunto = ({ input, index, onChange }) => {
     );
 }
 
-const FormAdicionarMaterias = ({ quantidadeDeInputs, adicionaMateria, handleChanger, setInput }) => {
+export default function FormEditarAdicionarAssuntos({ quantidadeDeInputs = 1, adicionaMateria, handleChanger, setInput }) {
 
     const adicionaInputDeAssunto = () => {
         let name = `nome_assunto_${quantidadeDeInputs.length}`;
@@ -26,13 +26,6 @@ const FormAdicionarMaterias = ({ quantidadeDeInputs, adicionaMateria, handleChan
         <>
             <FormEstilizado onSubmit={e => e.preventDefault()}>
                 <h3>Adicionar Materia</h3>
-                <label>Nome da matéria</label>
-                <CampoForm
-                    name="nome"
-                    onChange={handleChanger}
-                    placeholder="Nome da matéria"
-                />
-                {quantidadeDeInputs.length > 0 && <h3>Assuntos</h3>}
                 {
                     quantidadeDeInputs.map((input, index) => {
                         return (
@@ -49,7 +42,7 @@ const FormAdicionarMaterias = ({ quantidadeDeInputs, adicionaMateria, handleChan
                 <BotaorCard
                     name="adicionar"
                     $type="adicionar"
-                    onClick={e => adicionaInputDeAssunto()}
+                    onClick={() => adicionaInputDeAssunto()}
                 >
                     <MdOutlineAddToPhotos
                         id="adicionar"
@@ -62,5 +55,3 @@ const FormAdicionarMaterias = ({ quantidadeDeInputs, adicionaMateria, handleChan
         </>
     );
 }
-
-export default FormAdicionarMaterias;

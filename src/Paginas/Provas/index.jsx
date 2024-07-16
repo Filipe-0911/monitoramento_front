@@ -126,13 +126,13 @@ const Provas = () => {
 
     const somaQuantidadeDePDFsPorProva = (prova) => {
         let valorInicial = 0;
-        prova.listaDeMaterias.forEach(materia => materia.listaDeAssuntos.forEach(assunto => valorInicial += assunto.quantidadePdf));
+        prova.listaDeMaterias.forEach(materia => materia.listaDeAssuntos.forEach(assunto => valorInicial += parseInt(assunto.quantidadePdf)));
         return valorInicial.toString();
     }
 
     const somaQuantidadeDeQuestoesPorProva = (prova) => {
         let valorInicial = 0;
-        prova.listaDeMaterias.forEach(materia => materia.listaDeAssuntos.forEach(assunto => valorInicial += assunto.quantidadeQuestoes));
+        prova.listaDeMaterias.forEach(materia => materia.listaDeAssuntos.forEach(assunto => valorInicial += Number(assunto.idQuestoes.length)));
         return valorInicial.toString();
     }
 

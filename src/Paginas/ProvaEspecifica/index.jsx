@@ -7,18 +7,15 @@ import DataService from "../../services/DataService";
 import MateriasService from "../../services/MateriasService";
 
 import { SectionProvasEstilizada } from "../Provas";
-import { FormEstilizado } from "../../componentes/ContainerLoginEstilizado";
-import { BotaorCard } from "../../componentes/ComponentesHome";
 
 import Cabecalho from "../../componentes/Cabecalho";
 import MainEstilizada from "../../componentes/Main";
 import PaginaEspecifaNotFound from "../ProvaEspecificaNotFound";
 import BotaoEstilizado from "../../componentes/Botao";
-import ModalComponent from "../../componentes/Modal";
-import Accordion from "../../componentes/Accordion";
 
-import { MdCancel, MdOutlineAddToPhotos } from "react-icons/md";
-import FormAdicionarMaterias from "./FormAdicionarMaterias";
+import AccordionAssunto from "./AccordionAssunto";
+import ModalAdicionarMateriasEAssuntos from "./ModalAdicionarMateriaEAssuntos";
+import ModalEditarAdicionarAssuntos from "./ModalEditarAdicionarAssuntos";
 
 export const DivBotoesCrudMateria = styled.div`
     display: flex;
@@ -54,19 +51,22 @@ const ProvaEspecifica = () => {
     const parametros = useParams();
     const [prova, setProva] = useState();
     const [isLoading, setIsLoading] = useState(true);
-    const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [form, setForm] = useState({ idProva: 0, nome: "" });
+    const [form, setForm] = useState({ idProva: 0, nome: "", listaDeAssuntos: [] });
     const [quantidadeDeInputs, setQuantidadeDeInputs] = useState([]);
     const [listaDeAssuntos, setListaDeAssuntos] = useState([]);
+    const [acaoDoUsuario, setAcaoDoUsuario] = useState("");
+
+    const [modalMateriaEAssuntoIsOpen, setmodalMateriaEAssuntoIsOpen] = useState(false);
+    const [modalAssuntosIsOpen, setModalAssuntosIsOpen] = useState(false);
 
     const excluirMateria = (idMateria) => {
         materiasService.deletaMateria(prova.id, idMateria).then(() => {
             setProva({
                 ...prova,
                 listaDeMaterias: prova.listaDeMaterias.filter(materia => materia.id !== idMateria)
-            })
+            });
         }).catch(erro => console.log(erro));
-    }
+    };
 
     useEffect(() => {
         provaService.buscaProvaPorId(+parametros.id).then(res => {
@@ -77,38 +77,72 @@ const ProvaEspecifica = () => {
             } else {
                 setIsLoading(false);
                 setProva(res);
-                setForm({ idProva: res.id, nome: "" });
+                setForm({ idProva: res.id, nome: "", listaDeAssuntos: [] });
             }
-
         }).catch(err => {
             console.error(err);
             setIsLoading(false);
         });
-
     }, [parametros.id]);
 
+    useEffect(() => {
+        switch (acaoDoUsuario) {
+            case "adicionar_assunto":
+                setmodalMateriaEAssuntoIsOpen(true);
+                setAcaoDoUsuario('');
+                break;
+            case "editar_assunto":
+                console.log(acaoDoUsuario);
+                setModalAssuntosIsOpen(true);
+                setAcaoDoUsuario('');
+                break;
+        }
+    }, [acaoDoUsuario])
+
     const openModal = () => {
-        setModalIsOpen(true);
-    }
+        setmodalMateriaEAssuntoIsOpen(true);
+    };
     const closeModal = () => {
-        setModalIsOpen(false);
+        setmodalMateriaEAssuntoIsOpen(false);
+    };
+
+    const closeModalAssuntos = () => {
+        setModalAssuntosIsOpen(false);
+    }
+    const openModalAssuntos = () => {
+        setModalAssuntosIsOpen(true);
     }
 
     const handleChanger = (event) => {
         const { name, value } = event.target;
         setForm(prevForm => {
-            const updatedForm = { ...prevForm, [name]: value };                
-            if (listaDeAssuntos.length > 0) {
-                updatedForm.listaDeAssuntos = listaDeAssuntos;
-            }
+            const updatedForm = { ...prevForm, [name]: value };
             aoDigitar(updatedForm);
             return updatedForm;
         });
+    };
 
-        aoDigitar(form);
-        
-    }
-    
+    const aoDigitar = (form) => {
+        const novoAssunto = { nome: '', quantidadePdf: 0 };
+        const lista = [...listaDeAssuntos];
+        let indexDoInput = 0;
+        for (const key in form) {
+            if (key.includes('quantidade_input')) {
+                const [quantidade, input, index] = key.split('_');
+                indexDoInput = parseInt(index);
+                novoAssunto.quantidadePdf = parseInt(form[key]);
+            }
+            if (key.includes('nome_assunto')) {
+                const [nome, assunto, index] = key.split('_');
+                indexDoInput = parseInt(index);
+                novoAssunto.nome = form[key];
+            }
+        }
+
+        lista[indexDoInput] = novoAssunto;
+        setListaDeAssuntos(lista);
+        setForm(prevForm => ({ ...prevForm, listaDeAssuntos: lista }));
+    };
 
     if (isLoading) {
         return <p>Carregando...</p>;
@@ -125,31 +159,13 @@ const ProvaEspecifica = () => {
             setProva({ ...prova, listaDeMaterias: [...prova.listaDeMaterias, novaMateria] });
         }).catch(err => console.error(err));
 
-        setQuantidadeDeInputs([])
-    }
+        setQuantidadeDeInputs([]);
+    };
 
-    const aoDigitar = (form) => {
-        const novoAssunto = { nome: '', quantidadePdf: 0 };
-        const lista = [...listaDeAssuntos];
-        let indexDoInput = 0;
-    
-        for (const key in form) {
-            if (key.includes('quantidade_input')) {
-                const [quantidade, input, index] = key.split('_');
-                indexDoInput = parseInt(index);
-                novoAssunto.quantidadePdf = parseInt(form[key]);
-            }
-            if (key.includes('nome_assunto')) {
-                const [nome, assunto, index] = key.split('_');
-                indexDoInput = parseInt(index);
-                novoAssunto.nome = form[key];
-            }
-        }
-    
-        lista[indexDoInput] = novoAssunto;
-        setListaDeAssuntos(lista);
+    const capturaCliqueBotaoUsuario = (event) => {
+        let nomeBotao = event.target.name;
+        setAcaoDoUsuario(nomeBotao)
     }
-    
 
     return (
         <>
@@ -166,66 +182,29 @@ const ProvaEspecifica = () => {
                         </span>
                     </DivEstilizadaProvaEspecífica>
                     {/* Accordions aparecerão aqui */}
-                    {prova.listaDeMaterias.map(materia => {
-                        return (
-                            <Accordion key={materia.id} titulo={`Matéria: ${materia.nome}`}>
-                                <ul>
-                                    {materia.listaDeAssuntos.map(assunto => {
-                                        return (
-                                            <li key={assunto.id}>
-                                                <section>
-                                                    <h5>
-                                                        {assunto.nome}
-                                                    </h5>
-                                                    <p>
-                                                        Quantidade de pdfs: {assunto.quantidadePdf}
-                                                    </p>
-                                                    <p>
-                                                        Quantidade de questões feitas: {assunto.idQuestoes.length}
-                                                    </p>
-                                                </section>
-                                                <section>
-                                                    <BotaorCard $type="excluir">
-                                                        Excluir Assunto
-                                                    </BotaorCard>
-                                                    <BotaorCard $type="editar">
-                                                        Editar Assunto
-                                                    </BotaorCard>
-                                                </section>
-                                            </li>
-                                        );
-                                    })}
-                                </ul>
-                                <DivBotoesCrudMateria>
-                                    <BotaorCard $type="adicionar">
-                                        Adicionar Assunto
-                                    </BotaorCard>
-                                    <BotaorCard onClick={() => excluirMateria(materia.id)} $type="excluir">
-                                        Excluir Materia
-                                    </BotaorCard>
-                                    <BotaorCard $type="editar">
-                                        Editar Materia
-                                    </BotaorCard>
-                                </DivBotoesCrudMateria>
-                            </Accordion>
-                        );
-                    })}
+                    <AccordionAssunto prova={prova} excluirMateria={excluirMateria} capturaCliqueBotaoUsuario={capturaCliqueBotaoUsuario} />
 
                 </SectionProvasEstilizada>
                 {/* Modal add matéria */}
-                <ModalComponent modalIsOpen={modalIsOpen} closeModal={closeModal}>
-                    <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
-                        <BotaorCard $type="excluir" onClick={closeModal}>
-                            <MdCancel />
-                        </BotaorCard>
-                    </div>
-                    <FormAdicionarMaterias
-                        quantidadeDeInputs={quantidadeDeInputs}
-                        adicionaMateria={adicionaMateria}
-                        handleChanger={handleChanger}
-                        setInput={setQuantidadeDeInputs}
-                    />
-                </ModalComponent>
+
+                <ModalAdicionarMateriasEAssuntos
+                    modalIsOpen={modalMateriaEAssuntoIsOpen}
+                    closeModal={closeModal}
+                    quantidadeDeInputs={quantidadeDeInputs}
+                    adicionaMateria={adicionaMateria}
+                    handleChanger={handleChanger}
+                    setQuantidadeDeInputs={setQuantidadeDeInputs}
+                />
+
+                <ModalEditarAdicionarAssuntos
+                    modalIsOpen={modalAssuntosIsOpen}
+                    closeModal={closeModalAssuntos}
+                    quantidadeDeInputs={quantidadeDeInputs}
+                    adicionaMateria={adicionaMateria}
+                    handleChanger={handleChanger}
+                    setInput={setQuantidadeDeInputs}
+                    openModalAssuntos={openModalAssuntos}
+                />
             </MainEstilizada>
         </>
     );
