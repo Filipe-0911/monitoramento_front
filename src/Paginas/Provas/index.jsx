@@ -3,7 +3,7 @@ import Cabecalho from "../../componentes/Cabecalho";
 import MainEstilizada from "../../componentes/Main";
 import ProvasService from "../../services/Provas";
 import DataService from "../../services/DataService";
-import TabelaEstilizada from "../../componentes/Tabela";
+import { LiAcorddionEstilizado } from "../../componentes/Accordion/ComponentesAccordionAux";
 import { BotaorCard } from "../../componentes/ComponentesHome";
 import { MdCancel } from "react-icons/md";
 import { FaPencilAlt } from "react-icons/fa";
@@ -200,26 +200,26 @@ const Provas = () => {
                         return (
                             <Accordion key={prova.id} titulo={prova.titulo}>
                                 <ul>
-                                    <li>
+                                    <LiAcorddionEstilizado>
                                         <h5>Data da prova:</h5>
                                         <p>{new DataService().transformarDataEmString(prova.dataDaProva)}</p>
-                                    </li>
-                                    <li>
+                                    </LiAcorddionEstilizado>
+                                    <LiAcorddionEstilizado>
                                         <h5>Quantidade de matérias:</h5>
                                         <p>{prova.listaDeMaterias?.length}</p>
-                                    </li>
-                                    <li>
+                                    </LiAcorddionEstilizado>
+                                    <LiAcorddionEstilizado>
                                         <h5>Quantidade de assunto por prova:</h5>
                                         <p>{somaQuantidadeDeAssuntoPorProva(prova)}</p>
-                                    </li>
-                                    <li>
+                                    </LiAcorddionEstilizado>
+                                    <LiAcorddionEstilizado>
                                         <h5>Quantidade de PDFS por prova:</h5>
                                         <p>{somaQuantidadeDePDFsPorProva(prova)}</p>
-                                    </li>
-                                    <li>
+                                    </LiAcorddionEstilizado>
+                                    <LiAcorddionEstilizado>
                                         <h5>Quantidade de questões por prova:</h5>
                                         <p>{somaQuantidadeDeQuestoesPorProva(prova)}</p>
-                                    </li>
+                                    </LiAcorddionEstilizado>
                                 </ul>
                                 <DivBotoesCrudEstilizado>
                                     <BotaorCard

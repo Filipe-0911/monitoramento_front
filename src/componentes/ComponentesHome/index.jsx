@@ -58,16 +58,16 @@ export const BotaorCard = styled.button`
     flex-wrap: 'nowrap';
     align-items: center;
     gap: 5px;
-    padding: 0.5em 1em;
+    padding: 0.5em;
     border: none;
     background-color: ${(props) => (props.$type === "concluir" ? "#44803F" : props.$type === "excluir" ? "#FF5A33" : props.$type === "editar" ? "#DBF227" : props.$type === "adicionar" ? "#3CA6A6" : props.$type === "detalhar" ? "#F28705" : "")};
-    color: white;
+    color: black;
     border-radius: 5px;
+    font-size: 18px;
     cursor: pointer;
 
     @media (max-width: 562px) {
-        align-items: center;
-        gap: 1em;
+        font-size: 16px;
     }
 `;
 

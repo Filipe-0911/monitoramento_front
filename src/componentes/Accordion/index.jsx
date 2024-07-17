@@ -14,7 +14,6 @@ export const DivAccordionEstilizado = styled.div`
     background-color: #fff;
     border-radius: 8px;
     padding: 12px;
-    cursor: pointer;
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
 `
 
@@ -26,8 +25,13 @@ export const ButtonAccordionHeaderEstilizado = styled.button`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-size: 16px;
+    font-size: 20px;
+    font-weight: bold;
     cursor: pointer;
+
+    span {
+        font-size: 20px;
+    }
 
 `
 
@@ -38,6 +42,9 @@ export const ArrowEstilizado = styled(GoChevronDown)`
 `
 
 export const AccordionBodyEstilizado = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
     color: #444;
     font-size: 14px;
     opacity: 0;
@@ -57,10 +64,14 @@ export const AccordionBodyEstilizado = styled.div`
         padding: 1em 0;
         display: flex;
         justify-content: space-between;
-        align-items: center;;
+        align-items: center;
+
+        p {
+            font-size: 16px;
+        }
 
         h5 {
-            font-size: 14px;
+            font-size: 20px;
         }
     }
 `

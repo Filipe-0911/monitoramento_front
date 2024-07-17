@@ -37,6 +37,7 @@ const DivEstilizadaProvaEspecífica = styled.div`
 
     span {
         width: 25%;
+        font-size: 22px;
     }
 
     @media (max-width: 562px) {
@@ -245,8 +246,20 @@ const ProvaEspecifica = () => {
         let nomeBotao = event.target.name;
         let divPrincipal = event.target.parentNode.parentNode;
         let idMateria;
+        
+        if (event.target.localName === "path") {
+            // console.log("clicou no path")
+            divPrincipal = event.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode;
+            nomeBotao = event.target.parentNode.parentNode.name
+        }
 
-        if (nomeBotao === "excluir_assunto" || nomeBotao === "editar_assunto") {
+        if (event.target.localName === "svg") {
+            // console.log("clicou no svg")
+            divPrincipal = event.target.parentNode.parentNode.parentNode.parentNode.parentNode;
+            nomeBotao = event.target.parentNode.name
+        }
+
+        if (nomeBotao === "excluir_assunto" || nomeBotao === "editar_assunto" || "adicionar_questao") {
             idMateria = divPrincipal.parentNode.parentNode.querySelector("#idMateria").value;
             setIdAssunto(idAssunto !== null ? idAssunto : null);
         } else {
@@ -291,7 +304,7 @@ const ProvaEspecifica = () => {
             <MainEstilizada>
                 <SectionProvasEstilizada>
                     <h1>Prova: {prova.titulo}</h1>
-                    <p>Data da prova: {dataService.transformarDataEmString(prova.data)}</p>
+                    <p style={{fontSize: "20px"}}>Data da prova: {dataService.transformarDataEmString(prova.data)}</p>
                     <DivEstilizadaProvaEspecífica>
                         <span>
                             <BotaoEstilizado onClick={openModal}>
