@@ -168,14 +168,6 @@ const Provas = () => {
         setModalAberto(false);
     }
 
-    const buscarProvaEspecifica = (id) => {
-        provasService.buscaProvaPorId(id)
-            .then((prova) => {
-                console.log(prova);
-                // setForm({ id: prova.id, titulo: prova.titulo, dataDaProva: prova.dataDaProva });
-            })
-            .catch(erro => console.error(erro));
-    }
     return (
         <>
             <Cabecalho />

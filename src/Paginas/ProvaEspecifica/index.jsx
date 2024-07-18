@@ -18,6 +18,8 @@ import ModalAdicionarMateriasEAssuntos from "./ModalAdicionarMateriaEAssuntos";
 import ModalAdicionarAssuntos from "./ModalAdicionarAssuntos";
 import AssuntoService from "../../services/AssuntoService";
 import ModalEditarAssuntos from "./ModalEditarAssuntos";
+import ModalAdicionarQuestoes from "./ModalAdicionarQuestoes";
+import QuestoesService from "../../services/QuestoesService";
 
 export const DivBotoesCrudMateria = styled.div`
     display: flex;
@@ -52,6 +54,7 @@ const ProvaEspecifica = () => {
     const provaService = new ProvasService();
     const materiasService = new MateriasService();
     const assuntoService = new AssuntoService();
+    const questoesService = new QuestoesService();
 
     const parametros = useParams();
     const [prova, setProva] = useState();
@@ -68,7 +71,7 @@ const ProvaEspecifica = () => {
     const [idMateriaParaAddAssunto, setIdMateriaParaAddAssunto] = useState(null);
     const [idAssunto, setIdAssunto] = useState(null);
     const [modalEditarAssuntoIsOpen, setModalEditarAssuntoIsOpen] = useState(false);
-    const [assunto, setAssunto] = useState(null);
+    const [modalQuestoesIsOpen, setModalQuestoesIsOpen] = useState(false);
 
     const excluirMateria = (idMateria) => {
         materiasService.deletaMateria(prova.id, idMateria)
@@ -136,6 +139,9 @@ const ProvaEspecifica = () => {
             case "editar_assunto":
                 setModalEditarAssuntoIsOpen(true);
                 break;
+            case "adicionar_questao" :
+                pegaValoresAssuntoParaEnviarQuestoes()
+                break;
             default:
                 break;
         }
@@ -157,6 +163,10 @@ const ProvaEspecifica = () => {
 
     const closeModalEditarAssuntos = () => {
         setModalEditarAssuntoIsOpen(false);
+    };
+
+    const closeModalQuestoes = () => {
+        setModalQuestoesIsOpen(false);
     };
 
     const alterarAssunto = (assuntoAlterado) => {
@@ -183,7 +193,7 @@ const ProvaEspecifica = () => {
                 .finally(() => {
                     closeModalEditarAssuntos();
                 });
-                
+
         } catch (error) {
             console.log(error);
         }
@@ -246,7 +256,7 @@ const ProvaEspecifica = () => {
         let nomeBotao = event.target.name;
         let divPrincipal = event.target.parentNode.parentNode;
         let idMateria;
-        
+
         if (event.target.localName === "path") {
             // console.log("clicou no path")
             divPrincipal = event.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode;
@@ -298,13 +308,54 @@ const ProvaEspecifica = () => {
         return assuntoEncontrado;
     };
 
+    const pegaValoresAssuntoParaEnviarQuestoes = () => {
+        const assunto = retornaValoresAssunto();
+
+        if (assunto) {
+            setModalQuestoesIsOpen(true);
+            setIdAssunto(assunto.id);
+        } else {
+            alert("Escolha um assunto para adicionar questões.");
+        }
+    }
+    const adicionarQuestoesAoAssunto = (dadosQuestao) => {
+        try {
+            const dadosParaEnviarQuestoesParaApi = { idProva: prova.id, idMateria: idMateriaParaAddAssunto, idAssunto: idAssunto, questao: dadosQuestao };
+            
+            questoesService.adicionaQuestao(dadosParaEnviarQuestoesParaApi).then(r => {
+                setModalQuestoesIsOpen(false);
+                setProva(prevState => ({
+                    ...prevState,
+                    listaDeMaterias: prova.listaDeMaterias.map(materia =>
+                        materia.id === idMateriaParaAddAssunto
+                           ? {
+                               ...materia,
+                                listaDeAssuntos: materia.listaDeAssuntos.map(assunto =>
+                                    assunto.id === idAssunto
+                                       ? {
+                                           ...assunto,
+                                            idQuestoes: [...assunto.idQuestoes, r.id]
+                                        }
+                                        : assunto
+                                )
+                            }
+                            : materia
+                    )
+                }))
+            });
+        } catch (error) {
+            console.error(error);
+        }
+        
+    }
+
     return (
         <>
             <Cabecalho />
             <MainEstilizada>
                 <SectionProvasEstilizada>
                     <h1>Prova: {prova.titulo}</h1>
-                    <p style={{fontSize: "20px"}}>Data da prova: {dataService.transformarDataEmString(prova.data)}</p>
+                    <p style={{ fontSize: "20px" }}>Data da prova: {dataService.transformarDataEmString(prova.data)}</p>
                     <DivEstilizadaProvaEspecífica>
                         <span>
                             <BotaoEstilizado onClick={openModal}>
@@ -344,6 +395,14 @@ const ProvaEspecifica = () => {
                     idMateria={idMateriaParaAddAssunto}
                     retornaValoresAssunto={retornaValoresAssunto}
                     aoEnviar={alterarAssunto}
+                />
+                <ModalAdicionarQuestoes
+                    modalIsOpen={modalQuestoesIsOpen}
+                    closeModal={closeModalQuestoes}
+                    prova={prova}
+                    idMateria={idMateriaParaAddAssunto}
+                    adicionarQuestoesAoAssunto={adicionarQuestoesAoAssunto}
+
                 />
             </MainEstilizada>
         </>
