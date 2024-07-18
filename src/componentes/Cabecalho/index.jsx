@@ -70,11 +70,6 @@ const Cabecalho = () => {
                             </NavLink>
                         </li>
                         <li>
-                            <NavLink to="/home">
-                                Questões
-                            </NavLink>
-                        </li>
-                        <li>
                             <a onClick={deslogar}>
                                 Sair
                             </a>

@@ -85,4 +85,15 @@ export default class ProvasService {
         }
     }
 
+    async buscaMediaQuestoes (idProva) {
+        try {
+            const response = await this.axios.get(`media-questoes/${idProva}`, this.userService.getHeaderWithTokenFromLocalStorage());
+            return response;
+
+        } catch (error) {
+            return error;
+        }
+
+    }
+
 }

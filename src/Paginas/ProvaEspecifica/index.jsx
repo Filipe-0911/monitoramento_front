@@ -361,35 +361,31 @@ const ProvaEspecifica = () => {
     }
 
     const editarMateria = (dados) => {
-
         const dadosParaEnvioAlteracaoMateria = {
             idProva: prova.id,
             idMateria: idMateriaParaAddAssunto,
             novosDadosMateria: dados
-        }
+        };
 
         try {
             materiasService.editarMateria(dadosParaEnvioAlteracaoMateria)
                 .then(response => {
+                    console.log(response);
                     setProva(prevProva => ({
                         ...prevProva,
                         listaDeMaterias: prevProva.listaDeMaterias.map(materia =>
                             materia.id === idMateriaParaAddAssunto
-                                ? {
-                                    ...materia,
-                                    nome: response.nome
-                                } : null
+                                ? { ...materia, nome: response.nome }
+                                : materia
                         )
                     }));
                 })
-                .catch(error => console.log(error))
-                .finally(() => {
-                    closeModalEditarMateria();
-                });
+                .catch(error => console.error(error))
+                .finally(() => closeModalEditarMateria());
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
-    }
+    };
 
     return (
         <>

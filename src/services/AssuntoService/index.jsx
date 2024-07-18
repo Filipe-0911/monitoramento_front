@@ -24,6 +24,16 @@ export default class AssuntoService {
         }
     }
 
+    async buscaAssuntoEspecifico(idProva, idMateria, idAssunto) {
+        try {
+            const { data } = await this.axios.get(`/provas/${idProva}/materias/${idMateria}/assuntos/${idAssunto}`, this.userService.getHeaderWithTokenFromLocalStorage());
+            return data;
+
+        } catch (error) {
+            return error;
+        }
+    }
+
     async adicionaAssunto(assunto) {
         try {
             const { idProva, nome, quantidadePdf, idMateria } = assunto;
@@ -61,5 +71,21 @@ export default class AssuntoService {
             return error;
         }
     }
+
+    async adicionarComentarios(dadosParaAdicionarComentarios) {
+        const { idProva, idMateria, idAssunto, comentarios } = dadosParaAdicionarComentarios
+        console.log(comentarios)
+        try {
+            const response = await this.axios.post(`/provas/${idProva}/materias/${idMateria}/assuntos/${idAssunto}/comentarios`, JSON.stringify({
+                comentarios: comentarios
+            }), this.userService.getHeaderWithTokenFromLocalStorage());
+            return response.data;
+
+        } catch (error) {
+            return error;
+        }
+    }
+
+
 
 }

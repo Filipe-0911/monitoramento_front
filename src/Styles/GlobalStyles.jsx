@@ -15,7 +15,10 @@ const GlobalStyle = createGlobalStyle`
         flex-direction: column;
         height: 100vh;
         min-width: 100vw;
-        /* background-color: #79717A; */
+        
+        h2 {
+            text-align: center;
+        }
     }
 `
 

@@ -5,6 +5,8 @@ import styled from "styled-components";
 
 import { FaPencilAlt, FaQuestion } from "react-icons/fa";
 import { MdCancel, MdOutlineAddToPhotos } from "react-icons/md";
+import { TbListDetails } from "react-icons/tb";
+import { useNavigate } from "react-router-dom";
 
 const LiAcorddionEstilizado = styled.li`
     display: flex;
@@ -19,8 +21,13 @@ const LiAcorddionEstilizado = styled.li`
 const SectionBotoesCrudAccordion = styled.section`
     display: flex;
     gap: 1em;
-    @media (max-width: 562px) {
+    
+    @media (max-width: 820px) { 
+        max-width: 346px;
         flex-direction: column;
+    }
+    @media (max-width: 562px) {
+        
     }
 `
 
@@ -30,19 +37,22 @@ const SectionDadosDoAssuntoEstilizado = styled.section`
 
     h5 {
         font-size: 16px;
+        max-width: 480px;
+        
     }
     
     @media (max-width: 820px) {
+        
         h5, p {
+            padding: 1em;
             text-align: center;
         }
-        max-width: 200px;
         gap: 1em;
     }
 `
 
 export default function AccordionAssunto({ prova, capturaCliqueBotaoUsuario, excluirMateria }) {
-
+    const navigate = useNavigate()
     return (
         prova.listaDeMaterias.map(materia => {
             return (
@@ -63,6 +73,19 @@ export default function AccordionAssunto({ prova, capturaCliqueBotaoUsuario, exc
                                         <p>
                                             Questões feitas: {assunto.idQuestoes.length}
                                         </p>
+
+                                        {assunto.comentarios
+                                            ?
+                                            <p>
+                                               Resumo: Possui resumo
+                                            </p>
+                                            :
+                                            <p>
+                                                Resumo: Crie um resumo em <span style={{ color: 'red' }}>Ver Detalhes</span>
+                                            </p>
+
+                                        }
+
                                     </SectionDadosDoAssuntoEstilizado>
                                     <SectionBotoesCrudAccordion>
                                         <BotaorCard
@@ -88,6 +111,14 @@ export default function AccordionAssunto({ prova, capturaCliqueBotaoUsuario, exc
                                         >
                                             <FaQuestion size={15} color="red" />
                                             Adicionar Questão
+                                        </BotaorCard>
+                                        <BotaorCard
+                                            onClick={() => navigate(`/provas/${prova.id}/materias/${materia.id}/assuntos/${assunto.id}`)}
+                                            $type="adicionar"
+                                            name="detalhes_assunto"
+                                        >
+                                            <TbListDetails size={15} color="red" />
+                                            Ver detalhes
                                         </BotaorCard>
                                     </SectionBotoesCrudAccordion>
                                 </LiAcorddionEstilizado>
