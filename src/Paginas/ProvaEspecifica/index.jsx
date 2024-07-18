@@ -20,6 +20,7 @@ import AssuntoService from "../../services/AssuntoService";
 import ModalEditarAssuntos from "./ModalEditarAssuntos";
 import ModalAdicionarQuestoes from "./ModalAdicionarQuestoes";
 import QuestoesService from "../../services/QuestoesService";
+import ModalEditarMateria from "./ModalEditarMateria";
 
 export const DivBotoesCrudMateria = styled.div`
     display: flex;
@@ -72,6 +73,7 @@ const ProvaEspecifica = () => {
     const [idAssunto, setIdAssunto] = useState(null);
     const [modalEditarAssuntoIsOpen, setModalEditarAssuntoIsOpen] = useState(false);
     const [modalQuestoesIsOpen, setModalQuestoesIsOpen] = useState(false);
+    const [modalEditarMateriaIsOpen, setModalEditarMateriaIsOpen] = useState(false);
 
     const excluirMateria = (idMateria) => {
         materiasService.deletaMateria(prova.id, idMateria)
@@ -139,8 +141,11 @@ const ProvaEspecifica = () => {
             case "editar_assunto":
                 setModalEditarAssuntoIsOpen(true);
                 break;
-            case "adicionar_questao" :
+            case "adicionar_questao":
                 pegaValoresAssuntoParaEnviarQuestoes()
+                break;
+            case "editar_materia":
+                setModalEditarMateriaIsOpen(true);
                 break;
             default:
                 break;
@@ -168,6 +173,10 @@ const ProvaEspecifica = () => {
     const closeModalQuestoes = () => {
         setModalQuestoesIsOpen(false);
     };
+
+    const closeModalEditarMateria = () => {
+        setModalEditarMateriaIsOpen(false);
+    }
 
     const alterarAssunto = (assuntoAlterado) => {
         try {
@@ -202,6 +211,7 @@ const ProvaEspecifica = () => {
 
     const handleChange = (event) => {
         const { name, value } = event.target;
+
         setForm(prevForm => {
             const updatedForm = { ...prevForm, [name]: value };
             aoDigitar(updatedForm);
@@ -256,6 +266,7 @@ const ProvaEspecifica = () => {
         let nomeBotao = event.target.name;
         let divPrincipal = event.target.parentNode.parentNode;
         let idMateria;
+        console.log(event.target.name)
 
         if (event.target.localName === "path") {
             // console.log("clicou no path")
@@ -321,19 +332,19 @@ const ProvaEspecifica = () => {
     const adicionarQuestoesAoAssunto = (dadosQuestao) => {
         try {
             const dadosParaEnviarQuestoesParaApi = { idProva: prova.id, idMateria: idMateriaParaAddAssunto, idAssunto: idAssunto, questao: dadosQuestao };
-            
+
             questoesService.adicionaQuestao(dadosParaEnviarQuestoesParaApi).then(r => {
                 setModalQuestoesIsOpen(false);
                 setProva(prevState => ({
                     ...prevState,
                     listaDeMaterias: prova.listaDeMaterias.map(materia =>
                         materia.id === idMateriaParaAddAssunto
-                           ? {
-                               ...materia,
+                            ? {
+                                ...materia,
                                 listaDeAssuntos: materia.listaDeAssuntos.map(assunto =>
                                     assunto.id === idAssunto
-                                       ? {
-                                           ...assunto,
+                                        ? {
+                                            ...assunto,
                                             idQuestoes: [...assunto.idQuestoes, r.id]
                                         }
                                         : assunto
@@ -346,7 +357,38 @@ const ProvaEspecifica = () => {
         } catch (error) {
             console.error(error);
         }
-        
+
+    }
+
+    const editarMateria = (dados) => {
+
+        const dadosParaEnvioAlteracaoMateria = {
+            idProva: prova.id,
+            idMateria: idMateriaParaAddAssunto,
+            novosDadosMateria: dados
+        }
+
+        try {
+            materiasService.editarMateria(dadosParaEnvioAlteracaoMateria)
+                .then(response => {
+                    setProva(prevProva => ({
+                        ...prevProva,
+                        listaDeMaterias: prevProva.listaDeMaterias.map(materia =>
+                            materia.id === idMateriaParaAddAssunto
+                                ? {
+                                    ...materia,
+                                    nome: response.nome
+                                } : null
+                        )
+                    }));
+                })
+                .catch(error => console.log(error))
+                .finally(() => {
+                    closeModalEditarMateria();
+                });
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return (
@@ -403,6 +445,11 @@ const ProvaEspecifica = () => {
                     idMateria={idMateriaParaAddAssunto}
                     adicionarQuestoesAoAssunto={adicionarQuestoesAoAssunto}
 
+                />
+                <ModalEditarMateria
+                    modalIsOpen={modalEditarMateriaIsOpen}
+                    closeModal={closeModalEditarMateria}
+                    editarMateria={editarMateria}
                 />
             </MainEstilizada>
         </>

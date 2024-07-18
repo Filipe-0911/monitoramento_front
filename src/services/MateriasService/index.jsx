@@ -56,4 +56,15 @@ export default class MateriasService {
         }
     }
 
+    async editarMateria(dados) {
+        const {idProva, idMateria, novosDadosMateria } = dados;
+        try {
+            const response = await this.axios.put(`/provas/${idProva}/materias/${idMateria}`, novosDadosMateria, this.userService.getHeaderWithTokenFromLocalStorage());
+            return response.data;
+            
+        } catch (error) {
+            return error;
+        }
+    }
+
 }

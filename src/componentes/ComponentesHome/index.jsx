@@ -67,6 +67,8 @@ export const BotaorCard = styled.button`
     cursor: pointer;
 
     @media (max-width: 562px) {
+        justify-content: center;
+        gap: 0.5em;
         font-size: 16px;
     }
 `;
