@@ -14,21 +14,21 @@ const InputQuestoes = ({ input, onChange, dadosFormulario }) => {
                 name={input.name}
                 placeholder={input.placeholder}
                 defaultValue={dadosFormulario.dataPreenchimento}
-                />
+            />
             <label>Questões respondidas</label>
             <CampoForm
                 type="number"
                 onChange={onChange}
                 name={`questoesFeitas`}
                 placeholder="Digite o número de questões respondidas"
-                />
+            />
             <label>Questões corretas</label>
             <CampoForm
                 type="number"
                 onChange={onChange}
                 name={`questoesAcertadas`}
                 placeholder="Digite o número de questões corretas"
-                />
+            />
         </>
     );
 }
@@ -61,7 +61,10 @@ export default function FormAdicionarQuestoes({ prova, idMateria, adicionaQuesta
                     dadosFormulario={formularioAdicionarQuestoes}
                 />
 
-                <BotaoEstilizado onClick={() => adicionarQuestoesAoAssunto(formularioAdicionarQuestoes)}>
+                <BotaoEstilizado
+                    disabled={false}
+                    onClick={() => adicionarQuestoesAoAssunto(formularioAdicionarQuestoes)}
+                >
                     Adicionar
                 </BotaoEstilizado>
 

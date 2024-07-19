@@ -183,7 +183,7 @@ const Provas = () => {
                     </DivEstatisticasEstilizada>
                     <DivBotaoAdicionarEstilizada>
                         <span>
-                            <Botao onClick={(e) => openModal(e)} name="Adicionar">
+                            <Botao disabled={false} onClick={(e) => openModal(e)} name="Adicionar">
                                 Adicionar Provas
                             </Botao>
                         </span>

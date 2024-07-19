@@ -27,7 +27,7 @@ const SectionBotoesCrudAccordion = styled.section`
         flex-direction: column;
     }
     @media (max-width: 562px) {
-        
+        width: 50%;
     }
 `
 
@@ -37,22 +37,28 @@ const SectionDadosDoAssuntoEstilizado = styled.section`
 
     h5 {
         font-size: 16px;
-        max-width: 480px;
-        
+        max-width: 480px;  
     }
     
     @media (max-width: 820px) {
-        
         h5, p {
             padding: 1em;
             text-align: center;
+            width: 100%;
         }
         gap: 1em;
+    }
+
+    @media (max-width: 562px) {
+        h5, p {
+            font-size: 14px;
+            width: 100%;
+        }
     }
 `
 
 export default function AccordionAssunto({ prova, capturaCliqueBotaoUsuario, excluirMateria }) {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     return (
         prova.listaDeMaterias.map(materia => {
             return (

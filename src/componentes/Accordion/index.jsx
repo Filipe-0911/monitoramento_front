@@ -82,7 +82,9 @@ export const DivBotoesCrudEstilizado = styled.div`
     margin-bottom: 1em;
 
     @media (max-width: 562px) {
-        justify-content: space-between
+        flex-direction: column;
+        gap: 1em;
+        align-items: center;
     }
 `;
 

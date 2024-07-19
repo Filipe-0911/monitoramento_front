@@ -21,6 +21,10 @@ const SectionDetalhamentoAssuntoEstilizada = styled.section`
     -webkit-box-shadow: 30px 29px 25px 0px rgba(0,0,0,0.6);
     -moz-box-shadow: 30px 29px 25px 0px rgba(0,0,0,0.6);
     box-shadow: 30px 29px 25px 0px rgba(0,0,0,0.6);
+
+    @media (max-width: 820px) {
+        width: 100%;
+    }
 `
 const FormularioDeAdicaoDeComentariosAoAssunto = styled.form`
     display: flex;
@@ -35,6 +39,11 @@ const FormularioDeAdicaoDeComentariosAoAssunto = styled.form`
         font-size: 24px;
         color: #6a6a6a;
         font-weight: bold;
+    }
+
+    @media (max-width: 820px) {
+        padding: 0;
+        width: 100%;
     }
 `
 

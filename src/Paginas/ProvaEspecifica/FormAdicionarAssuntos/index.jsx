@@ -55,25 +55,11 @@ export default function FormAdicionarAssuntos({ prova, idMateria, adicionaAssunt
                     onChange={handleChanger}
                 />
 
-                <BotaoEstilizado onClick={adicionarAssunto}>
+                <BotaoEstilizado disabled={false} onClick={adicionarAssunto}>
                     Adicionar
                 </BotaoEstilizado>
 
             </FormEstilizado>
-            {/* <section style={{ display: 'flex', justifyContent: 'flex-end', margin: '0 1em 1em 0' }}>
-                <BotaorCard
-                    name="adicionar"
-                    $type="adicionar"
-                    onClick={() => adicionaInputDeAssunto()}
-                >
-                    <MdOutlineAddToPhotos
-                        id="adicionar"
-                        size={15}
-                        style={{ cursor: 'pointer' }}
-                    />
-                    Adicionar Assuntos
-                </BotaorCard>
-            </section> */}
         </>
     );
 }

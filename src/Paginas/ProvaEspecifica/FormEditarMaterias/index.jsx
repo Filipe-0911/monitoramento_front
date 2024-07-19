@@ -21,6 +21,7 @@ const FormEditarMaterias = ({ editarMateria }) => {
                     placeholder="Nome da matéria"
                 />
                 <BotaoEstilizado
+                    disabled={dadosFormularioEditarMateria.nome.length > 0}
                     onClick={() => editarMateria(dadosFormularioEditarMateria)}>
                     Editar Matéria
                 </BotaoEstilizado>

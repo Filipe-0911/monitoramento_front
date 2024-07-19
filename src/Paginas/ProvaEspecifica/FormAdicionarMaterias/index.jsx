@@ -41,6 +41,7 @@ const FormAdicionarMaterias = ({ quantidadeDeInputs, adicionaMateria, handleChan
                     })
                 }
                 <BotaoEstilizado
+                    disabled={false}
                     onClick={adicionaMateria}>
                     Adicionar
                 </BotaoEstilizado>

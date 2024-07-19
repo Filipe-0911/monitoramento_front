@@ -34,8 +34,8 @@ export const DivEstilizadaHeader = styled.div`
     position: absolute;
     left: 0;
     top:0;
-    border: 2px solid #36BFB1;
-    box-shadow: 2px 2px 2px #36BFB1;
+    border: 1px solid transparent;
+    box-shadow: 5px 5px 5px 1px rgba(255,255,255,0.1);
     background-color: #1F2024;
     border-radius: 5px;
     display: flex;
@@ -73,8 +73,11 @@ export const NavEstilizado = styled.nav`
             font-size: 24px;
             cursor: pointer;
             color: #fff;
+            transition: transform .2s;
+
             &:hover {
                 text-decoration: underline;
+                transform: translate(0, -0.8rem);
             }
         }
     }

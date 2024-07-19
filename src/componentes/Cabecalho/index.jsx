@@ -16,11 +16,11 @@ import UserService from "../../services/Usuario";
 
 
 const Cabecalho = () => {
+    const navigate = useNavigate();
     const nomeUsuario = JSON.parse(localStorage.getItem('nome'));
+    const usuarioService = new UserService();
     const [ primeiroNome ] = nomeUsuario.split(" ");
 
-    const usuarioService = new UserService();
-    const navigate = useNavigate();
     const [menuEscondido, setMenuEscondido] = useState(false);
 
     function deslogar() {

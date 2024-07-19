@@ -21,6 +21,7 @@ import ModalEditarAssuntos from "./ModalEditarAssuntos";
 import ModalAdicionarQuestoes from "./ModalAdicionarQuestoes";
 import QuestoesService from "../../services/QuestoesService";
 import ModalEditarMateria from "./ModalEditarMateria";
+import GraficosRendimentoAssuntos from "../../componentes/GraficosRendimentoAssuntos";
 
 export const DivBotoesCrudMateria = styled.div`
     display: flex;
@@ -28,6 +29,9 @@ export const DivBotoesCrudMateria = styled.div`
     margin-bottom: 1em;
 
     @media (max-width: 562px) {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5em;
         justify-content: space-between;
     }
 `;
@@ -266,7 +270,6 @@ const ProvaEspecifica = () => {
         let nomeBotao = event.target.name;
         let divPrincipal = event.target.parentNode.parentNode;
         let idMateria;
-        console.log(event.target.name)
 
         if (event.target.localName === "path") {
             // console.log("clicou no path")
@@ -370,7 +373,6 @@ const ProvaEspecifica = () => {
         try {
             materiasService.editarMateria(dadosParaEnvioAlteracaoMateria)
                 .then(response => {
-                    console.log(response);
                     setProva(prevProva => ({
                         ...prevProva,
                         listaDeMaterias: prevProva.listaDeMaterias.map(materia =>
@@ -396,11 +398,12 @@ const ProvaEspecifica = () => {
                     <p style={{ fontSize: "20px" }}>Data da prova: {dataService.transformarDataEmString(prova.data)}</p>
                     <DivEstilizadaProvaEspecífica>
                         <span>
-                            <BotaoEstilizado onClick={openModal}>
+                            <BotaoEstilizado disabled={false} onClick={openModal}>
                                 Adicionar Materias
                             </BotaoEstilizado>
                         </span>
                     </DivEstilizadaProvaEspecífica>
+                    <GraficosRendimentoAssuntos prova={prova}/>
                     <AccordionAssunto
                         prova={prova}
                         excluirMateria={excluirMateria}

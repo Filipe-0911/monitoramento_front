@@ -64,7 +64,13 @@ export const BotaorCard = styled.button`
     color: black;
     border-radius: 5px;
     font-size: 18px;
+    transition: transform .2s;
     cursor: pointer;
+
+    &:hover {
+        box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+        transform: translate(0, -0.5rem);
+    }
 
     @media (max-width: 820px) {
         min-width: 200px;
@@ -72,8 +78,9 @@ export const BotaorCard = styled.button`
     }
 
     @media (max-width: 562px) {
+        min-width: 130px;
         justify-content: center;
-        max-width: 140px;
+        width: 100%;
         gap: 0.5em;
         font-size: 16px;
     }
