@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const ContainerTarefas = styled.section`
     margin: 2em 0;
-    max-width: 70vw;
+    max-width: 70%;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
@@ -60,8 +60,8 @@ export const BotaorCard = styled.button`
     gap: 5px;
     padding: 0.5em;
     border: none;
-    background-color: ${(props) => (props.$type === "concluir" ? "#44803F" : props.$type === "excluir" ? "#FF5A33" : props.$type === "editar" ? "#DBF227" : props.$type === "adicionar" ? "#3CA6A6" : props.$type === "detalhar" ? "#F28705" : "")};
-    color: black;
+    background-color: ${(props) => (props.$type === "concluir" ? "#42AB84" : props.$type === "excluir" ? "#F36A20" : props.$type === "editar" ? "#FAA800" : props.$type === "adicionar" ? "#3CA6A6" : props.$type === "detalhar" ? "#0087B6" : props.$type === "questao" ? "#01238E" : "")};
+    color: white;
     border-radius: 5px;
     font-size: 18px;
     transition: transform .2s;
@@ -80,7 +80,7 @@ export const BotaorCard = styled.button`
     @media (max-width: 562px) {
         min-width: 130px;
         justify-content: center;
-        width: 100%;
+        /* width: 100%; */
         gap: 0.5em;
         font-size: 16px;
     }

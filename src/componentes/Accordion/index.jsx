@@ -58,22 +58,6 @@ export const AccordionBodyEstilizado = styled.div`
         padding: 5px 0px;
     ` : "")}
     
-    li {
-        color: black;
-        text-align: left;
-        padding: 1em 0;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-
-        p {
-            font-size: 16px;
-        }
-
-        h5 {
-            font-size: 20px;
-        }
-    }
 `
 
 export const DivBotoesCrudEstilizado = styled.div`

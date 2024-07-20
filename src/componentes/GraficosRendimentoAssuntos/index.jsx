@@ -3,6 +3,7 @@ import ProvasService from "../../services/Provas";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Accordion from "../Accordion";
+import TabelaDadosParaMobile from "./TabelaDadosParaMobile";
 
 const SectionGraficoResponsivaEstilizada = styled.section`
     width: 100%;
@@ -17,13 +18,23 @@ const SectionGraficoResponsivaEstilizada = styled.section`
 `
 const GraficosRendimentoAssuntos = ({ prova }) => {
     const provasService = new ProvasService();
+    const [mediaQuestoes, setMediaQuestoes] = useState([]);
+    const [dadosObtidosDaApi, setDadosObtidosDaApi] = useState([]);
+    const [windowSize, setWindowSize] = useState(1200);
 
-    const [series, setSeries] = useState([]);
-
+    window.addEventListener('resize', () => {
+        if (windowSize.innerWidth < 1200) {
+            setWindowSize(1200);    
+        } else {
+            setWindowSize(window.innerWidth);
+        }
+    })
+    console.log(windowSize)
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await provasService.buscaMediaQuestoes(prova.id);
+                setDadosObtidosDaApi(response);
                 const dataByName = {};
 
                 response.forEach(questao => {
@@ -44,7 +55,7 @@ const GraficosRendimentoAssuntos = ({ prova }) => {
                     });
                 });
 
-                const formattedSeries = Object.keys(dataByName).flatMap(nome => [
+                const formattedMediaQuestoes = Object.keys(dataByName).flatMap(nome => [
                     {
                         name: `${nome} - Porcentagem`,
                         type: 'line',
@@ -52,7 +63,7 @@ const GraficosRendimentoAssuntos = ({ prova }) => {
                     },
                 ]);
 
-                setSeries(formattedSeries);
+                setMediaQuestoes(formattedMediaQuestoes);
             } catch (error) {
                 console.log(error);
             }
@@ -76,12 +87,15 @@ const GraficosRendimentoAssuntos = ({ prova }) => {
         <Accordion
             titulo={"Desempenho da prova " + prova.titulo}
         >
+            {mediaQuestoes.length > 0 ? 
+            <TabelaDadosParaMobile dadosPorcentagem={dadosObtidosDaApi} />
+            : null}
             <SectionGraficoResponsivaEstilizada>
                 <ReactApexChart
                     options={options}
-                    series={series}
+                    series={mediaQuestoes}
                     type="line"
-                    width={1000}
+                    width={ windowSize - 700 }
                     height={480}
                 />
             </SectionGraficoResponsivaEstilizada>

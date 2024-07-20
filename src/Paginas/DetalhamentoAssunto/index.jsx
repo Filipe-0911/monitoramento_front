@@ -6,6 +6,7 @@ import AssuntoService from "../../services/AssuntoService";
 import { useEffect, useState } from "react";
 import TextAreaEstilizado from "../../componentes/TextAreaEstilizado";
 import styled from "styled-components";
+import Footer from "../../componentes/Footer";
 
 const SectionDetalhamentoAssuntoEstilizada = styled.section`
     width: 70%;
@@ -126,6 +127,7 @@ const DetalhamentoAssunto = () => {
                 </SectionDetalhamentoAssuntoEstilizada>
 
             </MainEstilizada>
+            <Footer />
         </>
     );
 

@@ -22,7 +22,7 @@ const Login = () => {
             response ? navigate("/home") : console.log("Login failed", response);
             setLoading(false);
         } catch (error) {
-            alert(error.message)
+            alert(error.response.data)
         }
     }
 

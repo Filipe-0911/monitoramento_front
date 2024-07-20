@@ -3,7 +3,6 @@ import Cabecalho from "../../componentes/Cabecalho";
 import MainEstilizada from "../../componentes/Main";
 import ProvasService from "../../services/Provas";
 import DataService from "../../services/DataService";
-import { LiAcorddionEstilizado } from "../../componentes/Accordion/ComponentesAccordionAux";
 import { BotaorCard } from "../../componentes/ComponentesHome";
 import { MdCancel } from "react-icons/md";
 import { FaPencilAlt } from "react-icons/fa";
@@ -16,6 +15,23 @@ import CampoForm from "../../componentes/CampoForm";
 import { useNavigate } from "react-router-dom";
 import Accordion from "../../componentes/Accordion";
 import { DivBotoesCrudEstilizado } from "../../componentes/Accordion";
+import Footer from "../../componentes/Footer";
+
+const LiEstilizadoAccordionProvas = styled.li`
+    display: flex;
+    gap: 1em;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+    padding: 1em;
+    
+    h5{
+        font-size: 18px;
+    }
+    p {
+        font-size: 16px;
+    }
+`
 
 export const SectionProvasEstilizada = styled.section`
     width: 70%;
@@ -192,26 +208,26 @@ const Provas = () => {
                         return (
                             <Accordion key={prova.id} titulo={prova.titulo}>
                                 <ul>
-                                    <LiAcorddionEstilizado>
+                                    <LiEstilizadoAccordionProvas>
                                         <h5>Data da prova:</h5>
                                         <p>{new DataService().transformarDataEmString(prova.dataDaProva)}</p>
-                                    </LiAcorddionEstilizado>
-                                    <LiAcorddionEstilizado>
+                                    </LiEstilizadoAccordionProvas>
+                                    <LiEstilizadoAccordionProvas>
                                         <h5>Quantidade de matérias:</h5>
                                         <p>{prova.listaDeMaterias?.length}</p>
-                                    </LiAcorddionEstilizado>
-                                    <LiAcorddionEstilizado>
+                                    </LiEstilizadoAccordionProvas>
+                                    <LiEstilizadoAccordionProvas>
                                         <h5>Quantidade de assunto por prova:</h5>
                                         <p>{somaQuantidadeDeAssuntoPorProva(prova)}</p>
-                                    </LiAcorddionEstilizado>
-                                    <LiAcorddionEstilizado>
+                                    </LiEstilizadoAccordionProvas>
+                                    <LiEstilizadoAccordionProvas>
                                         <h5>Quantidade de PDFS por prova:</h5>
                                         <p>{somaQuantidadeDePDFsPorProva(prova)}</p>
-                                    </LiAcorddionEstilizado>
-                                    <LiAcorddionEstilizado>
+                                    </LiEstilizadoAccordionProvas>
+                                    <LiEstilizadoAccordionProvas>
                                         <h5>Quantidade de questões por prova:</h5>
                                         <p>{somaQuantidadeDeQuestoesPorProva(prova)}</p>
-                                    </LiAcorddionEstilizado>
+                                    </LiEstilizadoAccordionProvas>
                                 </ul>
                                 <DivBotoesCrudEstilizado>
                                     <BotaorCard
@@ -281,6 +297,7 @@ const Provas = () => {
                     </FormEstilizado>
                 </ModalComponent>
             </MainEstilizada>
+            <Footer />
         </>
     );
 }

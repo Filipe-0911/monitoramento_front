@@ -8,12 +8,22 @@ import { MdCancel, MdOutlineAddToPhotos } from "react-icons/md";
 import { TbListDetails } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
 
-const LiAcorddionEstilizado = styled.li`
+export const LiAcorddionEstilizado = styled.li`
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    text-align: left;
+    padding: 1em 0;
+
+    @media (max-width: 820px) {
+        margin: 0;
+
+    }
     @media (max-width: 562px) {
-        align-items: space-between;
-        justify-content: center;
+        align-items: flex-start;
+        justify-content: space-evenly;
         gap: 1em;
     }
 `
@@ -23,8 +33,9 @@ const SectionBotoesCrudAccordion = styled.section`
     gap: 1em;
     
     @media (max-width: 820px) { 
-        max-width: 346px;
         flex-direction: column;
+        justify-content: flex-start;
+        max-width: 346px;
     }
     @media (max-width: 562px) {
         width: 50%;
@@ -34,15 +45,19 @@ const SectionBotoesCrudAccordion = styled.section`
 const SectionDadosDoAssuntoEstilizado = styled.section`
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
 
     h5 {
-        font-size: 16px;
+        font-size: 20px;
         max-width: 480px;  
+    }
+
+    p{
+        font-size: 16px;
     }
     
     @media (max-width: 820px) {
         h5, p {
-            padding: 1em;
             text-align: center;
             width: 100%;
         }
@@ -50,9 +65,12 @@ const SectionDadosDoAssuntoEstilizado = styled.section`
     }
 
     @media (max-width: 562px) {
+        max-width: 50%;
+
         h5, p {
-            font-size: 14px;
-            width: 100%;
+            font-size: 16px !important;
+            word-wrap: break-word;
+            max-width: 100%;
         }
     }
 `
@@ -83,7 +101,7 @@ export default function AccordionAssunto({ prova, capturaCliqueBotaoUsuario, exc
                                         {assunto.comentarios
                                             ?
                                             <p>
-                                               Resumo: Possui resumo
+                                                Resumo: Possui resumo
                                             </p>
                                             :
                                             <p>
@@ -107,12 +125,12 @@ export default function AccordionAssunto({ prova, capturaCliqueBotaoUsuario, exc
                                             onClick={(e) => capturaCliqueBotaoUsuario(e, assunto.id)}
                                             name="editar_assunto"
                                         >
-                                            <FaPencilAlt color="orange" size={15} />
+                                            <FaPencilAlt color="white" size={15} />
                                             Editar Assunto
                                         </BotaorCard>
                                         <BotaorCard
                                             onClick={(e) => capturaCliqueBotaoUsuario(e, assunto.id)}
-                                            $type="adicionar"
+                                            $type="questao"
                                             name="adicionar_questao"
                                         >
                                             <FaQuestion size={15} color="red" />

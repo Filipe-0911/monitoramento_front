@@ -1,5 +1,6 @@
 import BotaoEstilizado from "../../componentes/Botao";
 import Cabecalho from "../../componentes/Cabecalho";
+import Footer from "../../componentes/Footer";
 import MainEstilizada from "../../componentes/Main";
 import { useNavigate } from "react-router-dom";
 
@@ -17,6 +18,7 @@ const PaginaEspecifaNotFound = ({ erro }) => {
                     </BotaoEstilizado>
                 </div>
             </MainEstilizada>
+            <Footer/>
         </>
     );
 }

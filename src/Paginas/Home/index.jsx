@@ -16,6 +16,7 @@ import CardTarefas from "../../componentes/CardTarefas";
 //Services
 import TarefaService from "../../services/Tarefas";
 import DataService from "../../services/DataService";
+import Footer from "../../componentes/Footer";
 
 const Home = () => {
     const tarefaService = new TarefaService();
@@ -131,6 +132,7 @@ const Home = () => {
                         handleChanger={handleChanger} />
                 </ModalComponent>
             </MainEstilizada>
+            <Footer/>
         </>
     );
 }

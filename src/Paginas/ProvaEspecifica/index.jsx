@@ -22,6 +22,7 @@ import ModalAdicionarQuestoes from "./ModalAdicionarQuestoes";
 import QuestoesService from "../../services/QuestoesService";
 import ModalEditarMateria from "./ModalEditarMateria";
 import GraficosRendimentoAssuntos from "../../componentes/GraficosRendimentoAssuntos";
+import Footer from "../../componentes/Footer";
 
 export const DivBotoesCrudMateria = styled.div`
     display: flex;
@@ -451,6 +452,7 @@ const ProvaEspecifica = () => {
                     editarMateria={editarMateria}
                 />
             </MainEstilizada>
+            <Footer/>
         </>
     );
 }
