@@ -20,16 +20,19 @@ const GraficosRendimentoAssuntos = ({ prova }) => {
     const provasService = new ProvasService();
     const [mediaQuestoes, setMediaQuestoes] = useState([]);
     const [dadosObtidosDaApi, setDadosObtidosDaApi] = useState([]);
-    const [windowSize, setWindowSize] = useState(1200);
+    const [windowSize, setWindowSize] = useState(1800);
+    const tamanhoDoGrafico = windowSize - 700;
 
     window.addEventListener('resize', () => {
+        let screenWidth = window.innerWidth;
+        console.log(screenWidth)        
         if (windowSize.innerWidth < 1200) {
             setWindowSize(1200);    
         } else {
             setWindowSize(window.innerWidth);
         }
     })
-    console.log(windowSize)
+    
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -95,7 +98,7 @@ const GraficosRendimentoAssuntos = ({ prova }) => {
                     options={options}
                     series={mediaQuestoes}
                     type="line"
-                    width={ windowSize - 700 }
+                    width={ tamanhoDoGrafico }
                     height={480}
                 />
             </SectionGraficoResponsivaEstilizada>

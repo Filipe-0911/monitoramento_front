@@ -10,15 +10,16 @@ export const ContainerEstilizado = styled.div`
 `;
 
 export const FormEstilizado = styled.form`
-display: flex;
-padding: 3rem;
-flex-direction:column;
-align-items:center;
-background-color: #201d1d;
-border-radius: 5px;
-width: 100%;
-max-width: 450px;
-gap: 30px 0px;
+    position: absulote;
+    display: flex;
+    padding: 3rem;
+    flex-direction:column;
+    align-items:center;
+    background-color: #201d1d;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 450px;
+    gap: 30px 0px;
 
 h1 {
     color: #fff;

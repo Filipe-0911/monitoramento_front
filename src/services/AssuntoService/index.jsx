@@ -86,6 +86,36 @@ export default class AssuntoService {
         }
     }
 
+    async buscaAssuntoPorNome(nomeAssunto) {
+        try {
+            const response = await this.axios.get(`assuntos/${nomeAssunto}`, this.userService.getHeaderWithTokenFromLocalStorage());
+            return response.data;
+
+        } catch (error) {
+            return error;
+        }
+    }
+
+    async buscarTodosOsAssuntosDoUsuario() {
+        try {
+            const { data } = await this.axios.get('/assuntos', this.userService.getHeaderWithTokenFromLocalStorage());
+            
+            if(data.page.totalPages > 1) {
+                let assuntos = new Array();
+                for(let i = 0; i < data.page.totalPages; i++) {
+                    const { data } = await this.axios.get(`/assuntos?page=${i}`, this.userService.getHeaderWithTokenFromLocalStorage());
+                    
+                    assuntos = [...assuntos, data.content];
+                }
+                return assuntos.flat(Infinity);
+            }
+            return data.content;
+
+        } catch (error) {
+            return error;
+        }
+    }
+
 
 
 }

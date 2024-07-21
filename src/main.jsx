@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import GlobalStyle from './Styles/GlobalStyles'
 import Routering from './Routes/routes'
 import Modal from 'react-modal';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 Modal.setAppElement('#root');
 

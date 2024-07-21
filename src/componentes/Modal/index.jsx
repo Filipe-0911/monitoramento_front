@@ -13,12 +13,15 @@ const customStyles = {
     padding: 0,
     border: 'none',
     backgroundColor: '#201d1d',
-    color: '#fff'
+    color: '#fff',
+    zIndex: 1050 // Valor alto para garantir que o modal esteja à frente
   },
   overlay: {
     backgroundColor: 'rgba(0, 0, 0, 0.75)',
+    zIndex: 1040 // Garantindo que o overlay também tenha um z-index alto
   },
 };
+
 
 const ModalComponent = ({ modalIsOpen, closeModal, children }) => {
   return (

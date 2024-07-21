@@ -70,6 +70,11 @@ const Cabecalho = () => {
                             </NavLink>
                         </li>
                         <li>
+                            <NavLink to="/planejador">
+                                Planejamentos
+                            </NavLink>
+                        </li>
+                        <li>
                             <a onClick={deslogar}>
                                 Sair
                             </a>

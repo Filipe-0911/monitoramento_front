@@ -8,6 +8,7 @@ import Home from "../Paginas/Home";
 import Provas from "../Paginas/Provas";
 import ProvaEspecifica from "../Paginas/ProvaEspecifica";
 import DetalhamentoAssunto from "../Paginas/DetalhamentoAssunto";
+import Agendamentos from "../Paginas/Agendamentos";
 
 const Routering = () => {
     return (
@@ -33,6 +34,11 @@ const Routering = () => {
                 <Route path="/provas/:idProva/materias/:idMateria/assuntos/:idAssunto/*" element={
                     <ProtectedRoutes>
                         <DetalhamentoAssunto />
+                    </ProtectedRoutes>
+                } />
+                <Route path="/planejador/*" element={
+                    <ProtectedRoutes>
+                        <Agendamentos />
                     </ProtectedRoutes>
                 } />
             </Routes>
