@@ -1,8 +1,16 @@
-# React + Vite
+# Frontend responsivo para aplicação de Monitoramento de Estudos
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Neste projeto utilizei React com Javascript puro.
 
-Currently, two official plugins are available:
+## Requests
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Os Requests são feitos utilizando a lib AXIOS. Foram criados Services para fazer os requests de cada entidade.
+
+## Componentes
+
+Os Componentes foram criados, em sua maioria, utilizando Styled Components.
+
+## Rotas
+
+Utilizei react-router-dom para criar as rotas e criei uma verificação para renderizar algumas páginas que são privadas. Caso o usuário não esteja autenticado ou o token esteja fora da validade, o usuário é redirecionado para a página de Login.
+As únicas rotas que não requerem autenticação de usuário são: Login e Cadastro.
