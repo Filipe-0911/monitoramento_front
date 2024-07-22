@@ -20,13 +20,12 @@ const GraficosRendimentoAssuntos = ({ prova }) => {
     const provasService = new ProvasService();
     const [mediaQuestoes, setMediaQuestoes] = useState([]);
     const [dadosObtidosDaApi, setDadosObtidosDaApi] = useState([]);
-    const [windowSize, setWindowSize] = useState(1800);
+    const [windowSize, setWindowSize] = useState(window.innerWidth);
     const tamanhoDoGrafico = windowSize - 700;
 
     window.addEventListener('resize', () => {
-        let screenWidth = window.innerWidth;
-        console.log(screenWidth)        
-        if (windowSize.innerWidth < 1200) {
+        let screenWidth = window.innerWidth;       
+        if (screenWidth < 1200) {
             setWindowSize(1200);    
         } else {
             setWindowSize(window.innerWidth);

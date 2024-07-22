@@ -39,21 +39,19 @@ export default function FormularioEventos({ formDefaultValue, setFormEventos, cl
                     [e.target.name]: e.target.value  // Manter o valor como string
                 };
             }
-    
             if (e.target.name === "idAssunto") {
                 return {
                     ...prevForm,
                     [e.target.name]: e.target.value
                 };
             }
-    
             return {
                 ...prevForm,
                 [e.target.name]: e.target.value
             };
         });
     };
-    
+
 
     const defineSeAlteraOuAdiciona = (e) => {
         return formDefaultValue.id === null ? adicionaEvento(e) : alteraEvento(e);
@@ -61,7 +59,7 @@ export default function FormularioEventos({ formDefaultValue, setFormEventos, cl
 
     const adicionaEvento = (e) => {
         e.preventDefault();
-        const { idAssunto, start, end} = formDefaultValue;
+        const { idAssunto, start, end } = formDefaultValue;
         let dadosParaEnvio = {
             idAssunto: idAssunto,
             dadosEvento: {
@@ -72,11 +70,11 @@ export default function FormularioEventos({ formDefaultValue, setFormEventos, cl
         try {
             planejadorService.adicionarEventos(dadosParaEnvio).then(response => {
                 const { id, dataInicio, dataTermino, nomeAssunto } = response;
-                let novoPlanejador = { 
-                    start: dataService.transformaStringDeInputDateTimeLocalEmData(dataInicio), 
-                    end: dataService.transformaStringDeInputDateTimeLocalEmData(dataTermino), 
-                    title: nomeAssunto, 
-                    id: id 
+                let novoPlanejador = {
+                    start: dataService.transformaStringDeInputDateTimeLocalEmData(dataInicio),
+                    end: dataService.transformaStringDeInputDateTimeLocalEmData(dataTermino),
+                    title: nomeAssunto,
+                    id: id
                 };
 
                 setListaDePlanejadores(prevListaPlanejadores => ([
@@ -99,21 +97,20 @@ export default function FormularioEventos({ formDefaultValue, setFormEventos, cl
             planejadorService.alterarEventos({ dadosEvento: { dataInicio: start, dataTermino: end }, idEvento: id })
                 .then((response) => {
                     const { id, dataInicio, dataTermino, nomeAssunto } = response;
-                    setListaDePlanejadores(prevState => prevState.map(planejador => planejador.id === id ? { 
-                        start: new Date(dataInicio), 
-                        end: new Date(dataTermino), 
-                        title: nomeAssunto 
+                    setListaDePlanejadores(prevState => prevState.map(planejador => planejador.id === id ? {
+                        start: new Date(dataInicio),
+                        end: new Date(dataTermino),
+                        title: nomeAssunto
                     } : planejador));
-                    console.log(response)
                 })
                 .catch(err => console.log(err.message));
-            } catch (error) {
-                alert(error.data);
-            } finally {
-                limpaFormEventos();
-                closeModal();
-            }
-        
+        } catch (error) {
+            alert(error.data);
+        } finally {
+            limpaFormEventos();
+            closeModal();
+        }
+
     }
 
     const limpaFormEventos = () => {
@@ -138,7 +135,11 @@ export default function FormularioEventos({ formDefaultValue, setFormEventos, cl
                         ?
                         <>
                             <label>Nome do Assunto</label>
-                            <SelectDeAssuntos options={listaDeAssuntosDoUsuario} value={formDefaultValue} onChange={handleChanger} />
+                            <SelectDeAssuntos
+                                options={listaDeAssuntosDoUsuario}
+                                value={formDefaultValue}
+                                onChange={handleChanger}
+                            />
                         </>
                         : null
                 }

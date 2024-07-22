@@ -65,7 +65,7 @@ export const DivBotoesCrudEstilizado = styled.div`
     justify-content: space-evenly;
     margin-bottom: 1em;
 
-    @media (max-width: 562px) {
+    @media (max-width: 820px) {
         flex-direction: column;
         gap: 1em;
         align-items: center;

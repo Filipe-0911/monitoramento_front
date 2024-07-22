@@ -13,8 +13,8 @@ const Calendario = ({ closeModal, openModal, setFormEventos, setListaDePlanejado
   const handleSelectSlot = ({ start, end, title }) => {
     setFormEventos(prevFormEventos => ({
       ...prevFormEventos,
-      start: start,  // Certifique-se de que isso é um Date
-      end: end,      // Certifique-se de que isso é um Date
+      start: start,  
+      end: end,      
     }));
   
     openModal();
@@ -24,8 +24,8 @@ const Calendario = ({ closeModal, openModal, setFormEventos, setListaDePlanejado
         ...prevState,
         {
           id: 0,
-          start: start,  // Certifique-se de que isso é um Date
-          end: end,      // Certifique-se de que isso é um Date
+          start: start,  
+          end: end,      
           title,
         },
       ]);

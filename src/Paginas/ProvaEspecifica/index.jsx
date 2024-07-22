@@ -30,6 +30,12 @@ export const DivBotoesCrudMateria = styled.div`
     justify-content: space-evenly;
     margin-bottom: 1em;
 
+    @media (max-width: 820px) {
+        flex-direction: column;
+        align-items: center;
+        gap: 1em;
+        justify-content: space-between;
+    }
     @media (max-width: 562px) {
         flex-direction: column;
         align-items: center;
@@ -246,10 +252,6 @@ const ProvaEspecifica = () => {
         setListaDeAssuntos(lista);
         setForm(prevForm => ({ ...prevForm, listaDeAssuntos: lista }));
     };
-
-    // if (isLoading) {
-    //     return <p>Carregando...</p>;
-    // }
 
     if (prova === null) {
         return <PaginaEspecifaNotFound erro="Prova não encontrada" />;

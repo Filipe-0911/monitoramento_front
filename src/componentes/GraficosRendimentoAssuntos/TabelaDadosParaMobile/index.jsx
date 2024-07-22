@@ -24,7 +24,7 @@ const TableEstilizadaParaDadosMediaMobile = styled.table`
         padding: 8px;
     }
 
-    @media (min-width: 820px) {
+    @media (min-width: 821px) {
         display: none;
     }
 

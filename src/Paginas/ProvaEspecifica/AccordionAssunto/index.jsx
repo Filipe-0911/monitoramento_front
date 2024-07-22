@@ -18,7 +18,7 @@ export const LiAcorddionEstilizado = styled.li`
     padding: 1em 0;
 
     @media (max-width: 820px) {
-        margin: 0;
+        margin: auto;
 
     }
     @media (max-width: 562px) {
@@ -31,10 +31,14 @@ export const LiAcorddionEstilizado = styled.li`
 const SectionBotoesCrudAccordion = styled.section`
     display: flex;
     gap: 1em;
+
     
-    @media (max-width: 820px) { 
+    @media (max-width: 1280px) { 
         flex-direction: column;
         justify-content: flex-start;
+        
+    }
+    @media (max-width:820px) {
         max-width: 346px;
     }
     @media (max-width: 562px) {
@@ -57,6 +61,7 @@ const SectionDadosDoAssuntoEstilizado = styled.section`
     }
     
     @media (max-width: 820px) {
+        margin: auto;
         h5, p {
             text-align: center;
             width: 100%;
@@ -66,7 +71,7 @@ const SectionDadosDoAssuntoEstilizado = styled.section`
 
     @media (max-width: 562px) {
         max-width: 50%;
-
+        
         h5, p {
             font-size: 16px !important;
             word-wrap: break-word;

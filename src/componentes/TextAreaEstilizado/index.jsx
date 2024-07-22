@@ -18,6 +18,15 @@ const TextAreaEstilizado = styled.textarea`
         font-size:12px;
         opacity: 0.7;
     }
+
+    @media (max-width:820px) {
+        height: 50vh;
+    }
+
+    @media (max-width: 526px) {
+        font-size: 14px;
+        
+    }
 `
 
 export default TextAreaEstilizado;

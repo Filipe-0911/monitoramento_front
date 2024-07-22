@@ -24,7 +24,11 @@ const SectionDetalhamentoAssuntoEstilizada = styled.section`
     box-shadow: 30px 29px 25px 0px rgba(0,0,0,0.6);
 
     @media (max-width: 820px) {
-        width: 100%;
+        width: 90%;
+        
+    }
+    @media (max-width: 562px) {
+        width: 100%; 
     }
 `
 const FormularioDeAdicaoDeComentariosAoAssunto = styled.form`
@@ -76,12 +80,9 @@ const DetalhamentoAssunto = () => {
 
     const adicionarComentarios = (event) => {
         event.preventDefault();
-        console.log(assunto.comentarios)
         const dadosParaEnvioDeComentario = { idProva: parametros.idProva, idMateria: parametros.idMateria, idAssunto: assunto.id, comentarios: assunto.comentarios}
         try {
             assuntoService.adicionarComentarios(dadosParaEnvioDeComentario).then(response => {
-                console.log(response);
-
                 setAssunto({
                     ...assunto,
                     comentarios: response.comentarios
