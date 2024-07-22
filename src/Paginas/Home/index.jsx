@@ -12,6 +12,7 @@ import Cabecalho from "../../componentes/Cabecalho";
 import ModalComponent from "../../componentes/Modal";
 import FormEstilizadoTarefa from "../../componentes/FormEstilizadoTarefa";
 import CardTarefas from "../../componentes/CardTarefas";
+import Loader from "../../componentes/Loader";
 
 //Services
 import TarefaService from "../../services/Tarefas";
@@ -24,6 +25,7 @@ const Home = () => {
 
     const [tarefas, setTarefas] = useState([]);
     const [modalAberto, setModalAberto] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     const [form, setForm] = useState({
         titulo: "",
@@ -34,7 +36,19 @@ const Home = () => {
     const [adicionarOuAlterar, setAdicionarOuAlterar] = useState("");
 
     useEffect(() => {
-        tarefaService.buscaTarefas().then((tarefas) => setTarefas(tarefas));
+        // setIsLoading(true);
+        try {
+            tarefaService.buscaTarefas().then((tarefas) => {
+                setTarefas(tarefas)
+                setIsLoading(false);
+            });
+
+        } catch (error) {
+            alert(error.message);
+            setIsLoading(false);
+        } finally {
+            setIsLoading(false);
+        }
     }, []);
 
     function openModal(tarefa, event) {
@@ -105,7 +119,7 @@ const Home = () => {
             <Cabecalho />
             <MainEstilizada>
                 <h1>Home</h1>
-                <h2 style={{margin: "0 1em", textAlign: 'center'}}>Visualize abaixo sua lista de tarefas pendentes / a concluir: </h2>
+                <h2 style={{ margin: "0 1em", textAlign: 'center' }}>Visualize abaixo sua lista de tarefas pendentes / a concluir: </h2>
                 <SectionAdicionarTarefa>
                     <h4>Adicionar Tarefa</h4>
                     <BotaorCard name="adicionar" $type="adicionar" onClick={(event) => openModal(null, event)}>
@@ -114,9 +128,22 @@ const Home = () => {
                     </BotaorCard>
                 </SectionAdicionarTarefa>
                 <ContainerTarefas>
-                    {tarefas.map((tarefa, index) => (
-                        <CardTarefas key={index} tarefa={tarefa} concluirTarefa={concluirTarefa} transformarDataEmString={dataService.transformarDataEmString} deletarTarefa={deletarTarefa} openModal={openModal} />
-                    ))}
+                    {
+                        isLoading
+                            ?
+                            <Loader />
+                            :
+                            tarefas.map((tarefa, index) => (
+                                <CardTarefas
+                                    key={index}
+                                    tarefa={tarefa}
+                                    concluirTarefa={concluirTarefa}
+                                    transformarDataEmString={dataService.transformarDataEmString}
+                                    deletarTarefa={deletarTarefa}
+                                    openModal={openModal}
+                                />
+                            ))
+                    }
                 </ContainerTarefas>
 
                 <ModalComponent modalIsOpen={modalAberto} closeModal={closeModal}>
@@ -132,7 +159,7 @@ const Home = () => {
                         handleChanger={handleChanger} />
                 </ModalComponent>
             </MainEstilizada>
-            <Footer/>
+            <Footer />
         </>
     );
 }

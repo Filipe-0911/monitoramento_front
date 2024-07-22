@@ -1,12 +1,12 @@
 import styled from "styled-components";
 
 const MainEstilizada = styled.main`
-    margin: 80px 0;
+    margin-top: 80px;
     max-width: 100vw;
     display: flex;
     align-items: center;
     flex-direction: column;
-    min-height: 76vh;
+    min-height: 82vh;
     gap: 1em;
 
     @media (max-width: 562px) {

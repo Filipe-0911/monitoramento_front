@@ -6,6 +6,7 @@ import styled from "styled-components";
 import ModalEventosCalendario from "../../componentes/Calendario/ModalEventosCalendario";
 import PlanejadorService from "../../services/PlanejadorService";
 import AssuntoService from "../../services/AssuntoService";
+import Loader from "../../componentes/Loader";
 
 const MainCalendarioEstilizada = styled.main`
     display: flex;
@@ -61,6 +62,28 @@ const Agendamentos = () => {
         setModalOpen(false);
     }
 
+    const excluirPlanejamento = async (idEvento) => {
+        try {
+            planejadorService.excluirPlanejamento(idEvento).then(response => {
+                console.log(response.status)
+                setListaDePlanejadores(prevState => prevState.filter(planejador => planejador.id!== idEvento));
+            })
+        } catch (error) {
+            alert(error.message)
+        } finally {
+            closeModal();
+            setFormEventos({
+                id: null,
+                idProva: null,
+                idMateria: null,
+                start: '',
+                end: '',
+                title: '',
+            })
+        }
+    }
+    
+
     return (
         <>
             <Cabecalho />
@@ -68,7 +91,7 @@ const Agendamentos = () => {
                 <h1>Agendamentos</h1>
                 {
                     isLoading ?
-                        <p>Carregando...</p>
+                        <Loader/>
                         :
                         <Calendario
                             closeModal={closeModal}
@@ -87,6 +110,7 @@ const Agendamentos = () => {
                 setListaDePlanejadores={setListaDePlanejadores}
                 listaDePlanejadores={listaDePlanejadores}
                 listaDeAssuntosDoUsuario={listaDeAssuntosDoUsuario}
+                excluirPlanejamento={excluirPlanejamento}
             />
             <Footer />
         </>

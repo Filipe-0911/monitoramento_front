@@ -56,4 +56,13 @@ export default class PlanejadorService {
             throw new Error('Erro ao alterar eventos');
         }
     }
+
+    async excluirPlanejamento(idEvento) {
+        try {
+            const response = await this.axios.delete(`/planejador/especifico/${idEvento}`, this.userService.getHeaderWithTokenFromLocalStorage());
+            return response;
+        } catch (error) {
+            throw new Error('Erro ao excluir eventos');
+        }
+    }
 }

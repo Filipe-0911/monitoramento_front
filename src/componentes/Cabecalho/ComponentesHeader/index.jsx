@@ -8,6 +8,7 @@ export const ImgIconeDoHeaderEstilizado = styled.img`
 
 export const HeaderEstilizado = styled.header`
     position: fixed;
+    z-index: 1000;
     top: 0;
     width: 100vw;
     background-color: rgba(13, 13, 13, 0.95);

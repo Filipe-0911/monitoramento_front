@@ -23,6 +23,7 @@ import QuestoesService from "../../services/QuestoesService";
 import ModalEditarMateria from "./ModalEditarMateria";
 import GraficosRendimentoAssuntos from "../../componentes/GraficosRendimentoAssuntos";
 import Footer from "../../componentes/Footer";
+import Loader from "../../componentes/Loader";
 
 export const DivBotoesCrudMateria = styled.div`
     display: flex;
@@ -246,9 +247,9 @@ const ProvaEspecifica = () => {
         setForm(prevForm => ({ ...prevForm, listaDeAssuntos: lista }));
     };
 
-    if (isLoading) {
-        return <p>Carregando...</p>;
-    }
+    // if (isLoading) {
+    //     return <p>Carregando...</p>;
+    // }
 
     if (prova === null) {
         return <PaginaEspecifaNotFound erro="Prova não encontrada" />;
@@ -395,21 +396,29 @@ const ProvaEspecifica = () => {
             <Cabecalho />
             <MainEstilizada>
                 <SectionProvasEstilizada>
-                    <h1>Prova: {prova.titulo}</h1>
-                    <p style={{ fontSize: "20px" }}>Data da prova: {dataService.transformarDataEmString(prova.data)}</p>
-                    <DivEstilizadaProvaEspecífica>
-                        <span>
-                            <BotaoEstilizado disabled={false} onClick={openModal}>
-                                Adicionar Materias
-                            </BotaoEstilizado>
-                        </span>
-                    </DivEstilizadaProvaEspecífica>
-                    <GraficosRendimentoAssuntos prova={prova}/>
-                    <AccordionAssunto
-                        prova={prova}
-                        excluirMateria={excluirMateria}
-                        capturaCliqueBotaoUsuario={capturaCliqueBotaoUsuario}
-                    />
+                    {
+                        isLoading ?
+                            <Loader />
+                            :
+                            <>
+                                <h1>Prova: {prova.titulo}</h1>
+                                <p style={{ fontSize: "20px" }}>Data da prova: {dataService.transformarDataEmString(prova.data)}</p>
+                                <DivEstilizadaProvaEspecífica>
+                                    <span>
+                                        <BotaoEstilizado disabled={false} onClick={openModal}>
+                                            Adicionar Materias
+                                        </BotaoEstilizado>
+                                    </span>
+                                </DivEstilizadaProvaEspecífica>
+                                <GraficosRendimentoAssuntos prova={prova} />
+                                <AccordionAssunto
+                                    prova={prova}
+                                    excluirMateria={excluirMateria}
+                                    capturaCliqueBotaoUsuario={capturaCliqueBotaoUsuario}
+                                />
+                            </>
+                    }
+
                 </SectionProvasEstilizada>
 
                 <ModalAdicionarMateriasEAssuntos
@@ -452,7 +461,7 @@ const ProvaEspecifica = () => {
                     editarMateria={editarMateria}
                 />
             </MainEstilizada>
-            <Footer/>
+            <Footer />
         </>
     );
 }
