@@ -10,9 +10,8 @@ export const ContainerEstilizado = styled.div`
 `;
 
 export const FormEstilizado = styled.form`
-    position: absulote;
     display: flex;
-    padding: 3rem;
+    padding: 2rem;
     flex-direction:column;
     align-items:center;
     background-color: #201d1d;

@@ -100,7 +100,7 @@ const Agendamentos = () => {
                             setListaDePlanejadores={setListaDePlanejadores}
                             listaDePlanejadores={listaDePlanejadores}
                         /> 
-                }
+                    }
             </MainCalendarioEstilizada>
             <ModalEventosCalendario
                 closeModal={closeModal}
@@ -111,7 +111,7 @@ const Agendamentos = () => {
                 listaDePlanejadores={listaDePlanejadores}
                 listaDeAssuntosDoUsuario={listaDeAssuntosDoUsuario}
                 excluirPlanejamento={excluirPlanejamento}
-            />
+                />
             <Footer />
         </>
     );

@@ -60,7 +60,7 @@ export const BotaorCard = styled.button`
     gap: 5px;
     padding: 0.5em;
     border: none;
-    background-color: ${(props) => (props.$type === "concluir" ? "#42AB84" : props.$type === "excluir" ? "#F36A20" : props.$type === "editar" ? "#FAA800" : props.$type === "adicionar" ? "#3CA6A6" : props.$type === "detalhar" ? "#0087B6" : props.$type === "questao" ? "#01238E" : "")};
+    background-color: ${(props) => (props.$type === "concluir" ? "#42AB84" : props.$type === "excluir" ? "#c01930" : props.$type === "editar" ? "#FAA800" : props.$type === "adicionar" ? "#3CA6A6" : props.$type === "detalhar" ? "#0087B6" : props.$type === "questao" ? "#01238E" : "")};
     color: white;
     border-radius: 5px;
     font-size: 18px;

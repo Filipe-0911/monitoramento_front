@@ -69,17 +69,36 @@ export const NavEstilizado = styled.nav`
         display: flex;
         gap: 20px;
 
-        li a {
-            text-decoration: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: #fff;
-            transition: transform .2s;
+        li {
+            
+            a {
+                position: relative;
+                text-decoration: none;
+                font-size: 24px;
+                cursor: pointer;
+                color: #fff;
+                transition: transform .2s;
+                letter-spacing: 1px;
+                padding: 10px 0;
+            }
 
-            &:hover {
-                text-decoration: underline;
+            a:after {
+                content: '';
+                position: absolute;
+                /* background-color: #ff3c78; */
+                background-color: #3CA6A6;
+                height: 3px;
+                width: 0;
+                left: 0;
+                bottom: -5px;
+                transition: 0.2s;
+            }
+
+            a:hover:after {
+                width: 100%;
                 transform: translate(0, -0.8rem);
             }
+
         }
     }
 
