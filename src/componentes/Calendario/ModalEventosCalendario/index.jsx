@@ -22,7 +22,6 @@ export default function ModalEventosCalendario({ closeModal, modalIsOpen, formDe
                 setAlertError={setAlertError}
                 setAlertSuccess={setAlertSuccess}
             />
-            {console.log(formDefaultValue)}
             {
                 formDefaultValue.id !== null ? 
                 <div style={{display: 'flex', justifyContent: 'center', marginBottom: '1em'}}>
