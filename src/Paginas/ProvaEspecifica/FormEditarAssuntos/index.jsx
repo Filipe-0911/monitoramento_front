@@ -70,7 +70,7 @@ export default function FormEditarAssuntos({ prova, idMateria, retornaValoresAss
                 <BotaoEstilizado 
                 disabled={false}
                 onClick={() => capturaDadosDeAlteracao()}>
-                    Adicionar
+                    Editar
                 </BotaoEstilizado>
 
             </FormEstilizado>

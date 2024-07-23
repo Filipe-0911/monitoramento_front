@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import Accordion from "../../componentes/Accordion";
 import { DivBotoesCrudEstilizado } from "../../componentes/Accordion";
 import Footer from "../../componentes/Footer";
+import Alert from "../../componentes/Alert";
 
 const LiEstilizadoAccordionProvas = styled.li`
     display: flex;
@@ -79,6 +80,7 @@ const Provas = () => {
     const [provas, setProvas] = useState([]);
     const [modalAberto, setModalAberto] = useState(false);
     const [adicionarOuAlterar, setAdicionarOuAlterar] = useState("");
+    const [alerta, setAlerta] = useState({success: false, error:false, message: ""});
     const navigate = useNavigate();
 
     const [form, setForm] = useState({ id: 0, titulo: "", dataDaProva: "" });
@@ -95,6 +97,19 @@ const Provas = () => {
             })
             .catch(erro => console.error(erro));
     }, []);
+
+    const setAlertaSuccess = (msg) => {
+        setAlerta({ success: true, error: false, message: msg })
+        setTimeout(() => {
+            setAlerta({ success: false, error: false, message: "" });
+        }, 5000);
+    };
+    const setAlertaError = (msg) => {
+        setAlerta({ success: false, error: true, message: msg })
+        setTimeout(() => {
+            setAlerta({ success: false, error: false, message: "" });
+        }, 5000);
+    };
 
     const handleChanger = (event) => {
         const { name, value } = event.target;
@@ -126,13 +141,16 @@ const Provas = () => {
     function closeModal() {
         setModalAberto(false);
     }
-    const deletarProva = (id) => {
-        provasService.deletaProva(id)
-            .then((response) => {
-                console.log(response);
+    const deletarProva = async (id) => {
+        try {
+            const response = await provasService.deletaProva(id);
+            if (response.status === 204) {
                 setProvas(provas.filter(prova => prova.id !== id));
-            })
-            .catch(error => console.log(error));
+                setAlertaSuccess("Prova deletada com sucesso!");
+            }
+        } catch (error) {
+            setAlertaError(error.response.data);
+        }
     }
     const somaQuantidadeDeAssuntoPorProva = (prova) => {
         let valorInicial = 0;
@@ -165,23 +183,32 @@ const Provas = () => {
         setModalAberto(true);
     }
 
-    const insereProva = (e) => {
-        setAdicionarOuAlterar("Adicionar");
+    const insereProva = async (e) => {
         e.preventDefault();
-        provasService.adicionaProva(form)
-            .then(response => setProvas([...provas, response]))
-            .catch(error => console.log(error));
+        setAdicionarOuAlterar("Adicionar");
+        try {
+            const response = await provasService.adicionaProva(form);
+            setProvas([...provas, response]);
+            setAlertaSuccess("Prova adicionada com sucesso!");
+        } catch (error) {
+            setAlertaError(error.response.data);
+        } finally {
+            setModalAberto(false);
+        }
+    
 
-        setModalAberto(false);
     }
 
-    const alterarProva = () => {
-        provasService.alteraProva(form)
-            .then(response => {
-                setProvas(provas.map(prova => prova.id === form.id ? { ...prova, ...form } : prova));
-                console.log(response);
-            }).catch(error => console.log(error));
-        setModalAberto(false);
+    const editarProva = async () => {
+        try {
+            const response = await provasService.alteraProva(form);
+            setProvas(provas.map(prova => prova.id === response.id ? { ...prova, ...response } : prova));
+            setAlertaSuccess("Prova alterada com sucesso!");
+        } catch (error) {
+            setAlertaError("Erro ao editar prova.")
+        } finally {
+            setModalAberto(false);
+        }
     }
 
     return (
@@ -287,16 +314,21 @@ const Provas = () => {
                             type="datetime-local"
                             defaultValue={form.dataDaProva}
                         />
-                        <Botao onClick={
+                        <Botao 
+                        onClick={
                             e => adicionarOuAlterar === "Adicionar" ? insereProva(e)
-                                : adicionarOuAlterar === "Editar" ? alterarProva(e) : null
+                                : adicionarOuAlterar === "Editar" ? editarProva(e) : null
                         }
+                        disabled={form.titulo === ""}
                         >
                             {adicionarOuAlterar}
                         </Botao>
                     </FormEstilizado>
                 </ModalComponent>
             </MainEstilizada>
+                    <Alert
+                        dados={alerta}
+                    />
             <Footer />
         </>
     );

@@ -52,8 +52,8 @@ export default class AssuntoService {
     async deletarAssunto(assunto) {
         try {
             const { idProva, idMateria, idAssunto } = assunto;
-            const { data } = await this.axios.delete(`/provas/${idProva}/materias/${idMateria}/assuntos/${idAssunto}`, this.userService.getHeaderWithTokenFromLocalStorage());
-            return data;
+            const response = await this.axios.delete(`/provas/${idProva}/materias/${idMateria}/assuntos/${idAssunto}`, this.userService.getHeaderWithTokenFromLocalStorage());
+            return response;
 
         } catch (error) {
             return error;
@@ -62,8 +62,6 @@ export default class AssuntoService {
     async editarAssunto(dadosAlteracaoAssunto) {
         try {
             const { idProva, idMateria, idAssunto, assunto } = dadosAlteracaoAssunto;
-            console.log(idProva, idMateria, idAssunto)
-
             const { data } = await this.axios.put(`/provas/${idProva}/materias/${idMateria}/assuntos/${idAssunto}`, JSON.stringify(assunto), this.userService.getHeaderWithTokenFromLocalStorage());
             return data;
 
@@ -103,8 +101,7 @@ export default class AssuntoService {
             if(data.page.totalPages > 1) {
                 let assuntos = new Array();
                 for(let i = 0; i < data.page.totalPages; i++) {
-                    const { data } = await this.axios.get(`/assuntos?page=${i}`, this.userService.getHeaderWithTokenFromLocalStorage());
-                    
+                    const { data } = await this.axios.get(`/assuntos?page=${i}`, this.userService.getHeaderWithTokenFromLocalStorage());                    
                     assuntos = [...assuntos, data.content];
                 }
                 return assuntos.flat(Infinity);

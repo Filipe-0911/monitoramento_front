@@ -13,7 +13,7 @@ const PaginaEspecifaNotFound = ({ erro }) => {
             <MainEstilizada>
                 <div>
                     <h1>Página não encontrada...</h1>
-                    <BotaoEstilizado onClick={() => navigate(-1)}>
+                    <BotaoEstilizado onClick={() => navigate("/provas")}>
                         Voltar
                     </BotaoEstilizado>
                 </div>

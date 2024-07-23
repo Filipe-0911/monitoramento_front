@@ -78,7 +78,7 @@ export default class ProvasService {
     async deletaProva(id) {
         try {
             const response = await this.axios.delete(`/provas/${id}`, this.userService.getHeaderWithTokenFromLocalStorage());
-            return response.data
+            return response;
 
         } catch (error) {
             return error;

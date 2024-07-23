@@ -24,6 +24,7 @@ import ModalEditarMateria from "./ModalEditarMateria";
 import GraficosRendimentoAssuntos from "../../componentes/GraficosRendimentoAssuntos";
 import Footer from "../../componentes/Footer";
 import Loader from "../../componentes/Loader";
+import Alert from "../../componentes/Alert";
 
 export const DivBotoesCrudMateria = styled.div`
     display: flex;
@@ -72,9 +73,7 @@ const ProvaEspecifica = () => {
     const parametros = useParams();
     const [prova, setProva] = useState();
     const [isLoading, setIsLoading] = useState(true);
-
-    const [form, setForm] = useState({ idProva: 0, nome: "", listaDeAssuntos: [] });
-    const [listaDeAssuntos, setListaDeAssuntos] = useState([]);
+    const [form, setForm] = useState(null);
 
     const [quantidadeDeInputs, setQuantidadeDeInputs] = useState([]);
     const [acaoDoUsuario, setAcaoDoUsuario] = useState("");
@@ -87,41 +86,7 @@ const ProvaEspecifica = () => {
     const [modalQuestoesIsOpen, setModalQuestoesIsOpen] = useState(false);
     const [modalEditarMateriaIsOpen, setModalEditarMateriaIsOpen] = useState(false);
 
-    const excluirMateria = (idMateria) => {
-        materiasService.deletaMateria(prova.id, idMateria)
-            .then(() => {
-                setProva({
-                    ...prova,
-                    listaDeMaterias: prova.listaDeMaterias.filter(materia => materia.id !== idMateria)
-                });
-            })
-            .catch(erro => console.log(erro));
-    };
-
-    const excluirAssunto = () => {
-        try {
-            let dadosParaExclusaoDoAssunto = { idAssunto: idAssunto, idMateria: idMateriaParaAddAssunto, idProva: prova.id };
-
-            assuntoService.deletarAssunto(dadosParaExclusaoDoAssunto)
-                .then(() => {
-                    setProva({
-                        ...prova,
-                        listaDeMaterias: prova.listaDeMaterias.map(materia =>
-                            materia.id === idMateriaParaAddAssunto
-                                ? { ...materia, listaDeAssuntos: materia.listaDeAssuntos.filter(assunto => assunto.id !== idAssunto) }
-                                : materia
-                        )
-                    });
-                })
-                .catch(error => console.log(error))
-                .finally(() => {
-                    setIdMateriaParaAddAssunto(null);
-                    setIdAssunto(null);
-                });
-        } catch (error) {
-            console.log(error);
-        }
-    };
+    const [alerta, setAlerta] = useState({ success: false, error: false, message: "" });
 
     useEffect(() => {
         provaService.buscaProvaPorId(+parametros.id)
@@ -166,7 +131,7 @@ const ProvaEspecifica = () => {
         setAcaoDoUsuario('');
 
     }, [acaoDoUsuario]);
-
+    
     const openModal = () => {
         setModalMateriaEAssuntoIsOpen(true);
     };
@@ -188,35 +153,83 @@ const ProvaEspecifica = () => {
 
     const closeModalEditarMateria = () => {
         setModalEditarMateriaIsOpen(false);
-    }
+    };
 
-    const alterarAssunto = (assuntoAlterado) => {
+    const setAlertaSuccess = (msg) => {
+        setAlerta({ success: true, error: false, message: msg })
+        setTimeout(() => {
+            setAlerta({ success: false, error: false, message: "" });
+        }, 5000);
+    };
+    const setAlertaError = (msg) => {
+        setAlerta({ success: false, error: true, message: msg })
+        setTimeout(() => {
+            setAlerta({ success: false, error: false, message: "" });
+        }, 5000);
+    };
+    
+    const excluirMateria = async (idMateria) => {
         try {
-            assuntoService.editarAssunto(assuntoAlterado)
-                .then((response) => {
-                    setProva(prevProva => ({
-                        ...prevProva,
-                        listaDeMaterias: prevProva.listaDeMaterias.map(materia =>
-                            materia.id === assuntoAlterado.idMateria
-                                ? {
-                                    ...materia,
-                                    listaDeAssuntos: materia.listaDeAssuntos.map(assunto =>
-                                        assunto.id === response.id
-                                            ? assunto = response
-                                            : assunto
-                                    )
-                                }
-                                : materia
-                        )
-                    }));
-                })
-                .catch(error => console.log(error))
-                .finally(() => {
-                    closeModalEditarAssuntos();
-                });
+            const response = await materiasService.deletaMateria(prova.id, idMateria);
+            setProva({
+                ...prova,
+                listaDeMaterias: prova.listaDeMaterias.filter(materia => materia.id !== idMateria)
+            });
+            setAlertaSuccess("Matéria excluída com sucesso!");
+        } catch (error) {
+            setAlertaError("Erro ao excluir matéria!");
+        }
+
+    };
+
+    const excluirAssunto = async () => {
+        try {
+            let dadosParaExclusaoDoAssunto = { idAssunto: idAssunto, idMateria: idMateriaParaAddAssunto, idProva: prova.id };
+            const response = await assuntoService.deletarAssunto(dadosParaExclusaoDoAssunto);
+            setProva({
+                ...prova,
+                listaDeMaterias: prova.listaDeMaterias.map(materia =>
+                    materia.id === idMateriaParaAddAssunto
+                        ? { ...materia, listaDeAssuntos: materia.listaDeAssuntos.filter(assunto => assunto.id !== idAssunto) }
+                        : materia
+                )
+            });
+            setAlertaSuccess("Assunto excluído com sucesso.");
 
         } catch (error) {
+            setAlertaError("Erro ao excluir: " + error.response?.data);
+        } finally {
+            setIdMateriaParaAddAssunto(null);
+            setIdAssunto(null);
+
+        }
+    };
+
+
+    const alterarAssunto = async (assuntoAlterado) => {
+        try {
+            const response = await assuntoService.editarAssunto(assuntoAlterado)
+            setProva(prevProva => ({
+                ...prevProva,
+                listaDeMaterias: prevProva.listaDeMaterias.map(materia =>
+                    materia.id === assuntoAlterado.idMateria
+                        ? {
+                            ...materia,
+                            listaDeAssuntos: materia.listaDeAssuntos.map(assunto =>
+                                assunto.id === response.id
+                                    ? assunto = response
+                                    : assunto
+                            )
+                        }
+                        : materia)
+            }));
+            setAlertaSuccess("Assunto editado com sucesso!");
+        } catch (error) {
             console.log(error);
+        } finally {
+            closeModalEditarAssuntos();
+            limparFormulario();
+
         }
     };
 
@@ -233,7 +246,7 @@ const ProvaEspecifica = () => {
 
     const aoDigitar = (form) => {
         const novoAssunto = { nome: '', quantidadePdf: 0 };
-        const lista = [...listaDeAssuntos];
+        const lista = [];
         let indexDoInput = 0;
         for (const key in form) {
             if (key.includes('quantidade_input')) {
@@ -247,28 +260,35 @@ const ProvaEspecifica = () => {
                 novoAssunto.nome = form[key];
             }
         }
+        if (novoAssunto.nome !== '') lista[indexDoInput] = novoAssunto;
 
-        lista[indexDoInput] = novoAssunto;
-        setListaDeAssuntos(lista);
-        setForm(prevForm => ({ ...prevForm, listaDeAssuntos: lista }));
+        setForm(prevState => ({ ...prevState, listaDeAssuntos: lista }));
     };
 
     if (prova === null) {
         return <PaginaEspecifaNotFound erro="Prova não encontrada" />;
     }
 
-    const adicionaMateria = () => {
-        materiasService.adicionaMateria(form)
-            .then(res => {
-                const { nome, id, listaDeAssuntos } = res;
-                let novaMateria = { nome: nome, id: id, listaDeAssuntos: listaDeAssuntos };
-                setProva({ ...prova, listaDeMaterias: [...prova.listaDeMaterias, novaMateria] });
-            })
-            .catch(err => console.error(err))
-            .finally(() => {
-                setQuantidadeDeInputs([]);
-            });
+    const adicionaMateria = async () => {
+        try {
+            const response = await materiasService.adicionaMateria(form);
+            const { nome, id, listaDeAssuntos } = await response;
+            let novaMateria = { nome: nome, id: id, listaDeAssuntos: listaDeAssuntos.nome !== "" ? listaDeAssuntos : [] };
+            setProva({ ...prova, listaDeMaterias: [...prova.listaDeMaterias, novaMateria] });
+            setAlertaSuccess("Materia adicionada com sucesso.");
+
+        } catch (error) {
+            setAlertaError(error.response.data);
+        } finally {
+            limparFormulario();
+        }
     };
+
+    const limparFormulario = () => {
+        setForm({ idProva: prova.id });
+        setQuantidadeDeInputs([]);
+        closeModal();
+    }
 
     const capturaCliqueBotaoUsuario = (event, idAssunto = null) => {
         let nomeBotao = event.target.name;
@@ -299,18 +319,27 @@ const ProvaEspecifica = () => {
     };
 
     const adicionaAssuntoAMateria = (assunto, idMateria) => {
-        setProva({
-            id: prova.id,
-            titulo: prova.titulo,
-            data: prova.data,
-            listaDeMaterias: prova.listaDeMaterias.map(materia =>
-                materia.id === idMateria
-                    ? { ...materia, listaDeAssuntos: [...materia.listaDeAssuntos, assunto] }
-                    : materia
-            )
-        });
-
-        closeModalAssuntos();
+        try {
+            setProva({
+                id: prova.id,
+                titulo: prova.titulo,
+                data: prova.data,
+                listaDeMaterias: prova.listaDeMaterias.map(materia =>
+                    materia.id === idMateria
+                        ? { ...materia, listaDeAssuntos: [...materia.listaDeAssuntos, assunto] }
+                        : materia
+                )
+            });
+    
+            setAlertaSuccess("Assunto adicionado à matéria com sucesso!");
+            
+            
+        } catch (error) {
+            setAlertaError("Erro ao adicionar assunto. Contate o administrador!");
+        } finally {
+            closeModalAssuntos();
+            limparFormulario();
+        }
     };
 
     const retornaValoresAssunto = () => {
@@ -333,41 +362,41 @@ const ProvaEspecifica = () => {
             setModalQuestoesIsOpen(true);
             setIdAssunto(assunto.id);
         } else {
-            alert("Escolha um assunto para adicionar questões.");
+            setAlertaError("Escolha um assunto para adicionar questões.");
         }
     }
-    const adicionarQuestoesAoAssunto = (dadosQuestao) => {
+    const adicionarQuestoesAoAssunto = async (dadosQuestao) => {
         try {
             const dadosParaEnviarQuestoesParaApi = { idProva: prova.id, idMateria: idMateriaParaAddAssunto, idAssunto: idAssunto, questao: dadosQuestao };
-
-            questoesService.adicionaQuestao(dadosParaEnviarQuestoesParaApi).then(r => {
-                setModalQuestoesIsOpen(false);
-                setProva(prevState => ({
-                    ...prevState,
-                    listaDeMaterias: prova.listaDeMaterias.map(materia =>
-                        materia.id === idMateriaParaAddAssunto
-                            ? {
-                                ...materia,
-                                listaDeAssuntos: materia.listaDeAssuntos.map(assunto =>
-                                    assunto.id === idAssunto
-                                        ? {
-                                            ...assunto,
-                                            idQuestoes: [...assunto.idQuestoes, r.id]
-                                        }
-                                        : assunto
-                                )
-                            }
-                            : materia
-                    )
-                }))
-            });
+            const r = await questoesService.adicionaQuestao(dadosParaEnviarQuestoesParaApi);
+            setModalQuestoesIsOpen(false);
+            setProva(prevState => ({
+                ...prevState,
+                listaDeMaterias: prova.listaDeMaterias.map(materia =>
+                    materia.id === idMateriaParaAddAssunto
+                        ? {
+                            ...materia,
+                            listaDeAssuntos: materia.listaDeAssuntos.map(assunto =>
+                                assunto.id === idAssunto
+                                    ? {
+                                        ...assunto,
+                                        idQuestoes: [...assunto.idQuestoes, r.id]
+                                    }
+                                    : assunto
+                            )
+                        }
+                        : materia
+                )
+            }))
+            setAlertaSuccess("Questões adicionadas com sucesso.");
         } catch (error) {
-            console.error(error);
+            setAlertaError(error.response.data);
+        } finally {
+            limparFormulario();
         }
-
     }
 
-    const editarMateria = (dados) => {
+    const editarMateria = async (dados) => {
         const dadosParaEnvioAlteracaoMateria = {
             idProva: prova.id,
             idMateria: idMateriaParaAddAssunto,
@@ -375,21 +404,22 @@ const ProvaEspecifica = () => {
         };
 
         try {
-            materiasService.editarMateria(dadosParaEnvioAlteracaoMateria)
-                .then(response => {
-                    setProva(prevProva => ({
-                        ...prevProva,
-                        listaDeMaterias: prevProva.listaDeMaterias.map(materia =>
-                            materia.id === idMateriaParaAddAssunto
-                                ? { ...materia, nome: response.nome }
-                                : materia
-                        )
-                    }));
-                })
-                .catch(error => console.error(error))
-                .finally(() => closeModalEditarMateria());
+            const response = await materiasService.editarMateria(dadosParaEnvioAlteracaoMateria);
+            setProva(prevProva => ({
+                ...prevProva,
+                listaDeMaterias: prevProva.listaDeMaterias.map(materia =>
+                    materia.id === idMateriaParaAddAssunto
+                        ? { ...materia, nome: response.nome }
+                        : materia
+                )
+            }));
+            setAlertaSuccess("Materia editada com sucesso!");
         } catch (error) {
-            console.error(error);
+            setAlertaError(error.response.data);
+
+        } finally {
+            closeModalEditarMateria();
+            limparFormulario();
         }
     };
 
@@ -463,6 +493,9 @@ const ProvaEspecifica = () => {
                     editarMateria={editarMateria}
                 />
             </MainEstilizada>
+            <Alert
+                dados={alerta}
+            />
             <Footer />
         </>
     );

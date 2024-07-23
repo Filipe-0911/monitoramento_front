@@ -27,7 +27,7 @@ const InputEventos = ({ onChange, dadosFormulario, dataService }) => {
     );
 }
 
-export default function FormularioEventos({ formDefaultValue, setFormEventos, closeModal, setListaDePlanejadores, listaDeAssuntosDoUsuario, listaDePlanejadores }) {
+export default function FormularioEventos({ formDefaultValue, setFormEventos, closeModal, setListaDePlanejadores, listaDeAssuntosDoUsuario, setAlertError, setAlertSuccess}) {
     const dataService = new DataService();
     const planejadorService = new PlanejadorService();
 
@@ -53,11 +53,11 @@ export default function FormularioEventos({ formDefaultValue, setFormEventos, cl
     };
 
 
-    const defineSeAlteraOuAdiciona = (e) => {
+    const defineSeAlteraOuAdiciona = async (e) => {
         return formDefaultValue.id === null ? adicionaEvento(e) : alteraEvento(e);
     }
 
-    const adicionaEvento = (e) => {
+    const adicionaEvento = async (e) => {
         e.preventDefault();
         const { idAssunto, start, end } = formDefaultValue;
         let dadosParaEnvio = {
@@ -68,44 +68,46 @@ export default function FormularioEventos({ formDefaultValue, setFormEventos, cl
             }
         }
         try {
-            planejadorService.adicionarEventos(dadosParaEnvio).then(response => {
-                const { id, dataInicio, dataTermino, nomeAssunto } = response;
-                let novoPlanejador = {
-                    start: dataService.transformaStringDeInputDateTimeLocalEmData(dataInicio),
-                    end: dataService.transformaStringDeInputDateTimeLocalEmData(dataTermino),
-                    title: nomeAssunto,
-                    id: id
-                };
+            const response = await planejadorService.adicionarEventos(dadosParaEnvio);
+            const { id, dataInicio, dataTermino, nomeAssunto } = response;
+            let novoPlanejador = {
+                start: dataService.transformaStringDeInputDateTimeLocalEmData(dataInicio),
+                end: dataService.transformaStringDeInputDateTimeLocalEmData(dataTermino),
+                title: nomeAssunto,
+                id: id
+            };
 
-                setListaDePlanejadores(prevListaPlanejadores => ([
-                    ...prevListaPlanejadores,
-                    novoPlanejador
-                ]));
+            setListaDePlanejadores(prevListaPlanejadores => ([
+                ...prevListaPlanejadores,
+                novoPlanejador
+            ]));
 
-            }).catch(erro => alert(erro.message))
+            setAlertSuccess(`Planejador de estudo criado com sucesso na data: ${dataService.transformarDataEmString(dataInicio)}`)
+
         } catch (error) {
-            alert(error.message)
+            setAlertError(error.response?.data)
+        } finally {
+            limpaFormEventos();
+            closeModal();
         }
-        limpaFormEventos();
-        closeModal();
     }
 
-    const alteraEvento = (e) => {
+    const alteraEvento = async (e) => {
         e.preventDefault();
         try {
             const { start, end, id } = formDefaultValue;
-            planejadorService.alterarEventos({ dadosEvento: { dataInicio: start, dataTermino: end }, idEvento: id })
-                .then((response) => {
-                    const { id, dataInicio, dataTermino, nomeAssunto } = response;
-                    setListaDePlanejadores(prevState => prevState.map(planejador => planejador.id === id ? {
-                        start: new Date(dataInicio),
-                        end: new Date(dataTermino),
-                        title: nomeAssunto
-                    } : planejador));
-                })
-                .catch(err => console.log(err.message));
+            const response = await planejadorService.alterarEventos({ dadosEvento: { dataInicio: start, dataTermino: end }, idEvento: id })
+            const { dataInicio, dataTermino, nomeAssunto } = response;
+
+            setListaDePlanejadores(prevState => prevState.map(planejador => planejador.id === response.id ? {
+                start: new Date(dataInicio),
+                end: new Date(dataTermino),
+                title: nomeAssunto
+            } : planejador));
+
+            setAlertSuccess(`Planejador de estudo alterado com sucesso na data: ${dataService.transformarDataEmString(dataInicio)}`)
         } catch (error) {
-            alert(error.data);
+            setAlertError(error.response?.data);
         } finally {
             limpaFormEventos();
             closeModal();

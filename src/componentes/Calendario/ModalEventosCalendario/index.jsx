@@ -3,7 +3,7 @@ import ModalComponent from "../../../componentes/Modal";
 import { BotaorCard } from "../../ComponentesHome";
 import FormularioEventos from "../FormularioEventos";
 
-export default function ModalEventosCalendario({ closeModal, modalIsOpen, formDefaultValue, setFormEventos, setListaDePlanejadores, listaDeAssuntosDoUsuario, listaDePlanejadores, excluirPlanejamento }) {
+export default function ModalEventosCalendario({ closeModal, modalIsOpen, formDefaultValue, setFormEventos, setListaDePlanejadores, listaDeAssuntosDoUsuario, listaDePlanejadores, excluirPlanejamento, setAlertSuccess, setAlertError }) {
     return (
         <ModalComponent
             modalIsOpen={modalIsOpen}
@@ -19,12 +19,19 @@ export default function ModalEventosCalendario({ closeModal, modalIsOpen, formDe
                 setListaDePlanejadores={setListaDePlanejadores}
                 listaDeAssuntosDoUsuario={listaDeAssuntosDoUsuario}
                 listaDePlanejadores={listaDePlanejadores}
+                setAlertError={setAlertError}
+                setAlertSuccess={setAlertSuccess}
             />
-            <div style={{display: 'flex', justifyContent: 'center', marginBottom: '1em'}}>
-                <BotaorCard $type="excluir" onClick={() => excluirPlanejamento(formDefaultValue.id)}>
-                    Excluir planejamento
-                </BotaorCard>
-            </div>
+            {console.log(formDefaultValue)}
+            {
+                formDefaultValue.id !== null ? 
+                <div style={{display: 'flex', justifyContent: 'center', marginBottom: '1em'}}>
+                    <BotaorCard $type="excluir" onClick={() => excluirPlanejamento(formDefaultValue.id)}>
+                        Excluir planejamento
+                    </BotaorCard>
+                </div>
+                : null  // Caso o planejamento seja novo, não aparece o botão de exclusão.
+            }
 
         </ModalComponent>
     );

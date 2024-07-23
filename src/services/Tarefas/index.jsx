@@ -40,7 +40,6 @@ export default class TarefaService {
 
     concluirTarefa = async (id) => {
         try {
-            // http://localhost:8080/tarefas/10
             const { data } = await this.axios.put(`/tarefas/concluir/${id}`, null, this.userService.getHeaderWithTokenFromLocalStorage());
             return data;
         } catch (error) {
@@ -50,8 +49,8 @@ export default class TarefaService {
 
     deletarTarefa = async (id) => {
         try {
-            const { data } = await this.axios.delete(`/tarefas/${id}`, this.userService.getHeaderWithTokenFromLocalStorage());
-            return data;
+            const response = await this.axios.delete(`/tarefas/${id}`, this.userService.getHeaderWithTokenFromLocalStorage());
+            return response;
         } catch (error) {
             return error.response;
         }
@@ -59,7 +58,7 @@ export default class TarefaService {
 
     alterarTarefa = async (tarefa) => {
         const { id, titulo, descricao } = tarefa;
-        let tarefaAlterada = { titulo: titulo, descricao: descricao, data: this.dataService.transformarDataEmString(tarefa.data) };
+        let tarefaAlterada = { titulo: titulo, descricao: descricao, data: this.dataService.transformaDataEmStringParaEnviarApi(tarefa.data) };
 
         try {
             const { data } = await this.axios.put(`/tarefas/${id}`, tarefaAlterada, this.userService.getHeaderWithTokenFromLocalStorage());
@@ -71,7 +70,7 @@ export default class TarefaService {
 
     adicionarTarefa = async (tarefa) => {
         const { titulo, descricao } = tarefa;
-        let tarefaNova = { titulo: titulo, descricao: descricao, data: this.dataService.transformarDataEmString(tarefa.data) };
+        let tarefaNova = { titulo: titulo, descricao: descricao, data: this.dataService.transformaDataEmStringParaEnviarApi(tarefa.data) };
 
         try {
             const { data } = await this.axios.post(`/tarefas`, tarefaNova, this.userService.getHeaderWithTokenFromLocalStorage());

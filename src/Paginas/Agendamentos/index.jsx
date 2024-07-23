@@ -7,6 +7,7 @@ import ModalEventosCalendario from "../../componentes/Calendario/ModalEventosCal
 import PlanejadorService from "../../services/PlanejadorService";
 import AssuntoService from "../../services/AssuntoService";
 import Loader from "../../componentes/Loader";
+import Alert from "../../componentes/Alert";
 
 const MainCalendarioEstilizada = styled.main`
     display: flex;
@@ -25,6 +26,15 @@ const Agendamentos = () => {
     const [listaDeAssuntosDoUsuario, setListaDeAssuntosDoUsuario] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [open, setModalOpen] = useState(false);
+    const [alertIsOpen, setAlertIsOpen] = useState({ success: false, error:false, message: "" });
+    const [formEventos, setFormEventos] = useState({
+        id: null,
+        idProva: null,
+        idMateria: null,
+        start: '',
+        end: '',
+        title: '',
+    });
 
     useEffect(() => {
         try {
@@ -39,20 +49,24 @@ const Agendamentos = () => {
                 }
                 setIsLoading(false);
             })
-                .catch(e => console.log(e))
         } catch (error) {
-            console.log(error)
+            setAlertError(error.response?.data);
         }
     }, [])
 
-    const [formEventos, setFormEventos] = useState({
-        id: null,
-        idProva: null,
-        idMateria: null,
-        start: '',
-        end: '',
-        title: '',
-    });
+    const setAlertSuccess = (message) => {
+        setAlertIsOpen({ success: true, error: false, message: message });
+        setTimeout(() => {
+            setAlertIsOpen({ success: false, error: false, message: "" });
+        }, 5000);
+    }
+    const setAlertError = (message) => {
+        setAlertIsOpen({ success: false, error: true, message: message });
+        setTimeout(() => {
+            setAlertIsOpen({ success: false, error: false, message: "" });
+        }, 5000);
+    }
+
 
     const openModal = () => {
         setModalOpen(true);
@@ -60,27 +74,34 @@ const Agendamentos = () => {
 
     const closeModal = () => {
         setModalOpen(false);
+        limparFormEventos();
     }
 
     const excluirPlanejamento = async (idEvento) => {
         try {
-            planejadorService.excluirPlanejamento(idEvento).then(response => {
-                console.log(response.status)
+            const response = await planejadorService.excluirPlanejamento(idEvento);
+            if (response.status === 204) {
                 setListaDePlanejadores(prevState => prevState.filter(planejador => planejador.id!== idEvento));
-            })
+                setAlertSuccess("Planejamento excluído com sucesso!")
+            }
+
         } catch (error) {
-            alert(error.message)
+            setAlertError(error.response?.data)
         } finally {
             closeModal();
-            setFormEventos({
-                id: null,
-                idProva: null,
-                idMateria: null,
-                start: '',
-                end: '',
-                title: '',
-            })
+            limparFormEventos();
         }
+    }
+
+    const limparFormEventos = () => {
+        setFormEventos({
+            id: null,
+            idProva: null,
+            idMateria: null,
+            start: '',
+            end: '',
+            title: '',
+        });
     }
     
 
@@ -99,6 +120,8 @@ const Agendamentos = () => {
                             setFormEventos={setFormEventos}
                             setListaDePlanejadores={setListaDePlanejadores}
                             listaDePlanejadores={listaDePlanejadores}
+                            setAlertError={setAlertError}
+                            setAlertSuccess={setAlertSuccess}
                         /> 
                     }
             </MainCalendarioEstilizada>
@@ -111,8 +134,14 @@ const Agendamentos = () => {
                 listaDePlanejadores={listaDePlanejadores}
                 listaDeAssuntosDoUsuario={listaDeAssuntosDoUsuario}
                 excluirPlanejamento={excluirPlanejamento}
+                setAlertSuccess={setAlertSuccess}
+                setAlertError={setAlertError}
                 />
             <Footer />
+            <Alert 
+                dados={alertIsOpen}
+            />
+
         </>
     );
 }

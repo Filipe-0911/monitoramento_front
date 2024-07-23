@@ -35,34 +35,18 @@ export default class PlanejadorService {
 
     async adicionarEventos(evento) {
         let { dadosEvento, idAssunto } = evento;
-        console.log();
-        console.log(dadosEvento);
-        console.log();
-        try {
-            const { data } = await this.axios.post(`/planejador/${idAssunto}`, dadosEvento, this.userService.getHeaderWithTokenFromLocalStorage());
-            return data;
-        } catch (error) {
-            throw new Error('Erro ao adicionar eventos');
-        }
+        const { data } = await this.axios.post(`/planejador/${idAssunto}`, dadosEvento, this.userService.getHeaderWithTokenFromLocalStorage());
+        return data;
     }
 
     async alterarEventos(evento) {
         let { dadosEvento, idEvento } = evento;
-        console.log(dadosEvento);
-        try {
-            const { data } = await this.axios.put(`/planejador/especifico/${idEvento}`, dadosEvento, this.userService.getHeaderWithTokenFromLocalStorage());
-            return data;
-        } catch (error) {
-            throw new Error('Erro ao alterar eventos');
-        }
+        const { data } = await this.axios.put(`/planejador/especifico/${idEvento}`, dadosEvento, this.userService.getHeaderWithTokenFromLocalStorage());
+        return data;
     }
 
     async excluirPlanejamento(idEvento) {
-        try {
-            const response = await this.axios.delete(`/planejador/especifico/${idEvento}`, this.userService.getHeaderWithTokenFromLocalStorage());
-            return response;
-        } catch (error) {
-            throw new Error('Erro ao excluir eventos');
-        }
+        const response = await this.axios.delete(`/planejador/especifico/${idEvento}`, this.userService.getHeaderWithTokenFromLocalStorage());
+        return response;
     }
 }

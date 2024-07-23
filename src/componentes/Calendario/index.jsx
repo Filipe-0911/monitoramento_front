@@ -5,7 +5,7 @@ import PlanejadorService from "../../services/PlanejadorService";
 
 const localizer = momentLocalizer(moment);
 
-const Calendario = ({ closeModal, openModal, setFormEventos, setListaDePlanejadores, listaDePlanejadores }) => {
+const Calendario = ({ openModal, setFormEventos, setListaDePlanejadores, listaDePlanejadores, setAlertSuccess, setAlertError }) => {
   const planejadorService = new PlanejadorService();
   const [windowSize, setWindowSize] = useState(1800);
   const tamanhoDoCalendario = windowSize - 700;
@@ -68,10 +68,11 @@ const Calendario = ({ closeModal, openModal, setFormEventos, setListaDePlanejado
           });
 
           setListaDePlanejadores(listaPlanejadores);
+          setAlertSuccess("Planejamentos carregados com sucesso!")
         }
       });
     } catch (error) {
-      console.log(error);
+      setAlertError(error.response.message);
     }
   }, []);
 

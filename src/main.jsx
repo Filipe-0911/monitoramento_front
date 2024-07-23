@@ -4,6 +4,7 @@ import GlobalStyle from './Styles/GlobalStyles'
 import Routering from './Routes/routes'
 import Modal from 'react-modal';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import 'react-toastify/dist/ReactToastify.min.css';
 
 Modal.setAppElement('#root');
 

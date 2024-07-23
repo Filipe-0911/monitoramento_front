@@ -5,14 +5,15 @@ import { MdCancel, MdOutlineAddToPhotos } from "react-icons/md";
 
 // Componentes auxiliares
 import { BotaorCard, ContainerTarefas, SectionAdicionarTarefa } from "../../componentes/ComponentesHome";
-import MainEstilizada from "../../componentes/Main";
 
 // Componentes default
+import MainEstilizada from "../../componentes/Main";
 import Cabecalho from "../../componentes/Cabecalho";
 import ModalComponent from "../../componentes/Modal";
 import FormEstilizadoTarefa from "../../componentes/FormEstilizadoTarefa";
 import CardTarefas from "../../componentes/CardTarefas";
 import Loader from "../../componentes/Loader";
+import Alert from "../../componentes/Alert";
 
 //Services
 import TarefaService from "../../services/Tarefas";
@@ -26,6 +27,7 @@ const Home = () => {
     const [tarefas, setTarefas] = useState([]);
     const [modalAberto, setModalAberto] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
+    const [alerta, setAlerta] = useState({ success: false, error: false, message: "" });
 
     const [form, setForm] = useState({
         titulo: "",
@@ -36,7 +38,6 @@ const Home = () => {
     const [adicionarOuAlterar, setAdicionarOuAlterar] = useState("");
 
     useEffect(() => {
-        // setIsLoading(true);
         try {
             tarefaService.buscaTarefas().then((tarefas) => {
                 setTarefas(tarefas)
@@ -78,18 +79,33 @@ const Home = () => {
         setModalAberto(false);
     }
 
-    const concluirTarefa = (id) => {
-        tarefaService.concluirTarefa(id).then((response) => {
-            setTarefas(tarefas.map(tarefa => tarefa.id === id ? { ...tarefa, concluido: true } : tarefa));
-            console.log(response.response);
-        });
+    const concluirTarefa = async (id) => {
+        console.log("id: " + id);
+
+        try {
+            const response = tarefaService.concluirTarefa(id);
+            if (response) {
+                setAlertaSuccess("Tarefa concluída com sucesso!");
+                setTarefas(tarefas.map(tarefa => tarefa.id === id ? { ...tarefa, concluido: true } : tarefa));
+            }
+        } catch (error) {
+            setAlertaError(error.response.message)
+        }
+
     };
 
-    const deletarTarefa = (id) => {
-        tarefaService.deletarTarefa(id).then((response) => {
-            setTarefas(tarefas.filter(tarefa => tarefa.id !== id));
-            console.log(response.response);
-        });
+    const deletarTarefa = async (id) => {
+        try {
+            const response = await tarefaService.deletarTarefa(id);
+            if (response) {
+                setTarefas(tarefas.filter(tarefa => tarefa.id !== id))
+                setAlertaSuccess("Tarefa excluída com sucesso!")
+            }
+            
+        } catch (error) {
+            setAlertaError("Ocorreu um erro ao excluir a tarefa.");
+        }
+    
     }
 
     const handleChanger = (event) => {
@@ -97,21 +113,40 @@ const Home = () => {
         setForm({ ...form, [name]: value });
     }
 
-    const alterarTarefa = (event) => {
-        event.preventDefault();
-        tarefaService.alterarTarefa(form).then((response) => {
-            setTarefas(tarefas.map(tarefa => tarefa.id === form.id ? { ...tarefa, ...form } : tarefa));
-            closeModal();
-        });
+    const setAlertaSuccess = (msg) => {
+        setAlerta({ success: true, error: false, message: msg })
+    }
+    const setAlertaError = (msg) => {
+        setAlerta({ success: false, error: true, message: msg })
     }
 
-    const adicionarTarefa = (event) => {
+    const alterarTarefa = async (event) => {
         event.preventDefault();
-        tarefaService.adicionarTarefa(form).then((response) => {
-            const { titulo, descricao, data } = response;
-            setTarefas([...tarefas, { titulo, descricao, data }]);
+        try {
+            const response = await tarefaService.alterarTarefa(form);
+            if (response) {
+                setTarefas(tarefas.map(tarefa => tarefa.id === form.id ? { ...tarefa, ...form } : tarefa));
+                closeModal();
+                setAlertaSuccess("Tarefa alterada com sucesso!");
+            }
+
+        } catch (error) {
+            setAlertaError(error.response.data);
             closeModal();
-        });
+        }
+    }
+
+    const adicionarTarefa = async (event) => {
+        event.preventDefault();
+        try {
+            const response = await tarefaService.adicionarTarefa(form);
+            setTarefas([...tarefas, response]);
+            setAlertaSuccess("Tarefa adicionada com sucesso!");
+            closeModal();
+        } catch (error) {
+            setAlertaError(error.response.data);
+            closeModal();
+        }
     }
 
     return (
@@ -159,6 +194,9 @@ const Home = () => {
                         handleChanger={handleChanger} />
                 </ModalComponent>
             </MainEstilizada>
+            <Alert
+                dados={alerta}
+            />
             <Footer />
         </>
     );

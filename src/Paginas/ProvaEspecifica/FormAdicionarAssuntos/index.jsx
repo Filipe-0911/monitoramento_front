@@ -32,7 +32,7 @@ export default function FormAdicionarAssuntos({ prova, idMateria, adicionaAssunt
         })
     }
 
-    const adicionarAssunto = () => {
+    const adicionarAssunto = async () => {
         try {
             const dadosParaEnviar = {
                 idProva: prova.id,
@@ -40,7 +40,9 @@ export default function FormAdicionarAssuntos({ prova, idMateria, adicionaAssunt
                 ...formularioAdicionarAssuntos
             }
 
-            assuntoService.adicionaAssunto(dadosParaEnviar).then(r => adicionaAssuntoAMateria(r, idMateria))
+            const response = await assuntoService.adicionaAssunto(dadosParaEnviar);
+            adicionaAssuntoAMateria(response, idMateria)
+            
         } catch (error) {
             console.log(error)
         }
