@@ -69,12 +69,14 @@ export default function FormularioEventos({ formDefaultValue, setFormEventos, cl
         }
         try {
             const response = await planejadorService.adicionarEventos(dadosParaEnvio);
-            const { id, dataInicio, dataTermino, nomeAssunto } = response;
+            console.log(response);
+            const { id, dataInicio, dataTermino, nomeAssunto, cor } = response;
             let novoPlanejador = {
                 start: dataService.transformaStringDeInputDateTimeLocalEmData(dataInicio),
                 end: dataService.transformaStringDeInputDateTimeLocalEmData(dataTermino),
                 title: nomeAssunto,
-                id: id
+                id: id,
+                color: cor
             };
 
             setListaDePlanejadores(prevListaPlanejadores => ([

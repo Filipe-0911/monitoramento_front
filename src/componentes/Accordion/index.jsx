@@ -31,6 +31,7 @@ export const ButtonAccordionHeaderEstilizado = styled.button`
 
     span {
         font-size: 20px;
+        border-bottom: 5px solid ${props => props.$corDaBorda ? props.$corDaBorda : "transparent"};
     }
 
 `
@@ -71,8 +72,7 @@ export const DivBotoesCrudEstilizado = styled.div`
         align-items: center;
     }
 `;
-
-export default function Accordion({ children, titulo }) {
+export default function Accordion({ children, titulo, corDaBorda}) {
     const [activeIndex, setActiveIndex] = useState(false);
 
     const toggleAccordion = () => {
@@ -84,6 +84,7 @@ export default function Accordion({ children, titulo }) {
             <DivAccordionEstilizado>
                 <ButtonAccordionHeaderEstilizado
                     onClick={() => toggleAccordion(!activeIndex)}
+                    $corDaBorda={corDaBorda}
                 >
                     <span>{titulo}</span>
                     <ArrowEstilizado

@@ -15,8 +15,7 @@ const InputAssunto = ({ input, onChange }) => {
     );
 }
 
-export default function FormAdicionarAssuntos({ prova, idMateria, adicionaAssuntoAMateria }) {
-    const assuntoService = new AssuntoService();
+export default function FormAdicionarAssuntos({ adicionarAssunto }) {
 
     const [formularioAdicionarAssuntos, setFormularioAdicionarAssuntos] = useState({
         nome: '',
@@ -32,21 +31,7 @@ export default function FormAdicionarAssuntos({ prova, idMateria, adicionaAssunt
         })
     }
 
-    const adicionarAssunto = async () => {
-        try {
-            const dadosParaEnviar = {
-                idProva: prova.id,
-                idMateria: idMateria,
-                ...formularioAdicionarAssuntos
-            }
 
-            const response = await assuntoService.adicionaAssunto(dadosParaEnviar);
-            adicionaAssuntoAMateria(response, idMateria)
-            
-        } catch (error) {
-            console.log(error)
-        }
-    }
 
     return (
         <>
@@ -57,7 +42,7 @@ export default function FormAdicionarAssuntos({ prova, idMateria, adicionaAssunt
                     onChange={handleChanger}
                 />
 
-                <BotaoEstilizado disabled={false} onClick={adicionarAssunto}>
+                <BotaoEstilizado disabled={false} onClick={() => adicionarAssunto(formularioAdicionarAssuntos)}>
                     Adicionar
                 </BotaoEstilizado>
 

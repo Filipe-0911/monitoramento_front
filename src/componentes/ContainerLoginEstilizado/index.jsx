@@ -20,21 +20,24 @@ export const FormEstilizado = styled.form`
     max-width: 450px;
     gap: 30px 0px;
 
-h1 {
-    color: #fff;
-    font-size: 20px;
-    font-weight: light;
+    h1 {
+        color: #fff;
+        font-size: 20px;
+        font-weight: light;
 
-}
-p {
-    color: #fff;
-    font-size: 16px;
-    font-weight: bold;
-}
-a {
-    color: white;
-    font-size: 14px;
-}
+    }
+    p {
+        color: #fff;
+        font-size: 16px;
+        font-weight: bold;
+    }
+    a {
+        color: white;
+        font-size: 14px;
+    }
+    label {
+        font-size: 18px;
+    }
 `
 
 export const SubContainerSign = styled.div`

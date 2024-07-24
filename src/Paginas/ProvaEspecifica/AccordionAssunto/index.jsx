@@ -85,11 +85,10 @@ export default function AccordionAssunto({ prova, capturaCliqueBotaoUsuario, exc
     return (
         prova.listaDeMaterias.map(materia => {
             return (
-                <Accordion key={materia.id} titulo={`Matéria: ${materia.nome}`}>
+                <Accordion key={materia.id} titulo={`Matéria: ${materia.nome}`}  corDaBorda={prova.corDaProva}>
                     <input type="number" defaultValue={materia.id} hidden id="idMateria" />
                     <ul>
                         {materia.listaDeAssuntos.map(assunto => {
-
                             return (
                                 <LiAcorddionEstilizado key={assunto.id}>
                                     <SectionDadosDoAssuntoEstilizado>

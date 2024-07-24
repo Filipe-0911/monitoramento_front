@@ -83,7 +83,7 @@ const Provas = () => {
     const [alerta, setAlerta] = useState({success: false, error:false, message: ""});
     const navigate = useNavigate();
 
-    const [form, setForm] = useState({ id: 0, titulo: "", dataDaProva: "" });
+    const [form, setForm] = useState({ id: 0, titulo: "", dataDaProva: "", corDaProva: "black",})
 
 
     useEffect(() => {
@@ -173,7 +173,7 @@ const Provas = () => {
     function openModal(event, prova = null) {
         if (event.target.name === "Editar" || event.target.id === "Editar") {
             setAdicionarOuAlterar("Editar");
-            setForm({ id: prova.id, titulo: prova.titulo, dataDaProva: prova.dataDaProva });
+            setForm({ id: prova.id, titulo: prova.titulo, dataDaProva: prova.dataDaProva, corDaProva: prova.corDaProva });
         }
         else {
             setAdicionarOuAlterar("Adicionar");
@@ -233,7 +233,7 @@ const Provas = () => {
                     </DivBotaoAdicionarEstilizada>
                     {provas.map(prova => {
                         return (
-                            <Accordion key={prova.id} titulo={prova.titulo}>
+                            <Accordion key={prova.id} titulo={prova.titulo} corDaBorda={prova.corDaProva}>
                                 <ul>
                                     <LiEstilizadoAccordionProvas>
                                         <h5>Data da prova:</h5>
@@ -299,10 +299,18 @@ const Provas = () => {
                         <label>
                             Título da prova:
                         </label>
+
                         <CampoForm
                             name="titulo"
                             onChange={handleChanger}
                             defaultValue={form.titulo}
+                        />
+                        <label>Cor da prova</label>
+                        <CampoForm
+                            name="corDaProva"
+                            type="color"
+                            onChange={handleChanger}
+                            defaultValue={form.corDaProva}
                         />
 
                         <label>

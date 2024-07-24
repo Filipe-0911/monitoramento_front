@@ -13,10 +13,11 @@ const MainCalendarioEstilizada = styled.main`
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 5em 0;
+    margin-top: 4em;
+    margin-bottom: 2em;
     padding: 0 1em;
     width: 100%;
-    min-height: 73.5vh;
+    min-height: 80.35vh;
 `
 
 const Agendamentos = () => {
@@ -136,7 +137,7 @@ const Agendamentos = () => {
                 excluirPlanejamento={excluirPlanejamento}
                 setAlertSuccess={setAlertSuccess}
                 setAlertError={setAlertError}
-                />
+            />
             <Footer />
             <Alert 
                 dados={alertIsOpen}

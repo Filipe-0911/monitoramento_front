@@ -66,8 +66,8 @@ export default class ProvasService {
 
     async alteraProva(prova) {
         try {
-            const { id, titulo, dataDaProva } = prova;
-            const response = await this.axios.put(`/provas/${id}`, { titulo: titulo, dataDaProva: dataDaProva }, this.userService.getHeaderWithTokenFromLocalStorage());
+            const { id, titulo, dataDaProva, corDaProva } = prova;
+            const response = await this.axios.put(`/provas/${id}`, { titulo: titulo, dataDaProva: dataDaProva, corDaProva: corDaProva }, this.userService.getHeaderWithTokenFromLocalStorage());
             return response.data
 
         } catch (error) {

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import CampoForm from '../CampoForm';
 
 const Wrapper = styled.div`
   position: relative;
@@ -46,8 +47,8 @@ const HiddenSelect = styled.select`
   display: none;
 `;
 
-const SelectDeAssuntos = ({ options, value, onChange }) => {
-
+const SelectDeAssuntos = ({ options, onChange }) => {
+  const [valorParaBusca, setValorParaBusca] = useState("")
   const [isOpen, setIsOpen] = useState(false);
   const [selectValue, setSelectValue] = useState({
     id: null,
@@ -55,7 +56,7 @@ const SelectDeAssuntos = ({ options, value, onChange }) => {
   });
 
   const handleSelect = (option) => {
-    let eventoOpcaoEscolhida = {target: {name: "idAssunto", value: option.id }}
+    let eventoOpcaoEscolhida = { target: { name: "idAssunto", value: option.id } }
     setSelectValue(option);
     onChange(eventoOpcaoEscolhida);
     setIsOpen(false);
@@ -68,11 +69,25 @@ const SelectDeAssuntos = ({ options, value, onChange }) => {
       </StyledSelect>
       {isOpen && (
         <Options>
-          {options.map((assunto) => (
-            <Option key={assunto.id} onClick={() => handleSelect(assunto)}>
-              {assunto.nome}
-            </Option>
-          ))}
+          <CampoForm
+            type="search"
+            defaultValue={valorParaBusca}
+            onChange={(e) => setValorParaBusca(e.target.value)}
+          />
+          {
+            valorParaBusca
+              ? options.filter(assunto => assunto.nome.toLowerCase().includes(valorParaBusca.toLowerCase()))
+                .map((assunto) => (
+                  <Option key={assunto.id} onClick={() => handleSelect(assunto)}>
+                    {assunto.nome}
+                  </Option>
+                ))
+            : options.map((assunto) => (
+              <Option key={assunto.id} onClick={() => handleSelect(assunto)}>
+                {assunto.nome}
+              </Option>
+            ))
+          }
         </Options>
       )}
       <HiddenSelect value={selectValue.nome} onChange={(e) => handleSelect(e)}>
