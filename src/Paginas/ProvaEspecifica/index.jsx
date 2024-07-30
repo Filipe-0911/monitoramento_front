@@ -93,7 +93,6 @@ const ProvaEspecifica = () => {
         delMateria,
         updateMateria,
         prova,
-        quantidadeDeInputs,
         setQuantidadeDeInputs,
         idMateria,
         setIdMateria,
