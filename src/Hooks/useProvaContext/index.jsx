@@ -30,8 +30,7 @@ export const useProvaContext = () => {
     const delAssunto = ({ dadosParaAlteracao }) => {
         dispatcher({ type: EXCLUIR_ASSUNTO, dadosParaAlteracao });
     };
-    const updateAssunto = ({ dadosParaAlteracao }) => {
-        
+    const updateAssunto = ({ dadosParaAlteracao }) => { 
         dispatcher({ type: EDITAR_ASSUNTO, dadosParaAlteracao });
     };
     const addAssunto = ({ dadosParaAlteracao }) => {
@@ -66,7 +65,7 @@ export const useProvaContext = () => {
         setIdMateria,
         idAssunto,
         setIdAssunto,
-        verificaSePodeAdicionarInputAssunto
+        verificaSePodeAdicionarInputAssunto,
     }
 
 }
