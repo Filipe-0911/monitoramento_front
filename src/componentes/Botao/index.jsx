@@ -22,7 +22,7 @@ const BotaoEstilizado = styled.button`
 
 ${props => props.disabled === false && `
             &:hover {
-                transform: translate(0, -0.5rem);
+                transform: translate(0, -0.25rem);
                 background-color: #fff;
                 color: #454545;
                 transition: 0.5s;

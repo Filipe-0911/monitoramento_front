@@ -1,14 +1,14 @@
 export const ADICIONAR_PROVA = "adicionar_prova";
-export const EXCLUIR_ASSUNTO = "excluir_assunto";
-export const EDITAR_ASSUNTO = "editar_assunto";
-export const ADICIONAR_ASSUNTO = "adicionar_assunto";
 export const ADICIONAR_QUESTAO = "adicionar_questao";
-export const EDITAR_MATERIA = "editar_materia";
-export const EXCLUIR_MATERIA = "excluir_materia";
+export const ADICIONAR_ASSUNTO = "adicionar_assunto";
 export const ADICIONAR_MATERIA = "adicionar_materia";
+export const EXCLUIR_ASSUNTO = "excluir_assunto";
+export const EXCLUIR_MATERIA = "excluir_materia";
+export const EDITAR_ASSUNTO = "editar_assunto";
+export const EDITAR_MATERIA = "editar_materia";
 
 export default function reducer(estado, acao) {
-    switch (acao.tipo) {
+    switch (acao.type) {
         case ADICIONAR_PROVA:
             return acao.prova;
         case EXCLUIR_ASSUNTO:

@@ -33,7 +33,7 @@ const InputQuestoes = ({ input, onChange, dadosFormulario }) => {
     );
 }
 
-export default function FormAdicionarQuestoes({ prova, idMateria, adicionaQuestaoAMateria, adicionarQuestoesAoAssunto }) {
+export default function FormAdicionarQuestoes({ adicionarQuestoesAoAssunto }) {
     const dataService = new DataService();
 
     const [formularioAdicionarQuestoes, setFormularioAdicionarQuestoes] = useState({

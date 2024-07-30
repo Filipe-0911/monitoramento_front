@@ -4,7 +4,7 @@ import { MdCancel } from "react-icons/md";
 import FormAdicionarMaterias from "../FormAdicionarMaterias";
 import DivBotaoFecharModal from "../../../componentes/DivBotaoFecharModal";
 
-export default function ModalAdicionarMateriasEAssuntos({ modalIsOpen, closeModal, quantidadeDeInputs, adicionaMateria, handleChanger, setQuantidadeDeInputs }) {
+export default function ModalAdicionarMateriasEAssuntos({ modalIsOpen, closeModal, quantidadeDeInputs, adicionaMateria, handleChanger }) {
     return (
         <ModalComponent modalIsOpen={modalIsOpen} closeModal={closeModal}>
             <DivBotaoFecharModal closeModal={closeModal}/>
@@ -12,7 +12,6 @@ export default function ModalAdicionarMateriasEAssuntos({ modalIsOpen, closeModa
                 quantidadeDeInputs={quantidadeDeInputs}
                 adicionaMateria={adicionaMateria}
                 handleChanger={handleChanger}
-                setInput={setQuantidadeDeInputs}
             />
         </ModalComponent>
     );

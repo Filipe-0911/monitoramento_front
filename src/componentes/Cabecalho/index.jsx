@@ -36,7 +36,7 @@ const Cabecalho = () => {
         if (window.innerWidth > 768 && !menuEscondido) {
             setMenuEscondido(false)
         }
-        if (window.innerWidth < 562 && menuEscondido) {
+        if (window.innerWidth < 600 && menuEscondido) {
             setMenuEscondido(true)
         }
     }

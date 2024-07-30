@@ -16,6 +16,13 @@ export const HeaderEstilizado = styled.header`
     justify-content: flex-end;
     align-items: center;
     min-height: 57px;
+
+    @media (max-width: 820px) {
+        /* position: absolute; */
+        flex-direction: row-reverse;
+        
+        justify-content: flex-start;
+    }
     
     @media (max-width: 562px) {
         transition-duration: 0.35s;
@@ -102,7 +109,7 @@ export const NavEstilizado = styled.nav`
         }
     }
 
-    @media (max-width: 562px) {
+    @media (max-width: 600px) {
         ul {
             flex-direction: column;
             align-items: flex-end;
@@ -117,7 +124,7 @@ export const MenuHamburguer = styled(TiThMenu)`
     cursor: pointer;
     width: 30px;
 
-    @media (max-width: 562px) {
+    @media (max-width: 600px) {
         color: #fff;
         display: block;
         width: 50px;
@@ -141,8 +148,12 @@ export const DivPaiDoMenuEBotaoMenu = styled.div`
     display: flex;
     justify-content: center;
     margin: 0 auto;
+
+    @media (max-width: 820px) {
+        margin-right: 10px;
+    }
+
     @media (max-width: 562px) {
-        margin: 0;
         display: flex;
         flex-direction: column-reverse;
         align-items: flex-end;

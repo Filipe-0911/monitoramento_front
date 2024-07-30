@@ -3,6 +3,7 @@ import CampoForm from "../../../componentes/CampoForm";
 import BotaoEstilizado from "../../../componentes/Botao";
 import { BotaorCard } from "../../../componentes/ComponentesHome";
 import { MdOutlineAddToPhotos } from "react-icons/md";
+import { useProvaContext } from "../../../Hooks/useProvaContext";
 
 const InputAssunto = ({ input, index, onChange }) => {
     return (
@@ -15,11 +16,13 @@ const InputAssunto = ({ input, index, onChange }) => {
     );
 }
 
-const FormAdicionarMaterias = ({ quantidadeDeInputs, adicionaMateria, handleChanger, setInput }) => {
+const FormAdicionarMaterias = ({ adicionaMateria, handleChanger }) => {
+
+    const { verificaSePodeAdicionarInputAssunto, quantidadeDeInputs, setQuantidadeDeInputs } = useProvaContext();
 
     const adicionaInputDeAssunto = () => {
         let name = `nome_assunto_${quantidadeDeInputs.length}`;
-        setInput([...quantidadeDeInputs, { name: name, placeholder: "Digite o nome do assunto" }]);
+        setQuantidadeDeInputs([...quantidadeDeInputs, { name: name, placeholder: "Digite o nome do assunto" }]);
     }
 
     return (
@@ -51,6 +54,7 @@ const FormAdicionarMaterias = ({ quantidadeDeInputs, adicionaMateria, handleChan
                     name="adicionar"
                     $type="adicionar"
                     onClick={e => adicionaInputDeAssunto()}
+                    disabled={verificaSePodeAdicionarInputAssunto()}
                 >
                     <MdOutlineAddToPhotos
                         id="adicionar"

@@ -1,8 +1,5 @@
-import { createContext, useEffect, useMemo, useReducer, useState } from "react"
-import { ADICIONAR_PROVA } from "../Paginas/ProvaEspecifica/reducer"
+import { createContext, useReducer, useState } from "react"
 import reducer from "../Paginas/ProvaEspecifica/reducer";
-import ProvasService from "../services/Provas";
-import { useParams } from "react-router-dom";
 
 export const ProvaContext = createContext();
 ProvaContext.displayName = "Prova";
@@ -22,6 +19,13 @@ export const ProvaProvider = ({ children }) => {
     const [idAssunto, setIdAssunto] = useState(null);
     const [prova, dispatcher] = useReducer(reducer, estadoInicial);
 
+    const verificaSePodeAdicionarInputAssunto = () => {
+        if(quantidadeDeInputs.length > 0) {
+            return true;
+        }
+        return false;
+    }
+
     return (
         <ProvaContext.Provider
             value={{
@@ -32,7 +36,8 @@ export const ProvaProvider = ({ children }) => {
                 idMateria,
                 setIdMateria,
                 idAssunto,
-                setIdAssunto
+                setIdAssunto,
+                verificaSePodeAdicionarInputAssunto
             }}
         >
             {children}

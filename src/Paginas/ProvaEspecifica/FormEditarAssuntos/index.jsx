@@ -2,6 +2,7 @@ import { useState } from "react";
 import { FormEstilizado } from "../../../componentes/ContainerLoginEstilizado";
 import CampoForm from "../../../componentes/CampoForm";
 import BotaoEstilizado from "../../../componentes/Botao";
+import { useProvaContext } from "../../../Hooks/useProvaContext";
 
 const InputAssunto = ({ input, onChange, defaultValue }) => {
     return (
@@ -25,8 +26,9 @@ const InputAssunto = ({ input, onChange, defaultValue }) => {
     );
 }
 
-export default function FormEditarAssuntos({ prova, idMateria, retornaValoresAssunto, aoEnviar }) {
+export default function FormEditarAssuntos({ retornaValoresAssunto, aoEnviar }) {
     const defaultValue = retornaValoresAssunto();
+    const { prova, idMateria } = useProvaContext()
 
     const [formularioEditarAssuntos, setFormularioEditarAssuntos] = useState({
         nome: defaultValue.nome,
