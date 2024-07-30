@@ -80,8 +80,21 @@ const SectionDadosDoAssuntoEstilizado = styled.section`
     }
 `
 
-export default function AccordionAssunto({ prova, capturaCliqueBotaoUsuario, excluirMateria }) {
+export default function AccordionAssunto({ prova, setModalAdicionarQuestoesIsOpen, excluirMateria, excluirAssunto, setModalAssuntosIsOpen, setModalEditarMateriaIsOpen, setModalEditarAssuntosIsOpen }) {
     const navigate = useNavigate();
+
+    function adicionarAssunto (idMateria) {
+        setModalAssuntosIsOpen(idMateria);
+    }
+    function editarMateria (idMateria) {
+        setModalEditarMateriaIsOpen(idMateria)
+    }
+    function editarAssunto (idMateria, idAssunto) {
+        setModalEditarAssuntosIsOpen(idMateria, idAssunto);
+    }
+    function adicionarQuestao (idMateria, idAssunto) {
+        setModalAdicionarQuestoesIsOpen(idMateria, idAssunto);
+    }
     return (
         prova.listaDeMaterias.map(materia => {
             return (
@@ -117,7 +130,7 @@ export default function AccordionAssunto({ prova, capturaCliqueBotaoUsuario, exc
                                     </SectionDadosDoAssuntoEstilizado>
                                     <SectionBotoesCrudAccordion>
                                         <BotaorCard
-                                            onClick={(e) => capturaCliqueBotaoUsuario(e, assunto.id)}
+                                            onClick={(e) => excluirAssunto(assunto.id, materia.id)}
                                             $type="excluir"
                                             name="excluir_assunto"
                                         >
@@ -126,14 +139,14 @@ export default function AccordionAssunto({ prova, capturaCliqueBotaoUsuario, exc
                                         </BotaorCard>
                                         <BotaorCard
                                             $type="editar"
-                                            onClick={(e) => capturaCliqueBotaoUsuario(e, assunto.id)}
+                                            onClick={() => editarAssunto(materia.id, assunto.id)}
                                             name="editar_assunto"
                                         >
                                             <FaPencilAlt color="white" size={15} />
                                             Editar Assunto
                                         </BotaorCard>
                                         <BotaorCard
-                                            onClick={(e) => capturaCliqueBotaoUsuario(e, assunto.id)}
+                                            onClick={(e) => adicionarQuestao(materia.id, assunto.id)}
                                             $type="questao"
                                             name="adicionar_questao"
                                         >
@@ -155,7 +168,7 @@ export default function AccordionAssunto({ prova, capturaCliqueBotaoUsuario, exc
                     </ul>
                     <DivBotoesCrudMateria>
                         <BotaorCard
-                            onClick={(e) => capturaCliqueBotaoUsuario(e)}
+                            onClick={() => adicionarAssunto(materia.id)}
                             $type="adicionar"
                             name="adicionar_assunto"
                         >
@@ -171,7 +184,7 @@ export default function AccordionAssunto({ prova, capturaCliqueBotaoUsuario, exc
                             Excluir Materia
                         </BotaorCard>
                         <BotaorCard
-                            onClick={(e) => capturaCliqueBotaoUsuario(e)}
+                            onClick={() => editarMateria(materia.id)}
                             $type="editar"
                             name="editar_materia"
                         >

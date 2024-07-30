@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useReducer, useState } from "react";
+import { useContext, useEffect, useReducer, useState } from "react";
 import styled from "styled-components";
 
 import ProvasService from "../../services/Provas";
@@ -35,6 +35,7 @@ import reducer, {
     EXCLUIR_MATERIA,
     ADICIONAR_MATERIA
 } from "./reducer";
+import { ProvaContext } from "../../Context";
 
 export const DivBotoesCrudMateria = styled.div`
     display: flex;
@@ -80,26 +81,28 @@ const ProvaEspecifica = () => {
     const assuntoService = new AssuntoService();
     const questoesService = new QuestoesService();
 
-    const parametros = useParams();
     const [isLoading, setIsLoading] = useState(true);
-    const [form, setForm] = useState(null);
-    const [acaoDoUsuario, setAcaoDoUsuario] = useState("");
-
-    const [quantidadeDeInputs, setQuantidadeDeInputs] = useState([]);
+    const [form, setForm] = useState({ idProva: 0, nome: "", listaDeAssuntos: [] });
 
     const [modalMateriaEAssuntoIsOpen, setModalMateriaEAssuntoIsOpen] = useState(false);
+    const [modalEditarMateriaIsOpen, setModalEditarMateriaIsOpen] = useState(false);
     const [modalAssuntosIsOpen, setModalAssuntosIsOpen] = useState(false);
     const [modalEditarAssuntoIsOpen, setModalEditarAssuntoIsOpen] = useState(false);
-
-    const [idMateria, setIdMateria] = useState(null);
-    const [idAssunto, setIdAssunto] = useState(null);
-
     const [modalQuestoesIsOpen, setModalQuestoesIsOpen] = useState(false);
-    const [modalEditarMateriaIsOpen, setModalEditarMateriaIsOpen] = useState(false);
-
     const [alerta, setAlerta] = useState({ success: false, error: false, message: "" });
+    
+    const { 
+        prova, 
+        dispatcher,
+        quantidadeDeInputs,
+        setQuantidadeDeInputs,
+        idMateria,
+        setIdMateria,
+        idAssunto,
+        setIdAssunto
+     } = useContext(ProvaContext)
 
-    const [prova, dispatcher] = useReducer(reducer, {});
+    const parametros = useParams();
 
     useEffect(() => {
         provaService.buscaProvaPorId(+parametros.id)
@@ -110,39 +113,14 @@ const ProvaEspecifica = () => {
                 } else {
                     setIsLoading(false);
                     dispatcher({ tipo: ADICIONAR_PROVA, prova: res })
-                    setForm({ idProva: res.id, nome: "", listaDeAssuntos: [] });
+                    setForm(prevState => ({ ...prevState, idProva: res.id }));
                 }
             })
             .catch(err => {
-                console.error(err);
+                setAlertaError(err.response.data);
                 setIsLoading(false);
             });
     }, [parametros.id]);
-
-    useEffect(() => {
-        switch (acaoDoUsuario) {
-            case ADICIONAR_ASSUNTO:
-                setModalAssuntosIsOpen(true); 
-                break;
-            case EXCLUIR_ASSUNTO:
-                excluirAssunto();
-                break;
-            case EDITAR_ASSUNTO:
-                setModalEditarAssuntoIsOpen(true);
-                break;
-            case ADICIONAR_QUESTAO:
-                pegaValoresAssuntoParaEnviarQuestoes()
-                break;
-            case EDITAR_MATERIA:
-                setModalEditarMateriaIsOpen(true);
-                break;
-            default:
-                break;
-        }
-
-        setAcaoDoUsuario('');
-
-    }, [acaoDoUsuario]);
 
     const openModal = () => {
         setModalMateriaEAssuntoIsOpen(true);
@@ -154,6 +132,15 @@ const ProvaEspecifica = () => {
     const closeModalAssuntos = () => {
         setModalAssuntosIsOpen(false);
     };
+    const openModalEditarAssuntos = (idMateria, idAssunto) => {
+        setModalEditarAssuntoIsOpen(true);
+        setIdMateria(idMateria);
+        setIdAssunto(idAssunto);
+    }
+    const openModalAssuntos = (idMateria) => {
+        setModalAssuntosIsOpen(true);
+        setIdMateria(idMateria);
+    }
 
     const closeModalEditarAssuntos = () => {
         setModalEditarAssuntoIsOpen(false);
@@ -162,6 +149,16 @@ const ProvaEspecifica = () => {
     const closeModalQuestoes = () => {
         setModalQuestoesIsOpen(false);
     };
+    const openModalQuestoes = (idMateria, idAssunto) => {
+        setModalQuestoesIsOpen(true);
+        setIdMateria(idMateria);
+        setIdAssunto(idAssunto);
+    }
+
+    const openModalEditarMateria = (idMateria) => {
+        setModalEditarMateriaIsOpen(true);
+        setIdMateria(idMateria);
+    }
 
     const closeModalEditarMateria = () => {
         setModalEditarMateriaIsOpen(false);
@@ -180,8 +177,6 @@ const ProvaEspecifica = () => {
         }, 5000);
     };
 
-    
-    
     const handleChange = (event) => {
         const { name, value } = event.target;
         
@@ -218,37 +213,14 @@ const ProvaEspecifica = () => {
     if (prova === null) {
         return <PaginaEspecifaNotFound erro="Prova não encontrada" />;
     }
+    
     const limparFormulario = () => {
         setForm({ idProva: prova.id });
         setQuantidadeDeInputs([]);
+        setIdMateria(null);
+        setIdAssunto(null);
         closeModal();
     }
-
-    const capturaCliqueBotaoUsuario = (event, idAssunto = null) => {
-        let nomeBotao = event.target.name;
-        let divPrincipal = event.target.parentNode.parentNode;
-        let idMateria;
-
-        if (event.target.localName === "path") {
-            divPrincipal = event.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode;
-            nomeBotao = event.target.parentNode.parentNode.name
-        }
-
-        if (event.target.localName === "svg") {
-            divPrincipal = event.target.parentNode.parentNode.parentNode.parentNode.parentNode;
-            nomeBotao = event.target.parentNode.name
-        }
-
-        if (nomeBotao === "excluir_assunto" || nomeBotao === "editar_assunto" || "adicionar_questao") {
-            idMateria = divPrincipal.parentNode.parentNode.querySelector("#idMateria").value;
-            setIdAssunto(idAssunto !== null ? idAssunto : null);
-        } else {
-            idMateria = divPrincipal.querySelector("#idMateria").value;
-        }
-
-        setIdMateria(parseInt(idMateria));
-        setAcaoDoUsuario(nomeBotao);
-    };
     
     const retornaValoresAssunto = () => {
         let assuntoEncontrado = null;
@@ -263,17 +235,6 @@ const ProvaEspecifica = () => {
         return assuntoEncontrado;
     };
 
-    const pegaValoresAssuntoParaEnviarQuestoes = () => {
-        const assunto = retornaValoresAssunto();
-
-        if (assunto) {
-            setModalQuestoesIsOpen(true);
-            setIdAssunto(assunto.id);
-        } else {
-            setAlertaError("Escolha um assunto para adicionar questões.");
-        }
-    }
-    
     const excluirMateria = async (idMateria) => {
         try {
             const response = await materiasService.deletaMateria(prova.id, idMateria);
@@ -294,7 +255,7 @@ const ProvaEspecifica = () => {
 
     };
 
-    const excluirAssunto = async () => {
+    const excluirAssunto = async (idAssunto, idMateria) => {
         try {
             let dadosParaExclusaoDoAssunto = { idAssunto: idAssunto, idMateria: idMateria, idProva: prova.id };
             const response = await assuntoService.deletarAssunto(dadosParaExclusaoDoAssunto);
@@ -305,7 +266,6 @@ const ProvaEspecifica = () => {
                     idAssunto: idAssunto
                 }
             })
-
             setAlertaSuccess("Assunto excluído com sucesso.");
 
         } catch (error) {
@@ -313,10 +273,8 @@ const ProvaEspecifica = () => {
         } finally {
             setIdMateria(null);
             setIdAssunto(null);
-
         }
     };
-
 
     const alterarAssunto = async (assuntoAlterado) => {
         try {
@@ -350,8 +308,6 @@ const ProvaEspecifica = () => {
             limparFormulario();
         }
     };
-
-
 
     const adicionarQuestoesAoAssunto = async (dadosQuestao) => {
         try {
@@ -413,7 +369,6 @@ const ProvaEspecifica = () => {
                     assunto: response
                 }
             })
-
             setAlertaSuccess("Assunto adicionado à matéria com sucesso!");
             
         } catch (error) {
@@ -448,13 +403,15 @@ const ProvaEspecifica = () => {
                                 <AccordionAssunto
                                     prova={prova}
                                     excluirMateria={excluirMateria}
-                                    capturaCliqueBotaoUsuario={capturaCliqueBotaoUsuario}
+                                    excluirAssunto={excluirAssunto}
+                                    setModalAssuntosIsOpen={openModalAssuntos}
+                                    setModalEditarMateriaIsOpen={openModalEditarMateria}
+                                    setModalEditarAssuntosIsOpen={openModalEditarAssuntos}
+                                    setModalAdicionarQuestoesIsOpen={openModalQuestoes}
                                 />
                             </>
                     }
-
                 </SectionProvasEstilizada>
-
                 <ModalAdicionarMateriasEAssuntos
                     modalIsOpen={modalMateriaEAssuntoIsOpen}
                     closeModal={closeModal}

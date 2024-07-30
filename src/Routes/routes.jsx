@@ -9,39 +9,42 @@ import Provas from "../Paginas/Provas";
 import ProvaEspecifica from "../Paginas/ProvaEspecifica";
 import DetalhamentoAssunto from "../Paginas/DetalhamentoAssunto";
 import Agendamentos from "../Paginas/Agendamentos";
+import { ProvaProvider } from "../Context";
 
 const Routering = () => {
     return (
         <BrowserRouter>
-            <Routes>
-                <Route path="*" element={<Login />} />
-                <Route path="/cadastro" element={<Cadastro />} />
-                <Route path="/home" element={
-                    <ProtectedRoutes>
-                        <Home />
-                    </ProtectedRoutes>
-                } />
-                <Route path="/provas" element={
-                    <ProtectedRoutes>
-                        <Provas />
-                    </ProtectedRoutes>
-                } />
-                <Route path="/provas/:id/*" element={
-                    <ProtectedRoutes>
-                        <ProvaEspecifica />
-                    </ProtectedRoutes>
-                } />
-                <Route path="/provas/:idProva/materias/:idMateria/assuntos/:idAssunto/*" element={
-                    <ProtectedRoutes>
-                        <DetalhamentoAssunto />
-                    </ProtectedRoutes>
-                } />
-                <Route path="/planejador/*" element={
-                    <ProtectedRoutes>
-                        <Agendamentos />
-                    </ProtectedRoutes>
-                } />
-            </Routes>
+            <ProvaProvider>
+                <Routes>
+                    <Route path="*" element={<Login />} />
+                    <Route path="/cadastro" element={<Cadastro />} />
+                    <Route path="/home" element={
+                        <ProtectedRoutes>
+                            <Home />
+                        </ProtectedRoutes>
+                    } />
+                    <Route path="/provas" element={
+                        <ProtectedRoutes>
+                            <Provas />
+                        </ProtectedRoutes>
+                    } />
+                    <Route path="/provas/:id/*" element={
+                        <ProtectedRoutes>
+                            <ProvaEspecifica />
+                        </ProtectedRoutes>
+                    } />
+                    <Route path="/provas/:idProva/materias/:idMateria/assuntos/:idAssunto/*" element={
+                        <ProtectedRoutes>
+                            <DetalhamentoAssunto />
+                        </ProtectedRoutes>
+                    } />
+                    <Route path="/planejador/*" element={
+                        <ProtectedRoutes>
+                            <Agendamentos />
+                        </ProtectedRoutes>
+                    } />
+                </Routes>
+            </ProvaProvider>
         </BrowserRouter>
     );
 }
