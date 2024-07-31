@@ -1,68 +1,23 @@
 import { useParams } from "react-router-dom";
-import { useContext, useEffect, useReducer, useState } from "react";
-import styled from "styled-components";
-
+import { useEffect, useState } from "react";
 import ProvasService from "../../services/Provas";
 import DataService from "../../services/DataService";
 import MateriasService from "../../services/MateriasService";
-
 import { SectionProvasEstilizada } from "../Provas";
-
 import Cabecalho from "../../componentes/Cabecalho";
 import MainEstilizada from "../../componentes/Main";
 import PaginaEspecifaNotFound from "../ProvaEspecificaNotFound";
 import BotaoEstilizado from "../../componentes/Botao";
-
 import AccordionAssunto from "./AccordionAssunto";
-import ModalAdicionarMateriasEAssuntos from "./ModalAdicionarMateriaEAssuntos";
-import ModalAdicionarAssuntos from "./ModalAdicionarAssuntos";
 import AssuntoService from "../../services/AssuntoService";
-import ModalEditarAssuntos from "./ModalEditarAssuntos";
-import ModalAdicionarQuestoes from "./ModalAdicionarQuestoes";
 import QuestoesService from "../../services/QuestoesService";
-import ModalEditarMateria from "./ModalEditarMateria";
 import GraficosRendimentoAssuntos from "../../componentes/GraficosRendimentoAssuntos";
 import Footer from "../../componentes/Footer";
 import Loader from "../../componentes/Loader";
 import Alert from "../../componentes/Alert";
 import { useProvaContext } from "../../Hooks/useProvaContext";
-
-export const DivBotoesCrudMateria = styled.div`
-    display: flex;
-    justify-content: space-evenly;
-    margin-bottom: 1em;
-
-    @media (max-width: 820px) {
-        flex-direction: column;
-        align-items: center;
-        gap: 1em;
-        justify-content: space-between;
-    }
-    @media (max-width: 562px) {
-        flex-direction: column;
-        align-items: center;
-        gap: 0.5em;
-        justify-content: space-between;
-    }
-`;
-
-const DivEstilizadaProvaEspecífica = styled.div`
-    display: flex;
-    justify-content: flex-end;
-    width: 100%;
-    margin: 1em 0;
-
-    span {
-        width: 25%;
-        font-size: 22px;
-    }
-
-    @media (max-width: 562px) {
-        span {
-            width: 100%;
-        }
-    }
-`;
+import ModalFormFlexivel from "./ModalFormFlexivel";
+import { DivEstilizadaProvaEspecífica } from "./ComponentesProvaEspecifica";
 
 const ProvaEspecifica = () => {
     const dataService = new DataService();
@@ -72,16 +27,10 @@ const ProvaEspecifica = () => {
     const questoesService = new QuestoesService();
 
     const [isLoading, setIsLoading] = useState(true);
-    const [form, setForm] = useState({ idProva: 0, nome: "", listaDeAssuntos: [] });
-
-    const [modalMateriaEAssuntoIsOpen, setModalMateriaEAssuntoIsOpen] = useState(false);
-    const [modalEditarMateriaIsOpen, setModalEditarMateriaIsOpen] = useState(false);
-    const [modalAssuntosIsOpen, setModalAssuntosIsOpen] = useState(false);
-    const [modalEditarAssuntoIsOpen, setModalEditarAssuntoIsOpen] = useState(false);
-    const [modalQuestoesIsOpen, setModalQuestoesIsOpen] = useState(false);
-
+    const [modalIsOpen, setModalIsOpen] = useState(false);
     const [alerta, setAlerta] = useState({ success: false, error: false, message: "" });
     const parametros = useParams();
+    const [acaoUsuario, setAcaoUsuario] = useState("");
 
     const {
         addProva,
@@ -93,7 +42,6 @@ const ProvaEspecifica = () => {
         delMateria,
         updateMateria,
         prova,
-        setQuantidadeDeInputs,
         idMateria,
         setIdMateria,
         idAssunto,
@@ -107,7 +55,6 @@ const ProvaEspecifica = () => {
                     setAlertaError(res.request.status);
                 } else {
                     addProva(res)
-                    setForm(prevState => ({ ...prevState, idProva: res.id }));
                 }
                 setIsLoading(false);
             })
@@ -118,45 +65,10 @@ const ProvaEspecifica = () => {
     }, [+parametros.id]);
 
     const openModal = () => {
-        setModalMateriaEAssuntoIsOpen(true);
+        setModalIsOpen(true);
     };
     const closeModal = () => {
-        setModalMateriaEAssuntoIsOpen(false);
-    };
-
-    const closeModalAssuntos = () => {
-        setModalAssuntosIsOpen(false);
-    };
-    const openModalEditarAssuntos = (idMateria, idAssunto) => {
-        setModalEditarAssuntoIsOpen(true);
-        setIdMateria(idMateria);
-        setIdAssunto(idAssunto);
-    }
-    const openModalAssuntos = (idMateria) => {
-        setModalAssuntosIsOpen(true);
-        setIdMateria(idMateria);
-    }
-
-    const closeModalEditarAssuntos = () => {
-        setModalEditarAssuntoIsOpen(false);
-    };
-
-    const closeModalQuestoes = () => {
-        setModalQuestoesIsOpen(false);
-    };
-    const openModalQuestoes = (idMateria, idAssunto) => {
-        setModalQuestoesIsOpen(true);
-        setIdMateria(idMateria);
-        setIdAssunto(idAssunto);
-    }
-
-    const openModalEditarMateria = (idMateria) => {
-        setModalEditarMateriaIsOpen(true);
-        setIdMateria(idMateria);
-    }
-
-    const closeModalEditarMateria = () => {
-        setModalEditarMateriaIsOpen(false);
+        setModalIsOpen(false);
     };
 
     const setAlertaSuccess = (msg) => {
@@ -172,42 +84,8 @@ const ProvaEspecifica = () => {
         }, 5000);
     };
 
-    const handleChange = (event) => {
-        const { name, value } = event.target;
-
-        setForm(prevForm => {
-            const updatedForm = { ...prevForm, [name]: value };
-            aoDigitar(updatedForm);
-            return updatedForm;
-        });
-    };
-
-    const aoDigitar = (form) => {
-        const novoAssunto = { nome: '', quantidadePdf: 0 };
-        let lista = [];
-
-        for (const key in form) {
-            if (key.includes('quantidade_input')) {
-                novoAssunto.quantidadePdf = parseInt(form[key]);
-            }
-            if (key.includes('nome_assunto')) {
-                novoAssunto.nome = form[key];
-            }
-        }
-
-        if (novoAssunto.nome !== '') lista = [...lista, novoAssunto];
-        setForm(prevState => ({ ...prevState, listaDeAssuntos: lista }));
-    };
-
     if (prova === null) {
         return <PaginaEspecifaNotFound erro="Prova não encontrada" />;
-    }
-
-    const limparFormulario = () => {
-        setForm({ idProva: prova.id });
-        setQuantidadeDeInputs([]);
-        setIdMateria(null);
-        setIdAssunto(null);
     }
 
     const retornaValoresAssunto = () => {
@@ -264,21 +142,21 @@ const ProvaEspecifica = () => {
             })
             setAlertaSuccess("Assunto editado com sucesso!");
         } catch (error) {
-            setAlertaError(error.response.data);
+            console.log(error)
+            setAlertaError(error.response?.data);
         } finally {
-            closeModalEditarAssuntos();
-            // limparFormulario();
+            closeModal();
         }
     };
-    const adicionaMateria = async () => {
+    const adicionaMateria = async (form) => {
         try {
             const { nome, id, listaDeAssuntos } = await materiasService.adicionaMateria(form);
             addMateria({ dadosParaAlteracao: { nome: nome, id: id, listaDeAssuntos: listaDeAssuntos } });
             setAlertaSuccess("Materia adicionada com sucesso.");
         } catch (error) {
+            console.log(error);
             setAlertaError(error.response?.data);
         } finally {
-            limparFormulario();
             closeModal();
         }
     };
@@ -287,7 +165,6 @@ const ProvaEspecifica = () => {
         try {
             const dadosParaEnviarQuestoesParaApi = { idProva: prova.id, idMateria: idMateria, idAssunto: idAssunto, questao: dadosQuestao };
             const r = await questoesService.adicionaQuestao(dadosParaEnviarQuestoesParaApi);
-            setModalQuestoesIsOpen(false);
             addQuestao({
                 dadosParaAlteracao: {
                     idMateria: idMateria,
@@ -297,9 +174,10 @@ const ProvaEspecifica = () => {
             })
             setAlertaSuccess("Questões adicionadas com sucesso.");
         } catch (error) {
-            setAlertaError(error.response.data);
+            console.log(error);
+            setAlertaError(error.response?.data);
         } finally {
-            limparFormulario();
+            closeModal();
         }
     }
 
@@ -317,8 +195,8 @@ const ProvaEspecifica = () => {
         } catch (error) {
             setAlertaError(error.response.data);
         } finally {
-            closeModalEditarMateria();
-            limparFormulario();
+            closeModal();
+        
         }
     };
     const adicionarAssunto = async (formularioAdicionarAssuntos) => {
@@ -335,9 +213,12 @@ const ProvaEspecifica = () => {
             setAlertaError("Erro ao adicionar assunto. Contate o administrador!");
         }
         finally {
-            closeModalAssuntos();
-            limparFormulario();
+            closeModal();
+        
         }
+    }
+    function teste () {
+        setAcaoUsuario("adicionar_materia");  openModal();
     }
 
     return (
@@ -354,7 +235,10 @@ const ProvaEspecifica = () => {
                                 <p style={{ fontSize: "20px" }}>Data da prova: {dataService.transformarDataEmString(prova.data)}</p>
                                 <DivEstilizadaProvaEspecífica>
                                     <span>
-                                        <BotaoEstilizado disabled={false} onClick={openModal}>
+                                        <BotaoEstilizado
+                                            disabled={false}
+                                            onClick={teste}
+                                        >
                                             Adicionar Materias
                                         </BotaoEstilizado>
                                     </span>
@@ -366,42 +250,22 @@ const ProvaEspecifica = () => {
                                     prova={prova}
                                     excluirMateria={excluirMateria}
                                     excluirAssunto={excluirAssunto}
-                                    setModalAssuntosIsOpen={openModalAssuntos}
-                                    setModalEditarMateriaIsOpen={openModalEditarMateria}
-                                    setModalEditarAssuntosIsOpen={openModalEditarAssuntos}
-                                    setModalAdicionarQuestoesIsOpen={openModalQuestoes}
+                                    setAcaoUsuario={setAcaoUsuario}
+                                    setModalIsOpen={openModal}
                                 />
                             </>
                     }
                 </SectionProvasEstilizada>
-                <ModalAdicionarMateriasEAssuntos
-                    modalIsOpen={modalMateriaEAssuntoIsOpen}
+                <ModalFormFlexivel
+                    modalIsOpen={modalIsOpen}
                     closeModal={closeModal}
                     adicionaMateria={adicionaMateria}
-                    handleChanger={handleChange}
-                />
-
-                <ModalAdicionarAssuntos
-                    modalIsOpen={modalAssuntosIsOpen}
-                    closeModal={closeModalAssuntos}
                     adicionarAssunto={adicionarAssunto}
-                />
-
-                <ModalEditarAssuntos
-                    modalIsOpen={modalEditarAssuntoIsOpen}
-                    closeModal={closeModalEditarAssuntos}
                     retornaValoresAssunto={retornaValoresAssunto}
-                    aoEnviar={alterarAssunto}
-                />
-                <ModalAdicionarQuestoes
-                    modalIsOpen={modalQuestoesIsOpen}
-                    closeModal={closeModalQuestoes}
+                    alterarAssunto={alterarAssunto}
                     adicionarQuestoesAoAssunto={adicionarQuestoesAoAssunto}
-                />
-                <ModalEditarMateria
-                    modalIsOpen={modalEditarMateriaIsOpen}
-                    closeModal={closeModalEditarMateria}
                     editarMateria={editarMateria}
+                    acaoUsuario={acaoUsuario}
                 />
             </MainEstilizada>
             <Alert

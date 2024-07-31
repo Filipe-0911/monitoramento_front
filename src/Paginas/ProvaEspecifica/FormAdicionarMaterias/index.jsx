@@ -4,6 +4,7 @@ import BotaoEstilizado from "../../../componentes/Botao";
 import { BotaorCard } from "../../../componentes/ComponentesHome";
 import { MdOutlineAddToPhotos } from "react-icons/md";
 import { useProvaContext } from "../../../Hooks/useProvaContext";
+import { useState } from "react";
 
 const InputAssunto = ({ input, index, onChange }) => {
     return (
@@ -16,13 +17,31 @@ const InputAssunto = ({ input, index, onChange }) => {
     );
 }
 
-const FormAdicionarMaterias = ({ adicionaMateria, handleChanger }) => {
+const FormAdicionarMaterias = ({ adicionaMateria }) => {
+    const { verificaSePodeAdicionarInputAssunto, quantidadeDeInputs, setQuantidadeDeInputs, prova } = useProvaContext();
 
-    const { verificaSePodeAdicionarInputAssunto, quantidadeDeInputs, setQuantidadeDeInputs } = useProvaContext();
+    const [formularioAdicionarMaterias, setFormularioAdicionarMaterias] = useState({
+        idProva: prova.id,
+        nome: '',
+        assuntos: []
+    });
+
 
     const adicionaInputDeAssunto = () => {
         let name = `nome_assunto_${quantidadeDeInputs.length}`;
         setQuantidadeDeInputs([...quantidadeDeInputs, { name: name, placeholder: "Digite o nome do assunto" }]);
+    }
+
+    const handleChanger = (event) => {
+        setFormularioAdicionarMaterias(prevState => ({
+            ...prevState,
+            [event.target.name]: event.target.value
+        }))
+    }
+
+    const aoEnviar = () => {
+        adicionaMateria(formularioAdicionarMaterias);
+        setQuantidadeDeInputs([])
     }
 
     return (
@@ -45,7 +64,7 @@ const FormAdicionarMaterias = ({ adicionaMateria, handleChanger }) => {
                 }
                 <BotaoEstilizado
                     disabled={false}
-                    onClick={adicionaMateria}>
+                    onClick={() => aoEnviar()}>
                     Adicionar
                 </BotaoEstilizado>
             </FormEstilizado>

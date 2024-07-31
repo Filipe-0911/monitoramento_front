@@ -1,13 +1,13 @@
 import Accordion from "../../../componentes/Accordion";
 import { BotaorCard } from "../../../componentes/ComponentesHome";
-import { DivBotoesCrudMateria } from "..";
 import styled from "styled-components";
 
 import { FaPencilAlt, FaQuestion } from "react-icons/fa";
 import { MdCancel, MdOutlineAddToPhotos } from "react-icons/md";
 import { TbListDetails } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
-
+import { useProvaContext } from "../../../Hooks/useProvaContext";
+import { DivBotoesCrudMateria } from "../ComponentesProvaEspecifica"
 export const LiAcorddionEstilizado = styled.li`
     display: flex;
     justify-content: space-between;
@@ -80,20 +80,41 @@ const SectionDadosDoAssuntoEstilizado = styled.section`
     }
 `
 
-export default function AccordionAssunto({ prova, setModalAdicionarQuestoesIsOpen, excluirMateria, excluirAssunto, setModalAssuntosIsOpen, setModalEditarMateriaIsOpen, setModalEditarAssuntosIsOpen }) {
+export default function AccordionAssunto({  
+    excluirMateria, 
+    excluirAssunto, 
+    setModalIsOpen,
+    setAcaoUsuario }) {
+
     const navigate = useNavigate();
 
+    const {
+        setIdAssunto,
+        setIdMateria,
+        prova
+     } = useProvaContext();
+
     function adicionarAssunto (idMateria) {
-        setModalAssuntosIsOpen(idMateria);
+        setAcaoUsuario("adicionar_assunto")
+        setIdMateria(idMateria);
+        setModalIsOpen();
     }
     function editarMateria (idMateria) {
-        setModalEditarMateriaIsOpen(idMateria)
+        setIdMateria(idMateria);
+        setAcaoUsuario("editar_materia")
+        setModalIsOpen()
     }
     function editarAssunto (idMateria, idAssunto) {
-        setModalEditarAssuntosIsOpen(idMateria, idAssunto);
+        setIdMateria(idMateria);
+        setIdAssunto(idAssunto);
+        setAcaoUsuario("editar_assunto")
+        setModalIsOpen();
     }
     function adicionarQuestao (idMateria, idAssunto) {
-        setModalAdicionarQuestoesIsOpen(idMateria, idAssunto);
+        setIdMateria(idMateria);
+        setIdAssunto(idAssunto);
+        setAcaoUsuario("adicionar_questao")
+        setModalIsOpen();
     }
     return (
         prova.listaDeMaterias.map(materia => {
