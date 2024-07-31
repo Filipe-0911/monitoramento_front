@@ -35,7 +35,7 @@ const Home = () => {
         data: "",
         id: null
     });
-    const [adicionarOuAlterar, setAdicionarOuAlterar] = useState("");
+    const [acaoUsuario, setAcaoUsuario] = useState("");
 
     useEffect(() => {
         try {
@@ -60,10 +60,10 @@ const Home = () => {
                 data: "",
                 id: null
             });
-            setAdicionarOuAlterar("Adicionar");
+            setAcaoUsuario("Adicionar");
 
         } else {
-            setAdicionarOuAlterar("Alterar");
+            setAcaoUsuario("Alterar");
             setForm({
                 titulo: tarefa.titulo,
                 descricao: tarefa.descricao,
@@ -144,10 +144,15 @@ const Home = () => {
             setAlertaSuccess("Tarefa adicionada com sucesso!");
             closeModal();
         } catch (error) {
-            setAlertaError(error.response.data);
-            closeModal();
+            let mensagemErro = error.response.data;
+    
+            if (Array.isArray(mensagemErro)) {
+                mensagemErro.forEach(({ campo, mensagem }) => setAlertaError(`Erro no campo ${campo}: ${mensagem}`));
+            } else {
+                setAlertaError(mensagemErro);
+            }
         }
-    }
+    };
 
     return (
         <>
@@ -188,8 +193,8 @@ const Home = () => {
                         </BotaorCard>
                     </div>
                     <FormEstilizadoTarefa
-                        tituloEBotao={adicionarOuAlterar}
-                        onClick={adicionarOuAlterar === "Adicionar" ? adicionarTarefa : alterarTarefa}
+                        tituloEBotao={acaoUsuario}
+                        onClick={acaoUsuario === "Adicionar" ? adicionarTarefa : alterarTarefa}
                         form={form}
                         handleChanger={handleChanger} />
                 </ModalComponent>
