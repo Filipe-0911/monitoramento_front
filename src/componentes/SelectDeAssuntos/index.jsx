@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { FaSearch } from 'react-icons/fa';
 import CampoForm from '../CampoForm';
 
 const Wrapper = styled.div`
@@ -69,11 +70,17 @@ const SelectDeAssuntos = ({ options, onChange }) => {
       </StyledSelect>
       {isOpen && (
         <Options>
+          <div style={{display: 'flex', alignItems:"center"}}>
           <CampoForm
             type="search"
             defaultValue={valorParaBusca}
             onChange={(e) => setValorParaBusca(e.target.value)}
+            placeholder="Buscar assunto"
+            name="busca"
+            autoFocus={true}
           />
+          {valorParaBusca.length === 0 && <FaSearch style={{ position: 'absolute', right:"10px" }}/>}
+          </div>
           {
             valorParaBusca
               ? options.filter(assunto => assunto.nome.toLowerCase().includes(valorParaBusca.toLowerCase()))
