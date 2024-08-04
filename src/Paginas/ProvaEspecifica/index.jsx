@@ -196,7 +196,7 @@ const ProvaEspecifica = () => {
             setAlertaError(error.response.data);
         } finally {
             closeModal();
-        
+
         }
     };
     const adicionarAssunto = async (formularioAdicionarAssuntos) => {
@@ -214,64 +214,60 @@ const ProvaEspecifica = () => {
         }
         finally {
             closeModal();
-        
+
         }
     }
-    function teste () {
-        setAcaoUsuario("adicionar_materia");  openModal();
+    function teste() {
+        setAcaoUsuario("adicionar_materia"); openModal();
     }
 
     return (
         <>
-            <Cabecalho />
-            <MainEstilizada>
-                <SectionProvasEstilizada>
-                    {
-                        isLoading ?
-                            <Loader />
-                            :
-                            <>
-                                <h1>Prova: {prova.titulo}</h1>
-                                <p style={{ fontSize: "20px" }}>Data da prova: {dataService.transformarDataEmString(prova.data)}</p>
-                                <DivEstilizadaProvaEspecífica>
-                                    <span>
-                                        <BotaoEstilizado
-                                            disabled={false}
-                                            onClick={teste}
-                                        >
-                                            Adicionar Materias
-                                        </BotaoEstilizado>
-                                    </span>
-                                </DivEstilizadaProvaEspecífica>
-                                <GraficosRendimentoAssuntos
-                                    prova={prova}
-                                />
-                                <AccordionAssunto
-                                    prova={prova}
-                                    excluirMateria={excluirMateria}
-                                    excluirAssunto={excluirAssunto}
-                                    setAcaoUsuario={setAcaoUsuario}
-                                    setModalIsOpen={openModal}
-                                />
-                            </>
-                    }
-                </SectionProvasEstilizada>
-                <ModalFormFlexivel
-                    modalIsOpen={modalIsOpen}
-                    closeModal={closeModal}
-                    adicionaMateria={adicionaMateria}
-                    adicionarAssunto={adicionarAssunto}
-                    retornaValoresAssunto={retornaValoresAssunto}
-                    alterarAssunto={alterarAssunto}
-                    adicionarQuestoesAoAssunto={adicionarQuestoesAoAssunto}
-                    editarMateria={editarMateria}
-                    acaoUsuario={acaoUsuario}
-                />
-            </MainEstilizada>
+            <SectionProvasEstilizada>
+                {
+                    isLoading ?
+                        <Loader />
+                        :
+                        <>
+                            <h1>Prova: {prova.titulo}</h1>
+                            <p style={{ fontSize: "20px" }}>Data da prova: {dataService.transformarDataEmString(prova.data)}</p>
+                            <DivEstilizadaProvaEspecífica>
+                                <span>
+                                    <BotaoEstilizado
+                                        disabled={false}
+                                        onClick={teste}
+                                    >
+                                        Adicionar Materias
+                                    </BotaoEstilizado>
+                                </span>
+                            </DivEstilizadaProvaEspecífica>
+                            <GraficosRendimentoAssuntos
+                                prova={prova}
+                            />
+                            <AccordionAssunto
+                                prova={prova}
+                                excluirMateria={excluirMateria}
+                                excluirAssunto={excluirAssunto}
+                                setAcaoUsuario={setAcaoUsuario}
+                                setModalIsOpen={openModal}
+                            />
+                        </>
+                }
+            </SectionProvasEstilizada>
+            <ModalFormFlexivel
+                modalIsOpen={modalIsOpen}
+                closeModal={closeModal}
+                adicionaMateria={adicionaMateria}
+                adicionarAssunto={adicionarAssunto}
+                retornaValoresAssunto={retornaValoresAssunto}
+                alterarAssunto={alterarAssunto}
+                adicionarQuestoesAoAssunto={adicionarQuestoesAoAssunto}
+                editarMateria={editarMateria}
+                acaoUsuario={acaoUsuario}
+            />
             <Alert
                 dados={alerta}
             />
-            <Footer />
         </>
     );
 }

@@ -1,5 +1,5 @@
 import { createContext, useReducer, useState } from "react"
-import reducer from "../Paginas/ProvaEspecifica/reducer";
+import reducer from "../../Paginas/ProvaEspecifica/reducer";
 
 export const ProvaContext = createContext();
 ProvaContext.displayName = "Prova";

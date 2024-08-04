@@ -7,6 +7,8 @@ import UserService from "../../services/Usuario";
 import { NavLink, useNavigate } from "react-router-dom";
 import { ContainerEstilizado, SubContainerSign, FormEstilizado } from "../../componentes/ContainerLoginEstilizado";
 import Alert from "../../componentes/Alert";
+import useUserContext from "../../Hooks/useUserContext";
+import Loader from "../../componentes/Loader";
 
 const userService = new UserService();
 
@@ -14,7 +16,7 @@ const Login = () => {
     const [loading, setLoading] = useState(false);
     const [form, setForm] = useState({});
     const [alerta, setAlerta] = useState({ success: false, error: false, message: "" });
-    const navigate = useNavigate();
+    const { login } = useUserContext();
 
     const setAlertaSuccess = (msg) => {
         setAlerta({ success: true, error: false, message: msg })
@@ -33,18 +35,14 @@ const Login = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         setLoading(true);
-        try {
-            const response = await userService.login(form);
+        let estaLogado = await login(form);
+
+        if (estaLogado === true) {
             setAlertaSuccess("Login realizado com sucesso!");
-            response ? navigate("/home") : console.log("Login failed", response);
-
-        } catch (error) {
-            setAlertaError(error.response.data);
-
-        } finally {
-            setLoading(false);
-
+            return;
         }
+        setAlertaError(estaLogado);
+        setLoading(false);
     }
 
     return (
@@ -66,7 +64,11 @@ const Login = () => {
                     type="submit"
                     $disabled={loading === true || !validadorInput(form)}
                 >
-                    Fazer Login
+                    {
+                        !loading ?
+                            "Fazer Login"
+                            : <Loader $login/>
+                    }
                 </BotaoEstilizado>
                 <SubContainerSign>
                     <p>Não possui conta?</p>

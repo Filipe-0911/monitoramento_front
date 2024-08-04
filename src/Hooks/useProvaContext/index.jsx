@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { ProvaContext } from "../../Context";
+import { ProvaContext } from "../../Context/ProvaProvider";
 import {
     ADICIONAR_PROVA,
     ADICIONAR_ASSUNTO,

@@ -16,8 +16,8 @@ export default class UserService {
 
         if (data) {
             localStorage.setItem('Authorization', data.tokenJWT);
-            await this.pegaDadosUsuario();
-            return true;
+            let dadosUsuario = await this.pegaDadosUsuario();
+            return dadosUsuario;
         }
 
         return;
@@ -31,6 +31,12 @@ export default class UserService {
             localStorage.setItem('login', JSON.stringify(data.login));
             localStorage.setItem('id', JSON.stringify(data.id));
             localStorage.setItem('horarioLogin', JSON.stringify(new Date()));
+            
+            const {nome, login, id} = data;
+            
+            let dadosUsuario = {nome, login, id}
+
+            return {...dadosUsuario, horarioLogin: new Date() };
         }
     }
 

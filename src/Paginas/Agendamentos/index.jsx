@@ -9,17 +9,6 @@ import AssuntoService from "../../services/AssuntoService";
 import Loader from "../../componentes/Loader";
 import Alert from "../../componentes/Alert";
 
-const MainCalendarioEstilizada = styled.main`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 4em;
-    margin-bottom: 2em;
-    padding: 0 1em;
-    width: 100%;
-    min-height: 80.35vh;
-`
-
 const Agendamentos = () => {
     const planejadorService = new PlanejadorService();
     const assuntoService = new AssuntoService();
@@ -27,7 +16,7 @@ const Agendamentos = () => {
     const [listaDeAssuntosDoUsuario, setListaDeAssuntosDoUsuario] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [open, setModalOpen] = useState(false);
-    const [alertIsOpen, setAlertIsOpen] = useState({ success: false, error:false, message: "" });
+    const [alertIsOpen, setAlertIsOpen] = useState({ success: false, error: false, message: "" });
     const [formEventos, setFormEventos] = useState({
         id: null,
         idProva: null,
@@ -82,7 +71,7 @@ const Agendamentos = () => {
         try {
             const response = await planejadorService.excluirPlanejamento(idEvento);
             if (response.status === 204) {
-                setListaDePlanejadores(prevState => prevState.filter(planejador => planejador.id!== idEvento));
+                setListaDePlanejadores(prevState => prevState.filter(planejador => planejador.id !== idEvento));
                 setAlertSuccess("Planejamento excluído com sucesso!")
             }
 
@@ -104,28 +93,25 @@ const Agendamentos = () => {
             title: '',
         });
     }
-    
+
 
     return (
         <>
-            <Cabecalho />
-            <MainCalendarioEstilizada>
-                <h1>Agendamentos</h1>
-                {
-                    isLoading ?
-                        <Loader/>
-                        :
-                        <Calendario
-                            closeModal={closeModal}
-                            openModal={openModal}
-                            setFormEventos={setFormEventos}
-                            setListaDePlanejadores={setListaDePlanejadores}
-                            listaDePlanejadores={listaDePlanejadores}
-                            setAlertError={setAlertError}
-                            setAlertSuccess={setAlertSuccess}
-                        /> 
-                    }
-            </MainCalendarioEstilizada>
+            <h1>Agendamentos</h1>
+            {
+                isLoading ?
+                    <Loader />
+                    :
+                    <Calendario
+                        closeModal={closeModal}
+                        openModal={openModal}
+                        setFormEventos={setFormEventos}
+                        setListaDePlanejadores={setListaDePlanejadores}
+                        listaDePlanejadores={listaDePlanejadores}
+                        setAlertError={setAlertError}
+                        setAlertSuccess={setAlertSuccess}
+                    />
+            }
             <ModalEventosCalendario
                 closeModal={closeModal}
                 modalIsOpen={open}
@@ -138,11 +124,9 @@ const Agendamentos = () => {
                 setAlertSuccess={setAlertSuccess}
                 setAlertError={setAlertError}
             />
-            <Footer />
-            <Alert 
+            <Alert
                 dados={alertIsOpen}
             />
-
         </>
     );
 }

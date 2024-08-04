@@ -101,11 +101,11 @@ const Home = () => {
                 setTarefas(tarefas.filter(tarefa => tarefa.id !== id))
                 setAlertaSuccess("Tarefa excluída com sucesso!")
             }
-            
+
         } catch (error) {
             setAlertaError("Ocorreu um erro ao excluir a tarefa.");
         }
-    
+
     }
 
     const handleChanger = (event) => {
@@ -145,7 +145,7 @@ const Home = () => {
             closeModal();
         } catch (error) {
             let mensagemErro = error.response.data;
-    
+
             if (Array.isArray(mensagemErro)) {
                 mensagemErro.forEach(({ campo, mensagem }) => setAlertaError(`Erro no campo ${campo}: ${mensagem}`));
             } else {
@@ -156,53 +156,49 @@ const Home = () => {
 
     return (
         <>
-            <Cabecalho />
-            <MainEstilizada>
-                <h1>Home</h1>
-                <h2 style={{ margin: "0 1em", textAlign: 'center' }}>Visualize abaixo sua lista de tarefas pendentes / a concluir: </h2>
-                <SectionAdicionarTarefa>
-                    <h4>Adicionar Tarefa</h4>
-                    <BotaorCard name="adicionar" $type="adicionar" onClick={(event) => openModal(null, event)}>
-                        <MdOutlineAddToPhotos id="adicionar" size={15} style={{ cursor: 'pointer' }} />
-                        Adicionar
-                    </BotaorCard>
-                </SectionAdicionarTarefa>
-                <ContainerTarefas>
-                    {
-                        isLoading
-                            ?
-                            <Loader />
-                            :
-                            tarefas.map((tarefa, index) => (
-                                <CardTarefas
-                                    key={index}
-                                    tarefa={tarefa}
-                                    concluirTarefa={concluirTarefa}
-                                    transformarDataEmString={dataService.transformarDataEmString}
-                                    deletarTarefa={deletarTarefa}
-                                    openModal={openModal}
-                                />
-                            ))
-                    }
-                </ContainerTarefas>
+            <h1>Home</h1>
+            <h2 style={{ margin: "0 1em", textAlign: 'center' }}>Visualize abaixo sua lista de tarefas pendentes / a concluir: </h2>
+            <SectionAdicionarTarefa>
+                <h4>Adicionar Tarefa</h4>
+                <BotaorCard name="adicionar" $type="adicionar" onClick={(event) => openModal(null, event)}>
+                    <MdOutlineAddToPhotos id="adicionar" size={15} style={{ cursor: 'pointer' }} />
+                    Adicionar
+                </BotaorCard>
+            </SectionAdicionarTarefa>
+            <ContainerTarefas>
+                {
+                    isLoading
+                        ?
+                        <Loader />
+                        :
+                        tarefas.map((tarefa, index) => (
+                            <CardTarefas
+                                key={index}
+                                tarefa={tarefa}
+                                concluirTarefa={concluirTarefa}
+                                transformarDataEmString={dataService.transformarDataEmString}
+                                deletarTarefa={deletarTarefa}
+                                openModal={openModal}
+                            />
+                        ))
+                }
+            </ContainerTarefas>
 
-                <ModalComponent modalIsOpen={modalAberto} closeModal={closeModal}>
-                    <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
-                        <BotaorCard $type="excluir" onClick={closeModal}>
-                            <MdCancel />
-                        </BotaorCard>
-                    </div>
-                    <FormEstilizadoTarefa
-                        tituloEBotao={acaoUsuario}
-                        onClick={acaoUsuario === "Adicionar" ? adicionarTarefa : alterarTarefa}
-                        form={form}
-                        handleChanger={handleChanger} />
-                </ModalComponent>
-            </MainEstilizada>
+            <ModalComponent modalIsOpen={modalAberto} closeModal={closeModal}>
+                <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
+                    <BotaorCard $type="excluir" onClick={closeModal}>
+                        <MdCancel />
+                    </BotaorCard>
+                </div>
+                <FormEstilizadoTarefa
+                    tituloEBotao={acaoUsuario}
+                    onClick={acaoUsuario === "Adicionar" ? adicionarTarefa : alterarTarefa}
+                    form={form}
+                    handleChanger={handleChanger} />
+            </ModalComponent>
             <Alert
                 dados={alerta}
             />
-            <Footer />
         </>
     );
 }

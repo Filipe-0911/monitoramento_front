@@ -60,7 +60,7 @@ const Cabecalho = () => {
                 <NavEstilizado open={menuEscondido}>
                     <ul>
                         <li>
-                            <NavLink to="/home">
+                            <NavLink to="/">
                                 Home
                             </NavLink>
                         </li>

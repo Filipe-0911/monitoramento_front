@@ -73,14 +73,14 @@ const DetalhamentoAssunto = () => {
     const handleChanger = (event) => {
 
         setAssunto(prevAssunto => ({
-           ...prevAssunto,
+            ...prevAssunto,
             comentarios: event.target.value
         }));
     }
 
     const adicionarComentarios = (event) => {
         event.preventDefault();
-        const dadosParaEnvioDeComentario = { idProva: parametros.idProva, idMateria: parametros.idMateria, idAssunto: assunto.id, comentarios: assunto.comentarios}
+        const dadosParaEnvioDeComentario = { idProva: parametros.idProva, idMateria: parametros.idMateria, idAssunto: assunto.id, comentarios: assunto.comentarios }
         try {
             assuntoService.adicionarComentarios(dadosParaEnvioDeComentario).then(response => {
                 setAssunto({
@@ -89,46 +89,41 @@ const DetalhamentoAssunto = () => {
                 });
             }).catch(error => console.log(error));
         } catch (error) {
-            
+
         }
     }
 
     return (
         <>
-            <Cabecalho />
-            <MainEstilizada>
-                <h1>{assunto.nome}</h1>
-                <SectionDetalhamentoAssuntoEstilizada>
-                    <section style={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
-                        <div style={{ width: '30%', margin: '1em 0' }}>
-                            <BotaoEstilizado
-                                onClick={() => navigate(-1)}
-                            >
-                                Voltar
-                            </BotaoEstilizado>
-
-                        </div>
-                    </section>
-                    <FormularioDeAdicaoDeComentariosAoAssunto>
-                        <label>
-                            Comentários:
-                        </label>
-                        <TextAreaEstilizado 
-                            style={{ color: 'black' }} 
-                            defaultValue={assunto.comentarios}
-                            onChange={handleChanger}
-                        />
+            <h1>{assunto.nome}</h1>
+            <SectionDetalhamentoAssuntoEstilizada>
+                <section style={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
+                    <div style={{ width: '30%', margin: '1em 0' }}>
                         <BotaoEstilizado
-                            onClick={(e) => adicionarComentarios(e)}
+                            onClick={() => navigate(-1)}
                         >
-                            Adicionar Comentários
+                            Voltar
                         </BotaoEstilizado>
-                    </FormularioDeAdicaoDeComentariosAoAssunto>
 
-                </SectionDetalhamentoAssuntoEstilizada>
+                    </div>
+                </section>
+                <FormularioDeAdicaoDeComentariosAoAssunto>
+                    <label>
+                        Comentários:
+                    </label>
+                    <TextAreaEstilizado
+                        style={{ color: 'black' }}
+                        defaultValue={assunto.comentarios}
+                        onChange={handleChanger}
+                    />
+                    <BotaoEstilizado
+                        onClick={(e) => adicionarComentarios(e)}
+                    >
+                        Adicionar Comentários
+                    </BotaoEstilizado>
+                </FormularioDeAdicaoDeComentariosAoAssunto>
 
-            </MainEstilizada>
-            <Footer />
+            </SectionDetalhamentoAssuntoEstilizada>
         </>
     );
 
