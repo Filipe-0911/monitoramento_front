@@ -4,25 +4,29 @@ import BotaoEstilizado from "../../../componentes/Botao";
 import DataService from "../../../services/DataService";
 import PlanejadorService from "../../../services/PlanejadorService";
 import SelectDeAssuntos from "../../SelectDeAssuntos";
+import { FieldsetEstilizado } from "../../../componentes/Fieldset";
 
 const InputEventos = ({ onChange, dadosFormulario, dataService }) => {
     return (
         <>
-            <label>Data hora de Início</label>
-            <CampoForm
-                type="datetime-local"
-                onChange={onChange}
-                name="start"
-                defaultValue={dadosFormulario.start ? dataService.transformaDataEmStringParaInserirEmInputDateTimeLocal(dadosFormulario.start) : ''}
-            />
-
-            <label>Data hora de Término</label>
-            <CampoForm
-                type="datetime-local"
-                onChange={onChange}
-                name="end"
-                defaultValue={dadosFormulario.end ? dataService.transformaDataEmStringParaInserirEmInputDateTimeLocal(dadosFormulario.end) : ''}
-            />
+            <FieldsetEstilizado>
+                <label>Data hora de Início</label>
+                <CampoForm
+                    type="datetime-local"
+                    onChange={onChange}
+                    name="start"
+                    defaultValue={dadosFormulario.start ? dataService.transformaDataEmStringParaInserirEmInputDateTimeLocal(dadosFormulario.start) : ''}
+                />
+            </FieldsetEstilizado>
+            <FieldsetEstilizado>
+                <label>Data hora de Término</label>
+                <CampoForm
+                    type="datetime-local"
+                    onChange={onChange}
+                    name="end"
+                    defaultValue={dadosFormulario.end ? dataService.transformaDataEmStringParaInserirEmInputDateTimeLocal(dadosFormulario.end) : ''}
+                />
+            </FieldsetEstilizado>
         </>
     );
 }
@@ -165,14 +169,14 @@ export default function FormularioEventos({ formDefaultValue, setFormEventos, cl
                 {
                     formDefaultValue.id === null
                         ?
-                        <>
+                        <FieldsetEstilizado>
                             <label>Nome do Assunto</label>
                             <SelectDeAssuntos
                                 options={listaDeAssuntosDoUsuario}
                                 value={formDefaultValue}
                                 onChange={handleChanger}
                             />
-                        </>
+                        </FieldsetEstilizado>
                         : null
                 }
                 <InputEventos
@@ -180,16 +184,17 @@ export default function FormularioEventos({ formDefaultValue, setFormEventos, cl
                     dadosFormulario={formDefaultValue}
                     dataService={dataService}
                 />
-                <label>
-                    Inserir revisão
-                </label>
-                <CampoForm
-                    type="checkbox"
-                    name="revisao"
-                    onChange={handleChanger}
-                    defaultValue={formDefaultValue}
-                />
-
+                <FieldsetEstilizado>
+                    <label>
+                        Inserir revisão
+                    </label>
+                    <CampoForm
+                        type="checkbox"
+                        name="revisao"
+                        onChange={handleChanger}
+                        defaultValue={formDefaultValue}
+                    />
+                </FieldsetEstilizado>
                 <BotaoEstilizado
                     disabled={false}
                     onClick={(e) => defineSeAlteraOuAdiciona(e)}

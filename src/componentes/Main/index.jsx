@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const MainEstilizada = styled.main`
     margin-top: 80px;
-    max-width: 100vw;
+    max-width: 100%;
     display: flex;
     align-items: center;
     flex-direction: column;

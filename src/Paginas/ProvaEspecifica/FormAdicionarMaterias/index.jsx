@@ -4,16 +4,37 @@ import BotaoEstilizado from "../../../componentes/Botao";
 import { BotaorCard } from "../../../componentes/ComponentesHome";
 import { MdOutlineAddToPhotos } from "react-icons/md";
 import { useProvaContext } from "../../../Hooks/useProvaContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { FieldsetEstilizado } from "../../../componentes/Fieldset";
 
-const InputAssunto = ({ input, index, onChange }) => {
+const InputAssunto = ({ input, onChange }) => {
+    const [listaDeAssuntos, setListaDeAssuntos] = useState({ nome: "", quantidadePdf: 0 });
+
+    const handleChanger = (event) => {
+        setListaDeAssuntos(prevState => {
+            if (event.target.name === "quantidadePdf") {
+                return {
+                   ...prevState,
+                    quantidadePdf: parseInt(event.target.value),
+                }
+            }
+            return {
+                ...prevState,
+                [event.target.name] : event.target.value,
+            }
+        })
+    }
+    useEffect(() => {
+        onChange(new Array(listaDeAssuntos))
+    }, [listaDeAssuntos])
+
     return (
-        <>
+        <FieldsetEstilizado>
             <label>Nome Assunto</label>
-            <CampoForm onChange={onChange} name={input.name} placeholder={input.placeholder} />
+            <CampoForm onChange={handleChanger} name={input.name} placeholder={input.placeholder} />
             <label>Quantidade de PDFs</label>
-            <CampoForm onChange={onChange} type="number" name={`quantidade_input_${index}`} placeholder="Digite a quantidade" />
-        </>
+            <CampoForm onChange={handleChanger} type="number" name={`quantidadePdf`} placeholder="Digite a quantidade" />
+        </FieldsetEstilizado>
     );
 }
 
@@ -23,16 +44,23 @@ const FormAdicionarMaterias = ({ adicionaMateria }) => {
     const [formularioAdicionarMaterias, setFormularioAdicionarMaterias] = useState({
         idProva: prova.id,
         nome: '',
-        assuntos: []
+        listaDeAssuntos: []
     });
 
 
     const adicionaInputDeAssunto = () => {
-        let name = `nome_assunto_${quantidadeDeInputs.length}`;
-        setQuantidadeDeInputs([...quantidadeDeInputs, { name: name, placeholder: "Digite o nome do assunto" }]);
+        setQuantidadeDeInputs([...quantidadeDeInputs, { name: "nome", placeholder: "Digite o nome do assunto" }]);
+    }
+
+    const pegaValorDoAssuntoCasoExista = (listaRecebida) => {
+        setFormularioAdicionarMaterias(prevState => ({
+            ...prevState,
+            listaDeAssuntos: listaRecebida
+        }))
     }
 
     const handleChanger = (event) => {
+        console.log(event.target.name + ": " + event.target.value);
         setFormularioAdicionarMaterias(prevState => ({
             ...prevState,
             [event.target.name]: event.target.value
@@ -40,6 +68,7 @@ const FormAdicionarMaterias = ({ adicionaMateria }) => {
     }
 
     const aoEnviar = () => {
+        console.log(formularioAdicionarMaterias)
         adicionaMateria(formularioAdicionarMaterias);
         setQuantidadeDeInputs([])
     }
@@ -48,17 +77,19 @@ const FormAdicionarMaterias = ({ adicionaMateria }) => {
         <>
             <FormEstilizado onSubmit={e => e.preventDefault()}>
                 <h3>Adicionar Materia</h3>
-                <label>Nome da matéria</label>
-                <CampoForm
-                    name="nome"
-                    onChange={handleChanger}
-                    placeholder="Nome da matéria"
-                />
+                <FieldsetEstilizado>
+                    <label>Nome da matéria</label>
+                    <CampoForm
+                        name="nome"
+                        onChange={handleChanger}
+                        placeholder="Nome da matéria"
+                    />
+                </FieldsetEstilizado>
                 {quantidadeDeInputs.length > 0 && <h3>Assuntos</h3>}
                 {
                     quantidadeDeInputs.map((input, index) => {
                         return (
-                            <InputAssunto input={input} key={index} index={index} onChange={handleChanger} />
+                            <InputAssunto input={input} key={index} index={index} onChange={pegaValorDoAssuntoCasoExista} />
                         )
                     })
                 }

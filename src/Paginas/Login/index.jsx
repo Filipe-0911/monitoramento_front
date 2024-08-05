@@ -1,16 +1,14 @@
 import React, { useState } from "react";
 
 import CampoForm from "../../componentes/CampoForm";
+import { CampoSenha } from "../../componentes/CampoForm";
 import BotaoEstilizado from "../../componentes/Botao";
 import { ValidadorEmail, ValidadorSenha } from "../../Utils/Validadores";
-import UserService from "../../services/Usuario";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { ContainerEstilizado, SubContainerSign, FormEstilizado } from "../../componentes/ContainerLoginEstilizado";
 import Alert from "../../componentes/Alert";
 import useUserContext from "../../Hooks/useUserContext";
 import Loader from "../../componentes/Loader";
-
-const userService = new UserService();
 
 const Login = () => {
     const [loading, setLoading] = useState(false);
@@ -54,7 +52,7 @@ const Login = () => {
                     name="login"
                     onChange={handleChanger}
                 />
-                <CampoForm
+                <CampoSenha
                     placeholder="Digite sua senha"
                     type="password"
                     name="senha"
@@ -62,7 +60,8 @@ const Login = () => {
                 />
                 <BotaoEstilizado
                     type="submit"
-                    $disabled={loading === true || !validadorInput(form)}
+                    disabled={loading === true || !validadorInput(form)}
+
                 >
                     {
                         !loading ?

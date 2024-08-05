@@ -18,7 +18,7 @@ export default class MateriasService {
         try {
             const { data } = await this.axios.get(`/provas/${idProva}/materias/${idMateria}`, this.userService.getHeaderWithTokenFromLocalStorage());
             return data;
-            
+
         } catch (error) {
             return error;
         }
@@ -28,22 +28,19 @@ export default class MateriasService {
         try {
             const { data } = await this.axios.get(`/provas/${idProva}/materias`, this.userService.getHeaderWithTokenFromLocalStorage());
             return data;
-            
+
         } catch (error) {
             return error;
         }
     }
 
-    async adicionaMateria(assunto) {
-        const { nome, idProva, listaDeAssuntos } = assunto;
-        let materia = { nome: nome, listaDeAssuntos: listaDeAssuntos };
-        try {
-            const response = await this.axios.post(`/provas/${idProva}/materias`, materia, this.userService.getHeaderWithTokenFromLocalStorage());
-            return response.data;
-            
-        } catch (error) {
-            return error;
-        }
+    async adicionaMateria(materia) {
+        console.log(materia)
+        const { nome, idProva, listaDeAssuntos } = materia;
+        console.log({ nome: nome, listaDeAssuntos: listaDeAssuntos })
+
+        const { data } = await this.axios.post(`/provas/${idProva}/materias`, { nome: nome, listaDeAssuntos: listaDeAssuntos }, this.userService.getHeaderWithTokenFromLocalStorage());
+        return data;
     }
 
     async deletaMateria(idProva, idMateria) {
@@ -56,11 +53,11 @@ export default class MateriasService {
     }
 
     async editarMateria(dados) {
-        const {idProva, idMateria, novosDadosMateria } = dados;
+        const { idProva, idMateria, novosDadosMateria } = dados;
         try {
             const response = await this.axios.put(`/provas/${idProva}/materias/${idMateria}`, novosDadosMateria, this.userService.getHeaderWithTokenFromLocalStorage());
             return response.data;
-            
+
         } catch (error) {
             return error;
         }

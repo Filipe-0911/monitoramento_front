@@ -3,32 +3,39 @@ import CampoForm from "../../../componentes/CampoForm";
 import BotaoEstilizado from "../../../componentes/Botao";
 import { useState } from "react";
 import DataService from "../../../services/DataService";
+import { FieldsetEstilizado } from "../../../componentes/Fieldset";
 
 const InputQuestoes = ({ input, onChange, dadosFormulario }) => {
     return (
         <>
-            <label>Data hora de preenchimento</label>
-            <CampoForm
-                type="datetime-local"
-                onChange={onChange}
-                name={input.name}
-                placeholder={input.placeholder}
-                defaultValue={dadosFormulario.dataPreenchimento}
-            />
-            <label>Questões respondidas</label>
-            <CampoForm
-                type="number"
-                onChange={onChange}
-                name={`questoesFeitas`}
-                placeholder="Digite o número de questões respondidas"
-            />
-            <label>Questões corretas</label>
-            <CampoForm
-                type="number"
-                onChange={onChange}
-                name={`questoesAcertadas`}
-                placeholder="Digite o número de questões corretas"
-            />
+            <FieldsetEstilizado>
+                <label>Data hora de preenchimento</label>
+                <CampoForm
+                    type="datetime-local"
+                    onChange={onChange}
+                    name={input.name}
+                    placeholder={input.placeholder}
+                    defaultValue={dadosFormulario.dataPreenchimento}
+                />
+            </FieldsetEstilizado>
+            <FieldsetEstilizado>
+                <label>Questões respondidas</label>
+                <CampoForm
+                    type="number"
+                    onChange={onChange}
+                    name={`questoesFeitas`}
+                    placeholder="Digite o número de questões respondidas"
+                />
+            </FieldsetEstilizado>
+            <FieldsetEstilizado>
+                <label>Questões corretas</label>
+                <CampoForm
+                    type="number"
+                    onChange={onChange}
+                    name={`questoesAcertadas`}
+                    placeholder="Digite o número de questões corretas"
+                />
+            </FieldsetEstilizado>
         </>
     );
 }

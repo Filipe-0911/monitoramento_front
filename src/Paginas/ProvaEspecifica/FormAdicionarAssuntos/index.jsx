@@ -2,16 +2,16 @@ import { FormEstilizado } from "../../../componentes/ContainerLoginEstilizado";
 import CampoForm from "../../../componentes/CampoForm";
 import BotaoEstilizado from "../../../componentes/Botao";
 import { useState } from "react";
-import AssuntoService from "../../../services/AssuntoService";
+import { FieldsetEstilizado } from "../../../componentes/Fieldset";
 
 const InputAssunto = ({ input, onChange }) => {
     return (
-        <>
+        <FieldsetEstilizado>
             <label>Nome Assunto</label>
             <CampoForm onChange={onChange} name={input.name} placeholder={input.placeholder} />
             <label>Quantidade de PDFs</label>
             <CampoForm onChange={onChange} type="number" name={`quantidadePdf`} placeholder="Digite a quantidade de pdfs" />
-        </>
+        </FieldsetEstilizado>
     );
 }
 

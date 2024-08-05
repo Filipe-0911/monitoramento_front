@@ -14,6 +14,8 @@ import { useNavigate } from "react-router-dom";
 import Accordion from "../../componentes/Accordion";
 import { DivBotoesCrudEstilizado } from "../../componentes/Accordion";
 import Alert from "../../componentes/Alert";
+import Loader from "../../componentes/Loader";
+import { FieldsetEstilizado } from "../../componentes/Fieldset";
 
 const LiEstilizadoAccordionProvas = styled.li`
     display: flex;
@@ -78,6 +80,7 @@ const Provas = () => {
     const [modalAberto, setModalAberto] = useState(false);
     const [adicionarOuAlterar, setAdicionarOuAlterar] = useState("");
     const [alerta, setAlerta] = useState({ success: false, error: false, message: "" });
+    const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
 
     const [form, setForm] = useState({ id: 0, titulo: "", dataDaProva: "", corDaProva: "black", })
@@ -88,6 +91,7 @@ const Provas = () => {
             .then((provas) => {
                 if (Array.isArray(provas)) {
                     setProvas(provas);
+                    setIsLoading(false);
                 } else {
                     console.error('A resposta não é um array:', provas);
                 }
@@ -226,57 +230,59 @@ const Provas = () => {
                         </Botao>
                     </span>
                 </DivBotaoAdicionarEstilizada>
-                {provas.map(prova => {
-                    return (
-                        <Accordion key={prova.id} titulo={prova.titulo} corDaBorda={prova.corDaProva}>
-                            <ul>
-                                <LiEstilizadoAccordionProvas>
-                                    <h5>Data da prova:</h5>
-                                    <p>{new DataService().transformarDataEmString(prova.dataDaProva)}</p>
-                                </LiEstilizadoAccordionProvas>
-                                <LiEstilizadoAccordionProvas>
-                                    <h5>Quantidade de matérias:</h5>
-                                    <p>{prova.listaDeMaterias?.length}</p>
-                                </LiEstilizadoAccordionProvas>
-                                <LiEstilizadoAccordionProvas>
-                                    <h5>Quantidade de assunto por prova:</h5>
-                                    <p>{somaQuantidadeDeAssuntoPorProva(prova)}</p>
-                                </LiEstilizadoAccordionProvas>
-                                <LiEstilizadoAccordionProvas>
-                                    <h5>Quantidade de PDFS por prova:</h5>
-                                    <p>{somaQuantidadeDePDFsPorProva(prova)}</p>
-                                </LiEstilizadoAccordionProvas>
-                                <LiEstilizadoAccordionProvas>
-                                    <h5>Quantidade de questões por prova:</h5>
-                                    <p>{somaQuantidadeDeQuestoesPorProva(prova)}</p>
-                                </LiEstilizadoAccordionProvas>
-                            </ul>
-                            <DivBotoesCrudEstilizado>
-                                <BotaorCard
-                                    $type="editar"
-                                    name="Editar"
-                                    onClick={(e) => openModal(e, prova)}>
-                                    <FaPencilAlt id="Editar" />
-                                    Editar
-                                </BotaorCard>
-                                <BotaorCard
-                                    $type="excluir"
-                                    name="excluir"
-                                    onClick={() => deletarProva(prova.id)}>
-                                    <MdCancel />
-                                    Deletar
-                                </BotaorCard>
-                                <BotaorCard
-                                    $type="detalhar"
-                                    name="detalhar"
-                                    onClick={() => navigate(`/provas/${prova.id}`)}>
-                                    <TbListDetails />
-                                    Detalhar
-                                </BotaorCard>
-                            </DivBotoesCrudEstilizado>
-                        </Accordion>
-                    );
-                })}
+                {isLoading && <Loader />}
+                {!isLoading &&
+                    provas.map(prova => {
+                        return (
+                            <Accordion key={prova.id} titulo={prova.titulo} corDaBorda={prova.corDaProva}>
+                                <ul>
+                                    <LiEstilizadoAccordionProvas>
+                                        <h5>Data da prova:</h5>
+                                        <p>{new DataService().transformarDataEmString(prova.dataDaProva)}</p>
+                                    </LiEstilizadoAccordionProvas>
+                                    <LiEstilizadoAccordionProvas>
+                                        <h5>Quantidade de matérias:</h5>
+                                        <p>{prova.listaDeMaterias?.length}</p>
+                                    </LiEstilizadoAccordionProvas>
+                                    <LiEstilizadoAccordionProvas>
+                                        <h5>Quantidade de assunto por prova:</h5>
+                                        <p>{somaQuantidadeDeAssuntoPorProva(prova)}</p>
+                                    </LiEstilizadoAccordionProvas>
+                                    <LiEstilizadoAccordionProvas>
+                                        <h5>Quantidade de PDFS por prova:</h5>
+                                        <p>{somaQuantidadeDePDFsPorProva(prova)}</p>
+                                    </LiEstilizadoAccordionProvas>
+                                    <LiEstilizadoAccordionProvas>
+                                        <h5>Quantidade de questões por prova:</h5>
+                                        <p>{somaQuantidadeDeQuestoesPorProva(prova)}</p>
+                                    </LiEstilizadoAccordionProvas>
+                                </ul>
+                                <DivBotoesCrudEstilizado>
+                                    <BotaorCard
+                                        $type="editar"
+                                        name="Editar"
+                                        onClick={(e) => openModal(e, prova)}>
+                                        <FaPencilAlt id="Editar" />
+                                        Editar
+                                    </BotaorCard>
+                                    <BotaorCard
+                                        $type="excluir"
+                                        name="excluir"
+                                        onClick={() => deletarProva(prova.id)}>
+                                        <MdCancel />
+                                        Deletar
+                                    </BotaorCard>
+                                    <BotaorCard
+                                        $type="detalhar"
+                                        name="detalhar"
+                                        onClick={() => navigate(`/provas/${prova.id}`)}>
+                                        <TbListDetails />
+                                        Detalhar
+                                    </BotaorCard>
+                                </DivBotoesCrudEstilizado>
+                            </Accordion>
+                        );
+                    })}
 
             </SectionProvasEstilizada>
             <ModalComponent
@@ -291,32 +297,37 @@ const Provas = () => {
                 <FormEstilizado onSubmit={e => e.preventDefault()}>
                     <h4>{adicionarOuAlterar}</h4>
                     <input type="number" hidden defaultValue={form.id} />
-                    <label>
-                        Título da prova:
-                    </label>
+                    <FieldsetEstilizado>
+                        <label>
+                            Título da prova:
+                        </label>
 
-                    <CampoForm
-                        name="titulo"
-                        onChange={handleChanger}
-                        defaultValue={form.titulo}
-                    />
-                    <label>Cor da prova</label>
-                    <CampoForm
-                        name="corDaProva"
-                        type="color"
-                        onChange={handleChanger}
-                        defaultValue={form.corDaProva}
-                    />
-
-                    <label>
-                        Data provável da prova:
-                    </label>
-                    <CampoForm
-                        name="dataDaProva"
-                        onChange={handleChanger}
-                        type="datetime-local"
-                        defaultValue={form.dataDaProva}
-                    />
+                        <CampoForm
+                            name="titulo"
+                            onChange={handleChanger}
+                            defaultValue={form.titulo}
+                        />
+                    </FieldsetEstilizado>
+                    <FieldsetEstilizado>
+                        <label>Cor da prova</label>
+                        <CampoForm
+                            name="corDaProva"
+                            type="color"
+                            onChange={handleChanger}
+                            defaultValue={form.corDaProva}
+                        />
+                    </FieldsetEstilizado>
+                    <FieldsetEstilizado>
+                        <label>
+                            Data provável da prova:
+                        </label>
+                        <CampoForm
+                            name="dataDaProva"
+                            onChange={handleChanger}
+                            type="datetime-local"
+                            defaultValue={form.dataDaProva}
+                        />
+                    </FieldsetEstilizado>
                     <Botao
                         onClick={
                             e => adicionarOuAlterar === "Adicionar" ? insereProva(e)
