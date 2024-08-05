@@ -1,8 +1,5 @@
 import Calendario from "../../componentes/Calendario";
-import Cabecalho from "../../componentes/Cabecalho";
 import { useEffect, useState } from "react";
-import Footer from "../../componentes/Footer";
-import styled from "styled-components";
 import ModalEventosCalendario from "../../componentes/Calendario/ModalEventosCalendario";
 import PlanejadorService from "../../services/PlanejadorService";
 import AssuntoService from "../../services/AssuntoService";

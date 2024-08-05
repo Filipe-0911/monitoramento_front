@@ -23,6 +23,9 @@ const Cabecalho = () => {
 
     const [menuEscondido, setMenuEscondido] = useState(false);
 
+    // const usuario = JSON.parse(localStorage.getItem('user'));
+    // console.log(usuario)
+
     function deslogar() {
         usuarioService.logout();
         navigate("/login");

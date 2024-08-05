@@ -32,11 +32,15 @@ export default class UserService {
             localStorage.setItem('id', JSON.stringify(data.id));
             localStorage.setItem('horarioLogin', JSON.stringify(new Date()));
             
-            const {nome, login, id} = data;
-            
-            let dadosUsuario = {nome, login, id}
+            const { nome, login, id } = data;
 
-            return {...dadosUsuario, horarioLogin: new Date() };
+            let dadosUsuario = [
+                { nome: nome, login: login, id: id, horarioLogin: new Date() },
+            ]
+
+            localStorage.setItem('user', JSON.stringify(dadosUsuario)); // Certifique-se de armazenar como JSON
+
+            return dadosUsuario;
         }
     }
 

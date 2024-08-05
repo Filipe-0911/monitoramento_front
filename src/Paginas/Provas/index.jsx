@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Cabecalho from "../../componentes/Cabecalho";
-import MainEstilizada from "../../componentes/Main";
 import ProvasService from "../../services/Provas";
 import DataService from "../../services/DataService";
 import { BotaorCard } from "../../componentes/ComponentesHome";
@@ -15,7 +13,6 @@ import CampoForm from "../../componentes/CampoForm";
 import { useNavigate } from "react-router-dom";
 import Accordion from "../../componentes/Accordion";
 import { DivBotoesCrudEstilizado } from "../../componentes/Accordion";
-import Footer from "../../componentes/Footer";
 import Alert from "../../componentes/Alert";
 
 const LiEstilizadoAccordionProvas = styled.li`

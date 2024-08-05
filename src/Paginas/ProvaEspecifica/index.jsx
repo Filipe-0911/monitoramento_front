@@ -4,15 +4,12 @@ import ProvasService from "../../services/Provas";
 import DataService from "../../services/DataService";
 import MateriasService from "../../services/MateriasService";
 import { SectionProvasEstilizada } from "../Provas";
-import Cabecalho from "../../componentes/Cabecalho";
-import MainEstilizada from "../../componentes/Main";
 import PaginaEspecifaNotFound from "../ProvaEspecificaNotFound";
 import BotaoEstilizado from "../../componentes/Botao";
 import AccordionAssunto from "./AccordionAssunto";
 import AssuntoService from "../../services/AssuntoService";
 import QuestoesService from "../../services/QuestoesService";
 import GraficosRendimentoAssuntos from "../../componentes/GraficosRendimentoAssuntos";
-import Footer from "../../componentes/Footer";
 import Loader from "../../componentes/Loader";
 import Alert from "../../componentes/Alert";
 import { useProvaContext } from "../../Hooks/useProvaContext";
@@ -271,5 +268,4 @@ const ProvaEspecifica = () => {
         </>
     );
 }
-
 export default ProvaEspecifica;

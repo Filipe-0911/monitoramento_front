@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { UserContext } from "../../Context/UserProvider";
 import UserService from "../../services/Usuario";
 import { useNavigate } from "react-router-dom";
@@ -21,7 +21,21 @@ export default function useUserContext () {
         }
     };
 
+    function verificaSeEstaAutenticado () {
+        userService.usuarioAutenticado().then(response => {
+            if (response) {
+                localStorage.setItem('user', user);
+            } else {
+                userService.logout();
+                return;
+            }
+        });
+    }
+
     return {
-        user, setUser, login
+        user, 
+        setUser, 
+        login, 
+        verificaSeEstaAutenticado
     };
 }

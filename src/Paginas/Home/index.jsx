@@ -7,8 +7,6 @@ import { MdCancel, MdOutlineAddToPhotos } from "react-icons/md";
 import { BotaorCard, ContainerTarefas, SectionAdicionarTarefa } from "../../componentes/ComponentesHome";
 
 // Componentes default
-import MainEstilizada from "../../componentes/Main";
-import Cabecalho from "../../componentes/Cabecalho";
 import ModalComponent from "../../componentes/Modal";
 import FormEstilizadoTarefa from "../../componentes/FormEstilizadoTarefa";
 import CardTarefas from "../../componentes/CardTarefas";
@@ -18,7 +16,6 @@ import Alert from "../../componentes/Alert";
 //Services
 import TarefaService from "../../services/Tarefas";
 import DataService from "../../services/DataService";
-import Footer from "../../componentes/Footer";
 
 const Home = () => {
     const tarefaService = new TarefaService();

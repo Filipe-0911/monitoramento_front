@@ -27,12 +27,18 @@ const InputEventos = ({ onChange, dadosFormulario, dataService }) => {
     );
 }
 
-export default function FormularioEventos({ formDefaultValue, setFormEventos, closeModal, setListaDePlanejadores, listaDeAssuntosDoUsuario, setAlertError, setAlertSuccess}) {
+export default function FormularioEventos({ formDefaultValue, setFormEventos, closeModal, setListaDePlanejadores, listaDeAssuntosDoUsuario, setAlertError, setAlertSuccess }) {
     const dataService = new DataService();
     const planejadorService = new PlanejadorService();
 
     const handleChanger = (e) => {
         setFormEventos(prevForm => {
+            if (e.target.name === "revisao") {
+                return {
+                    ...prevForm,
+                    revisao: e.target.checked
+                };
+            }
             if (e.target.name === "end" || e.target.name === "start") {
                 return {
                     ...prevForm,
@@ -59,17 +65,47 @@ export default function FormularioEventos({ formDefaultValue, setFormEventos, cl
 
     const adicionaEvento = async (e) => {
         e.preventDefault();
-        const { idAssunto, start, end } = formDefaultValue;
+        const { idAssunto, start, end, revisao } = formDefaultValue;
         let dadosParaEnvio = {
             idAssunto: idAssunto,
             dadosEvento: {
                 dataInicio: dataService.transformaDataEmStringParaEnviarApi(start),
-                dataTermino: dataService.transformaDataEmStringParaEnviarApi(end)
+                dataTermino: dataService.transformaDataEmStringParaEnviarApi(end),
+                revisao: revisao
             }
         }
         try {
             const response = await planejadorService.adicionarEventos(dadosParaEnvio);
-            console.log(response);
+            inserePlanejadorNaListaAposResponse(response);
+            setAlertSuccess(`Planejador de estudo criado com sucesso na data: ${dataService.transformarDataEmString(dataInicio)}`)
+
+        } catch (error) {
+            setAlertError(error.response?.data)
+        } finally {
+            limpaFormEventos();
+            closeModal();
+        }
+    }
+
+    function inserePlanejadorNaListaAposResponse(response) {
+        if (Array.isArray(response)) {
+            response.forEach(planejador => {
+                const { id, dataInicio, dataTermino, nomeAssunto, cor } = planejador;
+                let novoPlanejador = {
+                    start: dataService.transformaStringDeInputDateTimeLocalEmData(dataInicio),
+                    end: dataService.transformaStringDeInputDateTimeLocalEmData(dataTermino),
+                    title: nomeAssunto,
+                    id: id,
+                    color: cor
+                };
+
+                setListaDePlanejadores(prevListaPlanejadores => ([
+                    ...prevListaPlanejadores,
+                    novoPlanejador
+                ]));
+            })
+
+        } else {
             const { id, dataInicio, dataTermino, nomeAssunto, cor } = response;
             let novoPlanejador = {
                 start: dataService.transformaStringDeInputDateTimeLocalEmData(dataInicio),
@@ -78,19 +114,11 @@ export default function FormularioEventos({ formDefaultValue, setFormEventos, cl
                 id: id,
                 color: cor
             };
-
             setListaDePlanejadores(prevListaPlanejadores => ([
                 ...prevListaPlanejadores,
                 novoPlanejador
             ]));
 
-            setAlertSuccess(`Planejador de estudo criado com sucesso na data: ${dataService.transformarDataEmString(dataInicio)}`)
-
-        } catch (error) {
-            setAlertError(error.response?.data)
-        } finally {
-            limpaFormEventos();
-            closeModal();
         }
     }
 
@@ -152,6 +180,16 @@ export default function FormularioEventos({ formDefaultValue, setFormEventos, cl
                     dadosFormulario={formDefaultValue}
                     dataService={dataService}
                 />
+                <label>
+                    Inserir revisão
+                </label>
+                <CampoForm
+                    type="checkbox"
+                    name="revisao"
+                    onChange={handleChanger}
+                    defaultValue={formDefaultValue}
+                />
+
                 <BotaoEstilizado
                     disabled={false}
                     onClick={(e) => defineSeAlteraOuAdiciona(e)}

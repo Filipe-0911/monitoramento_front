@@ -1,12 +1,9 @@
 import { useNavigate, useParams } from "react-router-dom";
-import Cabecalho from "../../componentes/Cabecalho";
-import MainEstilizada from "../../componentes/Main";
 import BotaoEstilizado from "../../componentes/Botao";
 import AssuntoService from "../../services/AssuntoService";
 import { useEffect, useState } from "react";
 import TextAreaEstilizado from "../../componentes/TextAreaEstilizado";
 import styled from "styled-components";
-import Footer from "../../componentes/Footer";
 
 const SectionDetalhamentoAssuntoEstilizada = styled.section`
     width: 70%;
