@@ -2,14 +2,16 @@ import { Calendar, momentLocalizer, Views } from 'react-big-calendar';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import PlanejadorService from "../../services/PlanejadorService";
+import useAlertContext from '../../Hooks/useAlertContext';
 
 const allViews = Object.keys(Views).map((k) => Views[k])
 const localizer = momentLocalizer(moment);
 
-const Calendario = ({ openModal, setFormEventos, setListaDePlanejadores, listaDePlanejadores, setAlertSuccess, setAlertError }) => {
+const Calendario = ({ openModal, setFormEventos, setListaDePlanejadores, listaDePlanejadores }) => {
   const planejadorService = new PlanejadorService();
   const [windowSize, setWindowSize] = useState(1800);
   const tamanhoDoCalendario = windowSize - 300;
+  const { setAlertaError, setAlertaSuccess } = useAlertContext()
 
   const handleSelectSlot = ({ start, end, title }) => {
     setFormEventos(prevFormEventos => ({
@@ -71,11 +73,11 @@ const Calendario = ({ openModal, setFormEventos, setListaDePlanejadores, listaDe
           });
 
           setListaDePlanejadores(listaPlanejadores);
-          setAlertSuccess("Planejamentos carregados com sucesso!")
+          setAlertaSuccess("Planejamentos carregados com sucesso!")
         }
       });
     } catch (error) {
-      setAlertError(error.response.data);
+      setAlertaError(error.response.data);
     }
   }, []);
 

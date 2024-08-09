@@ -3,7 +3,7 @@ import ModalComponent from "../../../componentes/Modal";
 import { BotaorCard } from "../../ComponentesHome";
 import FormularioEventos from "../FormularioEventos";
 
-export default function ModalEventosCalendario({ closeModal, modalIsOpen, formDefaultValue, setFormEventos, setListaDePlanejadores, listaDeAssuntosDoUsuario, listaDePlanejadores, excluirPlanejamento, setAlertSuccess, setAlertError }) {
+export default function ModalEventosCalendario({ closeModal, modalIsOpen, formDefaultValue, setFormEventos, setListaDePlanejadores, listaDeAssuntosDoUsuario, listaDePlanejadores, excluirPlanejamento }) {
     return (
         <ModalComponent
             modalIsOpen={modalIsOpen}
@@ -19,8 +19,6 @@ export default function ModalEventosCalendario({ closeModal, modalIsOpen, formDe
                 setListaDePlanejadores={setListaDePlanejadores}
                 listaDeAssuntosDoUsuario={listaDeAssuntosDoUsuario}
                 listaDePlanejadores={listaDePlanejadores}
-                setAlertError={setAlertError}
-                setAlertSuccess={setAlertSuccess}
             />
             {
                 formDefaultValue.id !== null ? 

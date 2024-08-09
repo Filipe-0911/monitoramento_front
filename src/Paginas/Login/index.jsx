@@ -72,7 +72,7 @@ const Login = () => {
                 <SubContainerSign>
                     <p>Não possui conta?</p>
                     <NavLink
-                        to="cadastro"
+                        to="/cadastro"
                     >
                         Cadastrar
                     </NavLink>

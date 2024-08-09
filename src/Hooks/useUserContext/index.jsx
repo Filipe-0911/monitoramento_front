@@ -1,6 +1,6 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { UserContext } from "../../Context/UserProvider";
-import UserService from "../../services/Usuario";
+import UserService from "../../services/Usuario/index.jsx";
 import { useNavigate } from "react-router-dom";
 
 export default function useUserContext () {

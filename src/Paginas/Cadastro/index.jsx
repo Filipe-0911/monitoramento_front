@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import CampoForm from "../../componentes/CampoForm";
+import CampoForm, { CampoSenha } from "../../componentes/CampoForm";
 import BotaoEstilizado from "../../componentes/Botao";
 import { ValidadorEmail, ValidadorSenhaCadastro } from "../../Utils/Validadores";
 import UserService from "../../services/Usuario";
@@ -62,13 +62,13 @@ const Cadastro = () => {
                     name="nome"
                     onChange={handleChanger}
                 />
-                <CampoForm
+                <CampoSenha
                     placeholder="Digite sua senha"
                     type="password"
                     name="senha"
                     onChange={handleChanger}
                 />
-                <CampoForm
+                <CampoSenha
                     placeholder="Confirme sua senha"
                     type="password"
                     name="senha2"
@@ -83,7 +83,7 @@ const Cadastro = () => {
                 <SubContainerSign>
                     <p>Já possui conta?</p>
                     <NavLink
-                        to="login"
+                        to="/login"
                     >
                         Entrar
                     </NavLink>

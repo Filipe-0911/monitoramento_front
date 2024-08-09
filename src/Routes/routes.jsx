@@ -11,27 +11,30 @@ import { ProvaProvider } from "../Context/ProvaProvider";
 import ProtectedRoutes from "./ProtectedRoutes";
 import UserProvider from "../Context/UserProvider";
 import PaginaBase from "../Paginas/PaginaBase";
+import AlertProvider from "../Context/AlertProvider";
 
 const Routering = () => {
     return (
         <BrowserRouter>
             <ProvaProvider>
                 <UserProvider>
-                    <Routes>
-                        <Route path="/login" element={<Login />} />
-                        <Route path="/cadastro" element={<Cadastro />} />
-                        <Route path="/" element={
-                            <ProtectedRoutes>
-                                <PaginaBase />
-                            </ProtectedRoutes>
-                        }>
-                            <Route index element={<Home />} />
-                            <Route path="provas" element={<Provas />} />
-                            <Route path="provas/:id" element={<ProvaEspecifica />} />
-                            <Route path="provas/:idProva/materias/:idMateria/assuntos/:idAssunto" element={<DetalhamentoAssunto />} />
-                            <Route path="planejador" element={<Agendamentos />} />
-                        </Route>
-                    </Routes>
+                    <AlertProvider>
+                        <Routes>
+                            <Route path="/login" element={<Login />} />
+                            <Route path="/cadastro" element={<Cadastro />} />
+                            <Route path="/" element={
+                                <ProtectedRoutes>
+                                    <PaginaBase />
+                                </ProtectedRoutes>
+                            }>
+                                <Route index element={<Home />} />
+                                <Route path="provas" element={<Provas />} />
+                                <Route path="provas/:id" element={<ProvaEspecifica />} />
+                                <Route path="provas/:idProva/materias/:idMateria/assuntos/:idAssunto" element={<DetalhamentoAssunto />} />
+                                <Route path="planejador" element={<Agendamentos />} />
+                            </Route>
+                        </Routes>
+                    </AlertProvider>
                 </UserProvider>
             </ProvaProvider>
         </BrowserRouter>

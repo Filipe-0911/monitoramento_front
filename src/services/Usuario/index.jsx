@@ -51,7 +51,7 @@ export default class UserService {
 
     verificaHaQuantoTempoFoiFeitoOLogin() {
         const horarioLogin = new Date(JSON.parse(localStorage.getItem('horarioLogin')));
-        const tempoDecorrido = (new Date() - horarioLogin) / 1000;
+        const tempoDecorrido = (new Date().getTime() - horarioLogin.getTime()) / 1000;
         return tempoDecorrido <= (3600 * 3); // 1h = 3600s | OBS: MODIFICAR CASO SEJA AUMENTADO O TEMPO DE VALIDADE TO JWT
     }
 

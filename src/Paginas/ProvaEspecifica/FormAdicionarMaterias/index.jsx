@@ -60,7 +60,6 @@ const FormAdicionarMaterias = ({ adicionaMateria }) => {
     }
 
     const handleChanger = (event) => {
-        console.log(event.target.name + ": " + event.target.value);
         setFormularioAdicionarMaterias(prevState => ({
             ...prevState,
             [event.target.name]: event.target.value
@@ -68,7 +67,6 @@ const FormAdicionarMaterias = ({ adicionaMateria }) => {
     }
 
     const aoEnviar = () => {
-        console.log(formularioAdicionarMaterias)
         adicionaMateria(formularioAdicionarMaterias);
         setQuantidadeDeInputs([])
     }

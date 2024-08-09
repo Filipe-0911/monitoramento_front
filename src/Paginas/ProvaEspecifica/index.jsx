@@ -15,6 +15,7 @@ import Alert from "../../componentes/Alert";
 import { useProvaContext } from "../../Hooks/useProvaContext";
 import ModalFormFlexivel from "./ModalFormFlexivel";
 import { DivEstilizadaProvaEspecífica } from "./ComponentesProvaEspecifica";
+import useAlertContext from "../../Hooks/useAlertContext"
 
 const ProvaEspecifica = () => {
     const dataService = new DataService();
@@ -25,7 +26,7 @@ const ProvaEspecifica = () => {
 
     const [isLoading, setIsLoading] = useState(true);
     const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [alerta, setAlerta] = useState({ success: false, error: false, message: "" });
+    const { dadosAlerta, setAlertaError, setAlertaSuccess } = useAlertContext();
     const parametros = useParams();
     const [acaoUsuario, setAcaoUsuario] = useState("");
 
@@ -66,19 +67,6 @@ const ProvaEspecifica = () => {
     };
     const closeModal = () => {
         setModalIsOpen(false);
-    };
-
-    const setAlertaSuccess = (msg) => {
-        setAlerta({ success: true, error: false, message: msg })
-        setTimeout(() => {
-            setAlerta({ success: false, error: false, message: "" });
-        }, 5000);
-    };
-    const setAlertaError = (msg) => {
-        setAlerta({ success: false, error: true, message: msg })
-        setTimeout(() => {
-            setAlerta({ success: false, error: false, message: "" });
-        }, 5000);
     };
 
     if (prova === null) {
@@ -131,7 +119,6 @@ const ProvaEspecifica = () => {
     const alterarAssunto = async (assuntoAlterado) => {
         try {
             const response = await assuntoService.editarAssunto(assuntoAlterado);
-
             updateAssunto({
                 dadosParaAlteracao: {
                     assuntoAlterado: response
@@ -139,7 +126,6 @@ const ProvaEspecifica = () => {
             })
             setAlertaSuccess("Assunto editado com sucesso!");
         } catch (error) {
-            console.log(error)
             setAlertaError(error.response?.data);
         } finally {
             closeModal();
@@ -151,7 +137,6 @@ const ProvaEspecifica = () => {
             addMateria({ dadosParaAlteracao: { nome: nome, id: id, listaDeAssuntos: listaDeAssuntos } });
             setAlertaSuccess("Materia adicionada com sucesso.");
         } catch (error) {
-            console.log(error);
             setAlertaError(error.response?.data);
         } finally {
             closeModal();
@@ -171,7 +156,6 @@ const ProvaEspecifica = () => {
             })
             setAlertaSuccess("Questões adicionadas com sucesso.");
         } catch (error) {
-            console.log(error);
             setAlertaError(error.response?.data);
         } finally {
             closeModal();
@@ -211,10 +195,9 @@ const ProvaEspecifica = () => {
         }
         finally {
             closeModal();
-
         }
     }
-    function teste() {
+    function capturaCliqueParaAdicionarMateria() {
         setAcaoUsuario("adicionar_materia"); openModal();
     }
 
@@ -232,7 +215,7 @@ const ProvaEspecifica = () => {
                                 <span>
                                     <BotaoEstilizado
                                         disabled={false}
-                                        onClick={teste}
+                                        onClick={capturaCliqueParaAdicionarMateria}
                                     >
                                         Adicionar Materias
                                     </BotaoEstilizado>
@@ -263,7 +246,7 @@ const ProvaEspecifica = () => {
                 acaoUsuario={acaoUsuario}
             />
             <Alert
-                dados={alerta}
+                dados={dadosAlerta}
             />
         </>
     );

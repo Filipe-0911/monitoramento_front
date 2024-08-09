@@ -4,9 +4,11 @@ import AssuntoService from "../../services/AssuntoService";
 import { useEffect, useState } from "react";
 import TextAreaEstilizado from "../../componentes/TextAreaEstilizado";
 import styled from "styled-components";
+import EditorDeTexto from "../../componentes/EditorDeTexto";
 
 const SectionDetalhamentoAssuntoEstilizada = styled.section`
-    width: 70%;
+    width: 90%;
+    min-height: 70vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -68,10 +70,9 @@ const DetalhamentoAssunto = () => {
     }, [parametros.id]);
 
     const handleChanger = (event) => {
-
         setAssunto(prevAssunto => ({
             ...prevAssunto,
-            comentarios: event.target.value
+            comentarios: event
         }));
     }
 
@@ -108,10 +109,9 @@ const DetalhamentoAssunto = () => {
                     <label>
                         Comentários:
                     </label>
-                    <TextAreaEstilizado
-                        style={{ color: 'black' }}
+                    <EditorDeTexto
+                        handleUpdate={handleChanger}
                         defaultValue={assunto.comentarios}
-                        onChange={handleChanger}
                     />
                     <BotaoEstilizado
                         onClick={(e) => adicionarComentarios(e)}

@@ -5,15 +5,16 @@ import PlanejadorService from "../../services/PlanejadorService";
 import AssuntoService from "../../services/AssuntoService";
 import Loader from "../../componentes/Loader";
 import Alert from "../../componentes/Alert";
+import useAlertContext from "../../Hooks/useAlertContext";
 
 const Agendamentos = () => {
     const planejadorService = new PlanejadorService();
     const assuntoService = new AssuntoService();
     const [listaDePlanejadores, setListaDePlanejadores] = useState([]);
     const [listaDeAssuntosDoUsuario, setListaDeAssuntosDoUsuario] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [open, setModalOpen] = useState(false);
-    const [alertIsOpen, setAlertIsOpen] = useState({ success: false, error: false, message: "" });
+    const {setAlertaError, setAlertaSuccess, dadosAlerta} = useAlertContext()
     const [formEventos, setFormEventos] = useState({
         id: null,
         idProva: null,
@@ -25,55 +26,35 @@ const Agendamentos = () => {
 
     useEffect(() => {
         try {
-            setIsLoading(true)
             assuntoService.buscarTodosOsAssuntosDoUsuario().then(response => {
                 try {
                     setListaDeAssuntosDoUsuario(response)
-
                 } catch (error) {
-                    console.log(error)
                     setIsLoading(false)
                 }
                 setIsLoading(false);
             })
         } catch (error) {
-            setAlertError(error.response?.data);
+            setAlertaError(error.response?.data);
         }
     }, [])
-
-    const setAlertSuccess = (message) => {
-        setAlertIsOpen({ success: true, error: false, message: message });
-        setTimeout(() => {
-            setAlertIsOpen({ success: false, error: false, message: "" });
-        }, 5000);
-    }
-    const setAlertError = (message) => {
-        setAlertIsOpen({ success: false, error: true, message: message });
-        setTimeout(() => {
-            setAlertIsOpen({ success: false, error: false, message: "" });
-        }, 5000);
-    }
-
 
     const openModal = () => {
         setModalOpen(true);
     }
-
     const closeModal = () => {
         setModalOpen(false);
         limparFormEventos();
     }
-
     const excluirPlanejamento = async (idEvento) => {
         try {
             const response = await planejadorService.excluirPlanejamento(idEvento);
             if (response.status === 204) {
                 setListaDePlanejadores(prevState => prevState.filter(planejador => planejador.id !== idEvento));
-                setAlertSuccess("Planejamento excluído com sucesso!")
+                setAlertaSuccess("Planejamento excluído com sucesso!")
             }
-
         } catch (error) {
-            setAlertError(error.response?.data)
+            setAlertaError(error.response?.data)
         } finally {
             closeModal();
             limparFormEventos();
@@ -91,7 +72,6 @@ const Agendamentos = () => {
         });
     }
 
-
     return (
         <>
             <h1>Agendamentos</h1>
@@ -105,8 +85,6 @@ const Agendamentos = () => {
                         setFormEventos={setFormEventos}
                         setListaDePlanejadores={setListaDePlanejadores}
                         listaDePlanejadores={listaDePlanejadores}
-                        setAlertError={setAlertError}
-                        setAlertSuccess={setAlertSuccess}
                     />
             }
             <ModalEventosCalendario
@@ -118,11 +96,9 @@ const Agendamentos = () => {
                 listaDePlanejadores={listaDePlanejadores}
                 listaDeAssuntosDoUsuario={listaDeAssuntosDoUsuario}
                 excluirPlanejamento={excluirPlanejamento}
-                setAlertSuccess={setAlertSuccess}
-                setAlertError={setAlertError}
             />
             <Alert
-                dados={alertIsOpen}
+                dados={dadosAlerta}
             />
         </>
     );

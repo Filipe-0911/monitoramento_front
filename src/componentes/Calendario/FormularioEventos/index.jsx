@@ -5,6 +5,7 @@ import DataService from "../../../services/DataService";
 import PlanejadorService from "../../../services/PlanejadorService";
 import SelectDeAssuntos from "../../SelectDeAssuntos";
 import { FieldsetEstilizado } from "../../../componentes/Fieldset";
+import useAlertContext from "../../../Hooks/useAlertContext";
 
 const InputEventos = ({ onChange, dadosFormulario, dataService }) => {
     return (
@@ -31,7 +32,8 @@ const InputEventos = ({ onChange, dadosFormulario, dataService }) => {
     );
 }
 
-export default function FormularioEventos({ formDefaultValue, setFormEventos, closeModal, setListaDePlanejadores, listaDeAssuntosDoUsuario, setAlertError, setAlertSuccess }) {
+export default function FormularioEventos({ formDefaultValue, setFormEventos, closeModal, setListaDePlanejadores, listaDeAssuntosDoUsuario }) {
+    const {setAlertaError, setAlertaSuccess} = useAlertContext();
     const dataService = new DataService();
     const planejadorService = new PlanejadorService();
 
@@ -81,10 +83,10 @@ export default function FormularioEventos({ formDefaultValue, setFormEventos, cl
         try {
             const response = await planejadorService.adicionarEventos(dadosParaEnvio);
             inserePlanejadorNaListaAposResponse(response);
-            setAlertSuccess(`Planejador de estudo criado com sucesso na data: ${dataService.transformarDataEmString(dataInicio)}`)
+            setAlertaSuccess(`Planejador de estudo criado com sucesso na data: ${dataService.transformarDataEmString(dadosParaEnvio.dadosEvento.dataInicio)}`);
 
         } catch (error) {
-            setAlertError(error.response?.data)
+            setAlertaError(error.response?.data)
         } finally {
             limpaFormEventos();
             closeModal();
@@ -122,7 +124,6 @@ export default function FormularioEventos({ formDefaultValue, setFormEventos, cl
                 ...prevListaPlanejadores,
                 novoPlanejador
             ]));
-
         }
     }
 
@@ -130,18 +131,21 @@ export default function FormularioEventos({ formDefaultValue, setFormEventos, cl
         e.preventDefault();
         try {
             const { start, end, id } = formDefaultValue;
-            const response = await planejadorService.alterarEventos({ dadosEvento: { dataInicio: start, dataTermino: end }, idEvento: id })
-            const { dataInicio, dataTermino, nomeAssunto } = response;
+            const response = await planejadorService.alterarEventos({ dadosEvento: 
+                { dataInicio: dataService.transformaDataEmStringParaEnviarApi(start), dataTermino: dataService.transformaDataEmStringParaEnviarApi(end) }, idEvento: id 
+            })
+            const { dataInicio, dataTermino, nomeAssunto, cor } = response;
 
             setListaDePlanejadores(prevState => prevState.map(planejador => planejador.id === response.id ? {
                 start: new Date(dataInicio),
                 end: new Date(dataTermino),
-                title: nomeAssunto
+                title: nomeAssunto,
+                color: cor
             } : planejador));
 
-            setAlertSuccess(`Planejador de estudo alterado com sucesso na data: ${dataService.transformarDataEmString(dataInicio)}`)
+            setAlertaSuccess(`Planejador de estudo alterado com sucesso na data: ${dataService.transformarDataEmString(dataInicio)}`)
         } catch (error) {
-            setAlertError(error.response?.data);
+            setAlertaError(error.response?.data);
         } finally {
             limpaFormEventos();
             closeModal();

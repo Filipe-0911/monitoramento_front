@@ -10,10 +10,17 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@types/axios": "^0.9.36",
+    "@types/jest": "^29.5.12",
+    "@types/node": "^22.1.0",
+    "@types/react-router-dom": "^5.3.3",
+    "@types/styled-components": "^5.1.34",
     "apexcharts": "^3.50.0",
     "axios": "^1.7.2",
     "bootstrap": "^5.3.3",
     "dotenv": "^16.4.5",
+    "jodit": "^4.2.27",
+    "jodit-react": "^4.1.2",
     "moment": "^2.30.1",
     "react": "^18.3.1",
     "react-apexcharts": "^1.4.1",
@@ -22,7 +29,10 @@
     "react-modal": "^3.16.1",
     "react-router-dom": "^6.24.1",
     "react-toastify": "^10.0.5",
-    "styled-components": "^6.1.11"
+    "styled-components": "^6.1.11",
+    "tsc": "^2.0.4",
+    "tsc-init": "^2.1.0",
+    "typescript": "^5.5.4"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",

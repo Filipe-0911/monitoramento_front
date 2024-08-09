@@ -16,6 +16,7 @@ import { DivBotoesCrudEstilizado } from "../../componentes/Accordion";
 import Alert from "../../componentes/Alert";
 import Loader from "../../componentes/Loader";
 import { FieldsetEstilizado } from "../../componentes/Fieldset";
+import useAlertContext from "../../Hooks/useAlertContext"
 
 const LiEstilizadoAccordionProvas = styled.li`
     display: flex;
@@ -79,12 +80,10 @@ const Provas = () => {
     const [provas, setProvas] = useState([]);
     const [modalAberto, setModalAberto] = useState(false);
     const [adicionarOuAlterar, setAdicionarOuAlterar] = useState("");
-    const [alerta, setAlerta] = useState({ success: false, error: false, message: "" });
     const [isLoading, setIsLoading] = useState(true);
+    const [form, setForm] = useState({ id: 0, titulo: "", dataDaProva: "", corDaProva: "black" });
+    const { dadosAlerta, setAlertaError, setAlertaSuccess } = useAlertContext();
     const navigate = useNavigate();
-
-    const [form, setForm] = useState({ id: 0, titulo: "", dataDaProva: "", corDaProva: "black", })
-
 
     useEffect(() => {
         provasService.buscaProvas()
@@ -98,19 +97,6 @@ const Provas = () => {
             })
             .catch(erro => console.error(erro));
     }, []);
-
-    const setAlertaSuccess = (msg) => {
-        setAlerta({ success: true, error: false, message: msg })
-        setTimeout(() => {
-            setAlerta({ success: false, error: false, message: "" });
-        }, 5000);
-    };
-    const setAlertaError = (msg) => {
-        setAlerta({ success: false, error: true, message: msg })
-        setTimeout(() => {
-            setAlerta({ success: false, error: false, message: "" });
-        }, 5000);
-    };
 
     const handleChanger = (event) => {
         const { name, value } = event.target;
@@ -196,8 +182,6 @@ const Provas = () => {
         } finally {
             setModalAberto(false);
         }
-
-
     }
 
     const editarProva = async () => {
@@ -301,7 +285,6 @@ const Provas = () => {
                         <label>
                             Título da prova:
                         </label>
-
                         <CampoForm
                             name="titulo"
                             onChange={handleChanger}
@@ -314,6 +297,7 @@ const Provas = () => {
                             name="corDaProva"
                             type="color"
                             onChange={handleChanger}
+                            value={form.corDaProva}
                             defaultValue={form.corDaProva}
                         />
                     </FieldsetEstilizado>
@@ -340,7 +324,7 @@ const Provas = () => {
                 </FormEstilizado>
             </ModalComponent>
             <Alert
-                dados={alerta}
+                dados={dadosAlerta}
             />
 
         </>
