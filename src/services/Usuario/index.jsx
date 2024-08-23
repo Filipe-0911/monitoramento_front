@@ -2,9 +2,9 @@ import axios from "axios";
 
 export default class UserService {
     constructor() {
-        this.BASE_URL = import.meta.env.VITE_LOGIN_API;
+        const BASE_URL = import.meta.env.VITE_LOGIN_API;
         this.axios = axios.create({
-            baseURL: this.BASE_URL,
+            baseURL: BASE_URL,
             headers: {
                 "Content-Type": "application/json",
             },
@@ -12,7 +12,9 @@ export default class UserService {
     }
 
     async login(dados) {
-        const { data } = await this.axios.post('https://apptodolist-production.up.railway.app/login', dados);
+        const { data } = await this.axios.post('/login', dados);
+        console.log(this.axios.BASE_URL);
+
         if (data) {
             localStorage.setItem('Authorization', data.tokenJWT);
             let dadosUsuario = await this.pegaDadosUsuario();
