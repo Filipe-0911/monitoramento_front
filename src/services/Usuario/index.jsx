@@ -12,7 +12,7 @@ export default class UserService {
     }
 
     async login(dados) {
-        const { data } = await this.axios.post('/login', dados);
+        const { data } = await this.axios.post('https://apptodolist-production.up.railway.app/login', dados);
         if (data) {
             localStorage.setItem('Authorization', data.tokenJWT);
             let dadosUsuario = await this.pegaDadosUsuario();
