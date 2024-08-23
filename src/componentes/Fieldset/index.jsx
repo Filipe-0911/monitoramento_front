@@ -7,4 +7,5 @@ export const FieldsetEstilizado = styled.fieldset`
     gap: 1em;
     justify-content: flex-start;
     width: 100%;
+
 `

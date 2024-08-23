@@ -45,7 +45,7 @@ const Login = () => {
 
     return (
         <ContainerEstilizado>
-            <FormEstilizado method="post" onSubmit={handleSubmit}>
+            <FormEstilizado method="post" onSubmit={handleSubmit} $login>
                 <h1>Faça seu login</h1>
                 <CampoForm
                     placeholder="Digite seu login"

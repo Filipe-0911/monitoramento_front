@@ -40,7 +40,7 @@ export const FormEstilizado = styled.form`
     }
 
     @media (max-width:562px) {
-        margin: 1em;
+        margin: ${props => props.$login ? "1em" : "0"};
     }
 `
 

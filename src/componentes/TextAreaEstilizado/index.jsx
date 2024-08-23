@@ -20,12 +20,12 @@ const TextAreaEstilizado = styled.textarea`
     }
 
     @media (max-width:820px) {
-        height: 50vh;
+        max-height: 300px;
     }
 
     @media (max-width: 526px) {
         font-size: 14px;
-        
+        max-height:150px;        
     }
 `
 
