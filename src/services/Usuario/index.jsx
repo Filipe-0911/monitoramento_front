@@ -1,7 +1,7 @@
 import axios from "axios";
-const BASE_URL = import.meta.env.VITE_LOGIN_API;
 export default class UserService {
     constructor() {
+        const BASE_URL = import.meta.env.VITE_LOGIN_API;
         this.axios = axios.create({
             baseURL: BASE_URL,
             headers: {
@@ -12,6 +12,7 @@ export default class UserService {
     
     async login(dados) {
         const { data } = await this.axios.post('/login', dados);
+        console.log(import.meta.env.VITE_TESTE)
 
         if (data) {
             localStorage.setItem('Authorization', data.tokenJWT);
