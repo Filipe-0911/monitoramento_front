@@ -38,6 +38,10 @@ export const FormEstilizado = styled.form`
     label {
         font-size: 18px;
     }
+
+    @media (max-width:562px) {
+        margin: 1em;
+    }
 `
 
 export const SubContainerSign = styled.div`

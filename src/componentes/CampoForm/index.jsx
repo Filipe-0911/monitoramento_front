@@ -32,7 +32,7 @@ const IconeRevelaSenha = styled(FiEye)`
         right: 32%;
     }
     @media (max-width: 562px) {
-        right: 11%;
+        right: 15%;
     }
 `
 
