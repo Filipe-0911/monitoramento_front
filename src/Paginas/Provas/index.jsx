@@ -174,11 +174,18 @@ const Provas = () => {
         e.preventDefault();
         setAdicionarOuAlterar("Adicionar");
         try {
-            const response = await provasService.adicionaProva(form);
-            setProvas([...provas, response]);
+            const { data } = await provasService.adicionaProva(form);
+            setProvas([...provas, data]);
             setAlertaSuccess("Prova adicionada com sucesso!");
         } catch (error) {
-            setAlertaError(error.response.data);
+            let mensagemErroOuArrayErro = error.response.data;
+            if (Array.isArray(mensagemErroOuArrayErro)) {
+                const [{ campo, mensagem }, ] = mensagemErroOuArrayErro;
+                setAlertaError(`Erro no campo ${campo}: ${mensagem}`)
+            } else {
+                setAlertaError(mensagemErroOuArrayErro);
+            }
+            setAlertaError(`Erro no campo ${campo}: ${mensagem}`);
         } finally {
             setModalAberto(false);
         }

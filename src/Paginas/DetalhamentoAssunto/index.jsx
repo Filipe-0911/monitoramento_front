@@ -2,9 +2,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import BotaoEstilizado from "../../componentes/Botao";
 import AssuntoService from "../../services/AssuntoService";
 import { useEffect, useState } from "react";
-import TextAreaEstilizado from "../../componentes/TextAreaEstilizado";
 import styled from "styled-components";
 import EditorDeTexto from "../../componentes/EditorDeTexto";
+import useAlertContext from "../../Hooks/useAlertContext";
+import Alert from "../../componentes/Alert"
 
 const SectionDetalhamentoAssuntoEstilizada = styled.section`
     width: 90%;
@@ -20,7 +21,7 @@ const SectionDetalhamentoAssuntoEstilizada = styled.section`
     background-color: rgba(0, 0, 0, 0.05);
     -webkit-box-shadow: 30px 29px 25px 0px rgba(0,0,0,0.6);
     -moz-box-shadow: 30px 29px 25px 0px rgba(0,0,0,0.6);
-    box-shadow: 30px 29px 25px 0px rgba(0,0,0,0.6);
+    box-shadow: 2px 2px 2px 2px rgba(0,0,0,0.6);
 
     @media (max-width: 820px) {
         width: 90%;
@@ -56,6 +57,7 @@ const DetalhamentoAssunto = () => {
     const [assunto, setAssunto] = useState("");
     const parametros = useParams();
     const navigate = useNavigate();
+    const { dadosAlerta, setAlertaError, setAlertaSuccess } = useAlertContext();
 
     useEffect(() => {
         const { idProva, idMateria, idAssunto } = parametros;
@@ -85,9 +87,10 @@ const DetalhamentoAssunto = () => {
                     ...assunto,
                     comentarios: response.comentarios
                 });
+                setAlertaSuccess("Comentário adicionado com sucesso!");
             }).catch(error => console.log(error));
         } catch (error) {
-
+            setAlertaError(error.response?.data);
         }
     }
 
@@ -121,6 +124,7 @@ const DetalhamentoAssunto = () => {
                 </FormularioDeAdicaoDeComentariosAoAssunto>
 
             </SectionDetalhamentoAssuntoEstilizada>
+            <Alert dados={dadosAlerta}/>
         </>
     );
 

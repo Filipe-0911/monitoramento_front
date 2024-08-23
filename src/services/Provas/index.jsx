@@ -44,8 +44,8 @@ export default class ProvasService {
     }
 
     async adicionaProva(prova) {
-        const { data } = await this.axios.post('/provas', prova, this.userService.getHeaderWithTokenFromLocalStorage());
-        return data;
+        const response = await this.axios.post('/provas', prova, this.userService.getHeaderWithTokenFromLocalStorage());
+        return response;
     }
 
     async alteraProva(prova) {

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 const userService = new UserService();
 
-const ProtectedRoutes = (props) => {
+const ProtectedRoutes = ({ children }) => {
     const [logado, setLogado] = useState(false);
     const navigate = useNavigate();
 
@@ -17,7 +17,7 @@ const ProtectedRoutes = (props) => {
         }
     }, [logado, navigate]);
 
-    return logado ? props.children : null;
+    return logado ? children : null;
 }
 
 export default ProtectedRoutes;
