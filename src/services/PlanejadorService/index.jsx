@@ -23,7 +23,6 @@ export default class PlanejadorService {
                     const { data } = await this.axios.get(`/planejador?page=${i}`, this.userService.getHeaderWithTokenFromLocalStorage())
                     planejadores = planejadores.concat(data.content);
                 }
-                
                 return planejadores;
             }
             

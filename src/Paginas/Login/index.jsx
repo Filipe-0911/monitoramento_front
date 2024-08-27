@@ -8,7 +8,7 @@ import { NavLink } from "react-router-dom";
 import { ContainerEstilizado, SubContainerSign, FormEstilizado } from "../../componentes/ContainerLoginEstilizado";
 import Alert from "../../componentes/Alert";
 import useUserContext from "../../Hooks/useUserContext";
-import Loader from "../../componentes/Loader";
+import Spinner from "../../componentes/Spinner";
 
 const Login = () => {
     const [loading, setLoading] = useState(false);
@@ -66,7 +66,7 @@ const Login = () => {
                     {
                         !loading ?
                             "Fazer Login"
-                            : <Loader $login/>
+                            : <Spinner $login/>
                     }
                 </BotaoEstilizado>
                 <SubContainerSign>
