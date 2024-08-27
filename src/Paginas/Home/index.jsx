@@ -44,9 +44,7 @@ const Home = () => {
         } catch (error) {
             alert(error.message);
             setIsLoading(false);
-        } finally {
-            setIsLoading(false);
-        }
+        } 
     }, []);
 
     function openModal(tarefa, event) {
