@@ -3,7 +3,7 @@ import styled from "styled-components";
 const FooterEstilizado = styled.footer`
     display: flex;
     justify-content: center;
-    width: 100%;
+    width: 100vw;
     padding: 1.9em 0;
     background-color: #3CA6A6;
     p {
