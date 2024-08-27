@@ -5,13 +5,12 @@ import {
     DivEstilizadaHeader,
     DivPaiDoMenuEBotaoMenu,
     HeaderEstilizado,
-    MenuHamburguer,
     NavEstilizado,
-    CloseMenuHamburguer,
     ImgIconeDoHeaderEstilizado
 } from "./ComponentesHeader";
 
 import UserService from "../../services/Usuario";
+import BtnMenu from "../BtnMenu";
 
 
 
@@ -19,12 +18,9 @@ const Cabecalho = () => {
     const navigate = useNavigate();
     const nomeUsuario = JSON.parse(localStorage.getItem('nome'));
     const usuarioService = new UserService();
-    const [ primeiroNome ] = nomeUsuario.split(" ");
+    const [primeiroNome] = nomeUsuario.split(" ");
 
     const [menuEscondido, setMenuEscondido] = useState(false);
-
-    // const usuario = JSON.parse(localStorage.getItem('user'));
-    // console.log(usuario)
 
     function deslogar() {
         usuarioService.logout();
@@ -56,24 +52,24 @@ const Cabecalho = () => {
     return (
         <HeaderEstilizado open={menuEscondido}>
             <DivEstilizadaHeader>
-                <ImgIconeDoHeaderEstilizado src="/imagens/icones/livro.png" color="white"/>
+                <ImgIconeDoHeaderEstilizado src="/imagens/icones/livro.png" color="white" />
                 <p>Olá, {primeiroNome}!</p>
             </DivEstilizadaHeader>
             <DivPaiDoMenuEBotaoMenu>
                 <NavEstilizado open={menuEscondido}>
                     <ul>
                         <li>
-                            <NavLink to="/">
+                            <NavLink to="/" onClick={exibeMenu}>
                                 Home
                             </NavLink>
                         </li>
                         <li>
-                            <NavLink to="/provas">
+                            <NavLink to="/provas" onClick={exibeMenu}>
                                 Provas
                             </NavLink>
                         </li>
                         <li>
-                            <NavLink to="/planejador">
+                            <NavLink to="/planejador" onClick={exibeMenu}>
                                 Planejamentos
                             </NavLink>
                         </li>
@@ -84,9 +80,7 @@ const Cabecalho = () => {
                         </li>
                     </ul>
                 </NavEstilizado>
-                {!menuEscondido
-                    ? <MenuHamburguer size={30} onClick={exibeMenu} display="none" />
-                    : <CloseMenuHamburguer size={30} onClick={exibeMenu} />}
+                <BtnMenu onClick={exibeMenu} menuEscondido={menuEscondido} />
             </DivPaiDoMenuEBotaoMenu>
         </HeaderEstilizado>
     );

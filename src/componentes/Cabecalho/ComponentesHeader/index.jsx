@@ -1,6 +1,4 @@
 import styled from "styled-components";
-import { TiThMenu } from "react-icons/ti";
-import { RiCloseLargeFill } from "react-icons/ri";
 
 export const ImgIconeDoHeaderEstilizado = styled.img`
     width: 30px;
@@ -18,9 +16,7 @@ export const HeaderEstilizado = styled.header`
     min-height: 57px;
 
     @media (max-width: 820px) {
-        /* position: absolute; */
         flex-direction: row-reverse;
-        
         justify-content: flex-start;
     }
     
@@ -30,7 +26,6 @@ export const HeaderEstilizado = styled.header`
         width: ${(props) => (props.open ? '70vw' : '100vw')};
         right: 0;
         border: 1px solid transparent;
-        /* border-radius: 10px; */
         border-bottom-left-radius: 10px;
         border-bottom-right-radius: 10px;
         
@@ -92,7 +87,6 @@ export const NavEstilizado = styled.nav`
             a:after {
                 content: '';
                 position: absolute;
-                /* background-color: #ff3c78; */
                 background-color: #3CA6A6;
                 height: 3px;
                 width: 0;
@@ -109,7 +103,7 @@ export const NavEstilizado = styled.nav`
         }
     }
 
-    @media (max-width: 600px) {
+    @media (max-width: 820px) {
         ul {
             flex-direction: column;
             align-items: flex-end;
@@ -117,38 +111,16 @@ export const NavEstilizado = styled.nav`
             padding: 2em;
 
         }
+
     }
 
-`
-export const MenuHamburguer = styled(TiThMenu)`
-    cursor: pointer;
-    width: 30px;
-
-    @media (max-width: 600px) {
-        color: #fff;
-        display: block;
-        width: 50px;
-        height: 50px;
-    }
-`
-
-export const CloseMenuHamburguer = styled(RiCloseLargeFill)`
-    cursor: pointer;
-    width: 30px;
-    
-    @media (max-width: 562px) {
-        color: #fff;
-        display: block;
-        width: 50px;
-        height: 50px;
-    }
 `
 
 export const DivPaiDoMenuEBotaoMenu = styled.div`
     display: flex;
     justify-content: center;
     margin: 0 auto;
-
+    
     @media (max-width: 820px) {
         margin-right: 10px;
     }
