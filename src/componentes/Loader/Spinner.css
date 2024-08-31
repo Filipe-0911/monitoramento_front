@@ -1,13 +1,25 @@
-.dot-spinner {
+:root {
   --uib-size: 6rem;
   --uib-speed: .9s;
   --uib-color: #000;
+}
+
+.dot-spinner {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: flex-start;
   height: var(--uib-size);
   width: var(--uib-size);
+}
+
+.dot-spinner-2 {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 2.8rem;
+  width: 2.8rem;
 }
 
 .dot-spinner__dot {

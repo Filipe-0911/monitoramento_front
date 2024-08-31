@@ -9,10 +9,11 @@ const DivEstilizadaParaSpinner = styled.div`
   width: 100%;
 `
 
-function Loader({ $login = false }) {
+function Loader({ $login=false }) {
+  console.log($login)
   return (
     <DivEstilizadaParaSpinner>
-      <div className="dot-spinner">
+      <div className={$login ? "dot-spinner-2" : "dot-spinner"}>
         <div className="dot-spinner__dot"></div>
         <div className="dot-spinner__dot"></div>
         <div className="dot-spinner__dot"></div>

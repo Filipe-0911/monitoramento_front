@@ -9,6 +9,7 @@ import { ContainerEstilizado, SubContainerSign, FormEstilizado } from "../../com
 import Alert from "../../componentes/Alert";
 import useUserContext from "../../Hooks/useUserContext";
 import Spinner from "../../componentes/Spinner";
+import Loader from "../../componentes/Loader";
 
 const Login = () => {
     const [loading, setLoading] = useState(false);
@@ -66,7 +67,9 @@ const Login = () => {
                     {
                         !loading ?
                             "Fazer Login"
-                            : <Spinner $login/>
+                            : 
+                            // <Spinner $login/>
+                            <Loader $login />
                     }
                 </BotaoEstilizado>
                 <SubContainerSign>
