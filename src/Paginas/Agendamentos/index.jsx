@@ -77,7 +77,7 @@ const Agendamentos = () => {
             <h1>Agendamentos</h1>
             {
                 isLoading ?
-                    <Loader $login/>
+                    <Loader/>
                     :
                     <Calendario
                         closeModal={closeModal}
