@@ -5,7 +5,7 @@ const FooterEstilizado = styled.footer`
     justify-content: center;
     width: 100vw;
     padding: 1.9em 0;
-    background-color: #3CA6A6;
+    background-color: var(--bg-azul-claro);
     p {
         color: #fff;
         font-size: 18px;

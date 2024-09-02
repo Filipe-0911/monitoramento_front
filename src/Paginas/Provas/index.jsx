@@ -17,6 +17,7 @@ import Alert from "../../componentes/Alert";
 import Loader from "../../componentes/Loader";
 import { FieldsetEstilizado } from "../../componentes/Fieldset";
 import useAlertContext from "../../Hooks/useAlertContext"
+import useUserContext from "../../Hooks/useUserContext";
 
 const LiEstilizadoAccordionProvas = styled.li`
     display: flex;
@@ -25,6 +26,7 @@ const LiEstilizadoAccordionProvas = styled.li`
     justify-content: space-between;
     border-bottom: 1px solid rgba(0, 0, 0, 0.15);
     padding: 1em;
+    color: ${props => props.$darkMode ? "#fff" : ""};
     
     h5{
         font-size: 18px;
@@ -202,6 +204,7 @@ const Provas = () => {
             setModalAberto(false);
         }
     }
+    const { usuarioPrefereModoDark } = useUserContext();
 
     return (
         <>
@@ -227,23 +230,23 @@ const Provas = () => {
                         return (
                             <Accordion key={prova.id} titulo={prova.titulo} corDaBorda={prova.corDaProva}>
                                 <ul>
-                                    <LiEstilizadoAccordionProvas>
+                                    <LiEstilizadoAccordionProvas $darkMode={usuarioPrefereModoDark}>
                                         <h5>Data da prova:</h5>
                                         <p>{new DataService().transformarDataEmString(prova.dataDaProva)}</p>
                                     </LiEstilizadoAccordionProvas>
-                                    <LiEstilizadoAccordionProvas>
+                                    <LiEstilizadoAccordionProvas $darkMode={usuarioPrefereModoDark}>
                                         <h5>Quantidade de matérias:</h5>
                                         <p>{prova.listaDeMaterias?.length}</p>
                                     </LiEstilizadoAccordionProvas>
-                                    <LiEstilizadoAccordionProvas>
+                                    <LiEstilizadoAccordionProvas $darkMode={usuarioPrefereModoDark}>
                                         <h5>Quantidade de assunto por prova:</h5>
                                         <p>{somaQuantidadeDeAssuntoPorProva(prova)}</p>
                                     </LiEstilizadoAccordionProvas>
-                                    <LiEstilizadoAccordionProvas>
+                                    <LiEstilizadoAccordionProvas $darkMode={usuarioPrefereModoDark}>
                                         <h5>Quantidade de PDFS por prova:</h5>
                                         <p>{somaQuantidadeDePDFsPorProva(prova)}</p>
                                     </LiEstilizadoAccordionProvas>
-                                    <LiEstilizadoAccordionProvas>
+                                    <LiEstilizadoAccordionProvas $darkMode={usuarioPrefereModoDark}>
                                         <h5>Quantidade de questões por prova:</h5>
                                         <p>{somaQuantidadeDeQuestoesPorProva(prova)}</p>
                                     </LiEstilizadoAccordionProvas>

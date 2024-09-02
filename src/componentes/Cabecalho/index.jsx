@@ -11,6 +11,7 @@ import {
 
 import UserService from "../../services/Usuario";
 import BtnMenu from "../BtnMenu";
+import InputModoDark from "../InputModoDark";
 
 
 
@@ -78,7 +79,15 @@ const Cabecalho = () => {
                                 Sair
                             </a>
                         </li>
+                        <br />
+                        <li>
+                            <a>
+                                Dark Mode
+                            </a>
+                            <InputModoDark />
+                        </li>
                     </ul>
+
                 </NavEstilizado>
                 <BtnMenu onClick={exibeMenu} menuEscondido={menuEscondido} />
             </DivPaiDoMenuEBotaoMenu>

@@ -70,9 +70,11 @@ export const NavEstilizado = styled.nav`
         list-style: none;
         display: flex;
         gap: 20px;
-
-        li {
-            
+        
+        li {            
+            display: flex;
+            align-items: center;
+            gap: 5px;
             a {
                 position: relative;
                 text-decoration: none;
@@ -81,7 +83,6 @@ export const NavEstilizado = styled.nav`
                 color: #fff;
                 transition: transform .2s;
                 letter-spacing: 1px;
-                padding: 10px 0;
             }
 
             a:after {
@@ -91,7 +92,7 @@ export const NavEstilizado = styled.nav`
                 height: 3px;
                 width: 0;
                 left: 0;
-                bottom: -5px;
+                bottom: -15px;
                 transition: 0.2s;
             }
 
@@ -101,12 +102,15 @@ export const NavEstilizado = styled.nav`
             }
 
         }
+            
     }
 
     @media (max-width: 820px) {
+        flex-direction: column;
+        align-items: flex-start;
         ul {
             flex-direction: column;
-            align-items: flex-end;
+            align-items: flex-start;
             display: ${(props) => (props.open ? 'flex' : 'none')};
             padding: 2em;
 

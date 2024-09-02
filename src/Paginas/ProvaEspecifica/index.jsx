@@ -16,6 +16,7 @@ import { useProvaContext } from "../../Hooks/useProvaContext";
 import ModalFormFlexivel from "./ModalFormFlexivel";
 import { DivEstilizadaProvaEspecífica } from "./ComponentesProvaEspecifica";
 import useAlertContext from "../../Hooks/useAlertContext"
+import useUserContext from "../../Hooks/useUserContext";
 
 const ProvaEspecifica = () => {
     const dataService = new DataService();
@@ -45,6 +46,8 @@ const ProvaEspecifica = () => {
         idAssunto,
         setIdAssunto,
     } = useProvaContext();
+
+    const { usuarioPrefereModoDark } = useUserContext();
 
     useEffect(() => {
         provaService.buscaProvaPorId(+parametros.id)
@@ -225,6 +228,7 @@ const ProvaEspecifica = () => {
                                 prova={prova}
                             />
                             <AccordionAssunto
+                                $darkMode={usuarioPrefereModoDark}
                                 prova={prova}
                                 excluirMateria={excluirMateria}
                                 excluirAssunto={excluirAssunto}

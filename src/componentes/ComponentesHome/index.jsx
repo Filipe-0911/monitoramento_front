@@ -19,12 +19,12 @@ export const CardTarefasEstilizado = styled.div`
     border-radius: 5px;
     box-shadow: 5px 5px 5px 2px rgba(0, 0, 0, 0.3);
     max-width: 300px;
-    background-color: ${(props) => (props.$concluido ? "#038C73" : "#d9d9d9")};
+    background-color: ${(props) => (props.$concluido ? "#038C73" : (props.$darkMode ? "rgba(0,0,0,0.2)" : "#d9d9d9"))};
+    color: ${(props) => (props.$darkMode ? "#d9d9d9" : "#000")};
     
     h4 {
         padding: 10px;
         margin: 0 auto;
-        color: #000;
         text-align: center;
     }
     div.principal {
@@ -36,7 +36,6 @@ export const CardTarefasEstilizado = styled.div`
         cursor: pointer;
 
         p {
-            color: #000;
             text-align: center;
         }
     }
@@ -60,7 +59,7 @@ export const BotaorCard = styled.button`
     gap: 5px;
     padding: 0.5em;
     border: none;
-    background-color: ${(props) => (props.$type === "concluir" ? "#42AB84" : props.$type === "excluir" ? "#c01930" : props.$type === "editar" ? "#FAA800" : props.$type === "adicionar" ? "#3CA6A6" : props.$type === "detalhar" ? "#0087B6" : props.$type === "questao" ? "#01238E" : "")};
+    background-color: ${(props) => (props.$type === "concluir" ? "#42AB84" : props.$type === "excluir" ? "#c01930" : props.$type === "editar" ? "#FAA800" : props.$type === "adicionar" ? "var(--bg-azul-claro)" : props.$type === "detalhar" ? "#0087B6" : props.$type === "questao" ? "#01238E" : "")};
     color: white;
     border-radius: 5px;
     font-size: 18px;

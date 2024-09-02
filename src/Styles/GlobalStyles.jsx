@@ -1,6 +1,9 @@
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
+    :root {
+        --bg-azul-claro: #357c7c;
+    }
     * {
         margin:0;
         padding:0;
@@ -37,20 +40,7 @@ const GlobalStyle = createGlobalStyle`
         scrollbar-color: #dad7d7 #F4F4F4;
 
     }
-    body {
-        max-width:100vw;
-        height: 100vh;
-        background-color: #f0f2f5;
-        font-family: 'Poppins', sans-serif;
-        display: flex;
-        flex-direction: column;
-        height: 100vh;
-        min-width: 100vw;
-        
-        h2 {
-            text-align: center;
-        }
-    }
+
 `
 
 export default GlobalStyle;

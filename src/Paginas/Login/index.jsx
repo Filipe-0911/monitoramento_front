@@ -16,6 +16,7 @@ const Login = () => {
     const [form, setForm] = useState({});
     const [alerta, setAlerta] = useState({ success: false, error: false, message: "" });
     const { login } = useUserContext();
+    const { modificaModoDarkOuWhite, usuarioPrefereModoDark } = useUserContext();
 
     const setAlertaSuccess = (msg) => {
         setAlerta({ success: true, error: false, message: msg })
@@ -45,7 +46,7 @@ const Login = () => {
     }
 
     return (
-        <ContainerEstilizado>
+        <ContainerEstilizado $darkMode={usuarioPrefereModoDark}>
             <FormEstilizado method="post" onSubmit={handleSubmit} $login>
                 <h1>Faça seu login</h1>
                 <CampoForm

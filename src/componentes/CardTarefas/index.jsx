@@ -3,10 +3,12 @@ import { FaCheckCircle, FaPencilAlt } from "react-icons/fa";
 import { MdCancel } from "react-icons/md";
 import { CardTarefasEstilizado } from "../ComponentesHome";
 import { BotaorCard } from '../ComponentesHome';
+import useUserContext from '../../Hooks/useUserContext';
 
 export default function CardTarefas({ tarefa, transformarDataEmString, concluirTarefa, deletarTarefa, openModal }) {
+    const { usuarioPrefereModoDark } = useUserContext();
     return (
-        <CardTarefasEstilizado $concluido={tarefa.concluido}>
+        <CardTarefasEstilizado $concluido={tarefa.concluido} $darkMode={usuarioPrefereModoDark}>
             <h4>{tarefa.titulo}</h4>
             <div className="principal">
                 <p>{tarefa.descricao}</p>

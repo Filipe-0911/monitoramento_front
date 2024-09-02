@@ -5,7 +5,7 @@ export const ProvaContext = createContext();
 ProvaContext.displayName = "Prova";
 
 export const ProvaProvider = ({ children }) => {
-        
+    
     const estadoInicial = {
         id: "",
         titulo: "",
@@ -13,7 +13,7 @@ export const ProvaProvider = ({ children }) => {
         corDaProva: "",
         listaDeMaterias: [],
     }
-
+    
     const [quantidadeDeInputs, setQuantidadeDeInputs] = useState([]);
     const [idMateria, setIdMateria] = useState(null);
     const [idAssunto, setIdAssunto] = useState(null);
@@ -37,7 +37,8 @@ export const ProvaProvider = ({ children }) => {
                 setIdMateria,
                 idAssunto,
                 setIdAssunto,
-                verificaSePodeAdicionarInputAssunto
+                verificaSePodeAdicionarInputAssunto,
+
             }}
         >
             {children}

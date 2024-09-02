@@ -4,6 +4,7 @@ export const UserContext = createContext();
 UserContext.displayName = "User";
 
 export default function UserProvider ({ children }) {
+    const [usuarioPrefereModoDark, setUsuarioPrefereModoDark] = useState(window.matchMedia("(prefers-color-scheme: dark)").matches);
     const [user, setUser] = useState({
         login: "",
         Authorization: "",
@@ -13,7 +14,14 @@ export default function UserProvider ({ children }) {
     });
 
     return (
-        <UserContext.Provider value={{ user, setUser }}>
+        <UserContext.Provider 
+        value={{ 
+            user, 
+            setUser,
+            usuarioPrefereModoDark,
+            setUsuarioPrefereModoDark
+         }}
+        >
             {children}
         </UserContext.Provider>
     );

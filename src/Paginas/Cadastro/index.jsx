@@ -6,12 +6,14 @@ import { ValidadorEmail, ValidadorSenhaCadastro } from "../../Utils/Validadores"
 import UserService from "../../services/Usuario";
 import { NavLink, useNavigate } from "react-router-dom";
 import { ContainerEstilizado, SubContainerSign, FormEstilizado } from "../../componentes/ContainerLoginEstilizado";
+import useUserContext from "../../Hooks/useUserContext";
 
 const userService = new UserService();
 
 const Cadastro = () => {
     const [loading, setLoading] = useState(false);
     const [form, setForm] = useState({});
+    const { modificaModoDarkOuWhite, usuarioPrefereModoDark } = useUserContext()
     const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
@@ -49,11 +51,11 @@ const Cadastro = () => {
     }
 
     return (
-        <ContainerEstilizado>
-            <FormEstilizado method="post" onSubmit={handleSubmit}>
+        <ContainerEstilizado $darkMode={usuarioPrefereModoDark}>
+            <FormEstilizado method="post" onSubmit={handleSubmit} $login>
                 <h1>Crie sua conta!</h1>
                 <CampoForm
-                    placeholder="Digite seu email para Login"
+                    placeholder="Digite seu email de Login"
                     name="login"
                     onChange={handleChanger}
                 />

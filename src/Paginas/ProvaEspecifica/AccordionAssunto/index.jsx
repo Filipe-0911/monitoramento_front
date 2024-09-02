@@ -7,7 +7,9 @@ import { MdCancel, MdOutlineAddToPhotos } from "react-icons/md";
 import { TbListDetails } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
 import { useProvaContext } from "../../../Hooks/useProvaContext";
-import { DivBotoesCrudMateria } from "../ComponentesProvaEspecifica"
+import { DivBotoesCrudMateria } from "../ComponentesProvaEspecifica";
+import useUserContext from "../../../Hooks/useUserContext";
+
 export const LiAcorddionEstilizado = styled.li`
     display: flex;
     justify-content: space-between;
@@ -54,9 +56,11 @@ const SectionDadosDoAssuntoEstilizado = styled.section`
     h5 {
         font-size: 20px;
         max-width: 480px;  
+        color: ${props => props.$darkMode ? "#ffffff" : "#000000"}
     }
 
     p{
+        color: ${props => props.$darkMode ? "#ffffff" : "#000000"};
         font-size: 16px;
     }
     
@@ -80,9 +84,9 @@ const SectionDadosDoAssuntoEstilizado = styled.section`
     }
 `
 
-export default function AccordionAssunto({  
-    excluirMateria, 
-    excluirAssunto, 
+export default function AccordionAssunto({
+    excluirMateria,
+    excluirAssunto,
     setModalIsOpen,
     setAcaoUsuario }) {
 
@@ -92,40 +96,42 @@ export default function AccordionAssunto({
         setIdAssunto,
         setIdMateria,
         prova
-     } = useProvaContext();
+    } = useProvaContext();
 
-    function adicionarAssunto (idMateria) {
+    function adicionarAssunto(idMateria) {
         setAcaoUsuario("adicionar_assunto")
         setIdMateria(idMateria);
         setModalIsOpen();
     }
-    function editarMateria (idMateria) {
+    function editarMateria(idMateria) {
         setIdMateria(idMateria);
         setAcaoUsuario("editar_materia")
         setModalIsOpen()
     }
-    function editarAssunto (idMateria, idAssunto) {
+    function editarAssunto(idMateria, idAssunto) {
         setIdMateria(idMateria);
         setIdAssunto(idAssunto);
         setAcaoUsuario("editar_assunto")
         setModalIsOpen();
     }
-    function adicionarQuestao (idMateria, idAssunto) {
+    function adicionarQuestao(idMateria, idAssunto) {
         setIdMateria(idMateria);
         setIdAssunto(idAssunto);
         setAcaoUsuario("adicionar_questao")
         setModalIsOpen();
     }
+
+    const { usuarioPrefereModoDark } = useUserContext();
     return (
         prova.listaDeMaterias.map(materia => {
             return (
-                <Accordion key={materia.id} titulo={`Matéria: ${materia.nome}`}  corDaBorda={prova.corDaProva}>
+                <Accordion key={materia.id} titulo={`Matéria: ${materia.nome}`} corDaBorda={prova.corDaProva}>
                     <input type="number" defaultValue={materia.id} hidden id="idMateria" />
                     <ul>
                         {materia.listaDeAssuntos.map(assunto => {
                             return (
                                 <LiAcorddionEstilizado key={assunto.id}>
-                                    <SectionDadosDoAssuntoEstilizado>
+                                    <SectionDadosDoAssuntoEstilizado $darkMode={usuarioPrefereModoDark}>
                                         <h5>
                                             {assunto.nome}
                                         </h5>
@@ -143,7 +149,7 @@ export default function AccordionAssunto({
                                             </p>
                                             :
                                             <p>
-                                                Resumo: Crie um resumo em <span style={{ color: 'red' }}>Ver Detalhes</span>
+                                                Resumo: <span style={{ color: 'red' }}>Não possui</span>
                                             </p>
 
                                         }
@@ -180,7 +186,13 @@ export default function AccordionAssunto({
                                             name="detalhes_assunto"
                                         >
                                             <TbListDetails size={15} color="red" />
-                                            Ver detalhes
+                                            {
+                                                assunto.comentarios 
+                                                ?
+                                                "Ver Resumo"
+                                                :
+                                                "Criar Resumo"
+                                            }
                                         </BotaorCard>
                                     </SectionBotoesCrudAccordion>
                                 </LiAcorddionEstilizado>

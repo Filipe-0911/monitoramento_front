@@ -3,8 +3,14 @@ import { UserContext } from "../../Context/UserProvider";
 import UserService from "../../services/Usuario/index.jsx";
 import { useNavigate } from "react-router-dom";
 
-export default function useUserContext () {
-    const { user, setUser } = useContext(UserContext);
+export default function useUserContext() {
+    const {
+        user,
+        setUser,
+        usuarioPrefereModoDark,
+        setUsuarioPrefereModoDark,
+    } = useContext(UserContext);
+
     const userService = new UserService();
     const navigate = useNavigate();
 
@@ -21,7 +27,7 @@ export default function useUserContext () {
         }
     };
 
-    function verificaSeEstaAutenticado () {
+    function verificaSeEstaAutenticado() {
         userService.usuarioAutenticado().then(response => {
             if (response) {
                 localStorage.setItem('user', user);
@@ -32,10 +38,16 @@ export default function useUserContext () {
         });
     }
 
+    function modificaModoDarkOuWhite () {
+        setUsuarioPrefereModoDark(!usuarioPrefereModoDark);
+    }
+
     return {
-        user, 
-        setUser, 
-        login, 
-        verificaSeEstaAutenticado
+        user,
+        setUser,
+        login,
+        verificaSeEstaAutenticado,
+        usuarioPrefereModoDark,
+        modificaModoDarkOuWhite,
     };
 }

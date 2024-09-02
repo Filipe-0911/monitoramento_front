@@ -10,7 +10,6 @@ const DivEstilizadaParaSpinner = styled.div`
 `
 
 function Loader({ $login=false }) {
-  console.log($login)
   return (
     <DivEstilizadaParaSpinner>
       <div className={$login ? "dot-spinner-2" : "dot-spinner"}>

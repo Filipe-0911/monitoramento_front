@@ -1,17 +1,27 @@
-import { Calendar, momentLocalizer, Views } from 'react-big-calendar';
+import styled from 'styled-components';
+import { Calendar as BigCalendar } from 'react-big-calendar';
+
+const CustomCalendar = styled(BigCalendar)`
+  .rbc-today {
+    background-color: ${props => props.$modoDark ? "rgba(0,0,0,0.2)" : "#fafafa"}
+  }
+`;
+import { momentLocalizer, Views } from 'react-big-calendar';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import PlanejadorService from "../../services/PlanejadorService";
 import useAlertContext from '../../Hooks/useAlertContext';
+import useUserContext from '../../Hooks/useUserContext';
 
-const allViews = Object.keys(Views).map((k) => Views[k])
+const allViews = Object.keys(Views).map((k) => Views[k]);
 const localizer = momentLocalizer(moment);
 
 const Calendario = ({ openModal, setFormEventos, setListaDePlanejadores, listaDePlanejadores }) => {
   const planejadorService = new PlanejadorService();
   const [windowSize, setWindowSize] = useState(1800);
   const tamanhoDoCalendario = windowSize - 300;
-  const { setAlertaError, setAlertaSuccess } = useAlertContext()
+  const { setAlertaError, setAlertaSuccess } = useAlertContext();
+  const { usuarioPrefereModoDark } = useUserContext();
 
   const handleSelectSlot = ({ start, end, title }) => {
     setFormEventos(prevFormEventos => ({
@@ -35,7 +45,6 @@ const Calendario = ({ openModal, setFormEventos, setListaDePlanejadores, listaDe
     }
   };
 
-
   const handleSelectEvent = (event) => {
     setFormEventos(event);
     openModal();
@@ -51,16 +60,15 @@ const Calendario = ({ openModal, setFormEventos, setListaDePlanejadores, listaDe
     });
 
     return () => {
-      window.removeEventListener('resize', () => { });
+      window.removeEventListener('resize', () => {});
     };
-  }, [window.innerWidth])
+  }, [window.innerWidth]);
 
   useEffect(() => {
     try {
       planejadorService.buscarTodosOsPlanejadores().then((r) => {
         if (r.length > 0) {
           let listaPlanejadores = r.map(planejador => {
-
             return {
               id: planejador.id,
               idMateria: planejador.idMateria,
@@ -73,7 +81,7 @@ const Calendario = ({ openModal, setFormEventos, setListaDePlanejadores, listaDe
           });
 
           setListaDePlanejadores(listaPlanejadores);
-          setAlertaSuccess("Planejamentos carregados com sucesso!")
+          setAlertaSuccess("Planejamentos carregados com sucesso!");
         }
       });
     } catch (error) {
@@ -91,7 +99,8 @@ const Calendario = ({ openModal, setFormEventos, setListaDePlanejadores, listaDe
 
   return (
     <div style={{ position: 'relative', zIndex: 0 }}>
-      <Calendar
+      <CustomCalendar
+        $modoDark={usuarioPrefereModoDark}
         localizer={localizer}
         events={listaDePlanejadores}
         startAccessor="start"
@@ -105,14 +114,13 @@ const Calendario = ({ openModal, setFormEventos, setListaDePlanejadores, listaDe
         eventPropGetter={eventStyle}
         showMultiDayTimes
         views={allViews}
-      components={{
-        toolbar: CustomTollbar,
-      }}
+        components={{
+          toolbar: CustomTollbar,
+        }}
       />
     </div>
   );
 };
-
 
 const CustomTollbar = ({ label, onView, onNavigate }) => {
   return (
@@ -137,7 +145,7 @@ const CustomTollbar = ({ label, onView, onNavigate }) => {
         <button onClick={() => onView(Views.AGENDA)}>Agenda</button>
       </span>
     </div>
-  )
-}
+  );
+};
 
 export default Calendario;

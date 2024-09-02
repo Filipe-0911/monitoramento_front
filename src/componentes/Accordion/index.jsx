@@ -1,17 +1,18 @@
 import styled from "styled-components";
 import { GoChevronDown } from "react-icons/go";
 import { useState } from "react";
+import useUserContext from "../../Hooks/useUserContext";
 
 export const ContainerAccordionEstilizado = styled.div`
     display: flex;
     flex-direction: column;
     gap: 16px;
     width: 100%;
-    color: #000;
-`
+    
+    `
 
 export const DivAccordionEstilizado = styled.div`
-    background-color: #fff;
+    background-color: ${(props) => (props.$darkMode ? "rgba(0,0,0,0.2)" : "#d9d9d9")};
     border-radius: 8px;
     padding: 12px;
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
@@ -31,6 +32,7 @@ export const ButtonAccordionHeaderEstilizado = styled.button`
 
     span {
         font-size: 20px;
+        color: ${(props) => (props.$darkMode ? "#d9d9d9" : "#000")};
         border-bottom: 5px solid ${props => props.$corDaBorda ? props.$corDaBorda : "transparent"};
     }
 
@@ -39,7 +41,7 @@ export const ButtonAccordionHeaderEstilizado = styled.button`
 export const ArrowEstilizado = styled(GoChevronDown)`
     transform: ${(props) => (props.$activeIndex === true ? 'rotate(180deg)' : 'none')};
     transition: transform .2s linear;
-    color: black;
+    /* color: black; */
 `
 
 export const AccordionBodyEstilizado = styled.div`
@@ -72,19 +74,21 @@ export const DivBotoesCrudEstilizado = styled.div`
         align-items: center;
     }
 `;
-export default function Accordion({ children, titulo, corDaBorda}) {
+export default function Accordion({ children, titulo, corDaBorda, $darkMode}) {
     const [activeIndex, setActiveIndex] = useState(false);
+    const {usuarioPrefereModoDark} = useUserContext()
 
     const toggleAccordion = () => {
         setActiveIndex(!activeIndex);
     };
 
     return (
-        <ContainerAccordionEstilizado>
-            <DivAccordionEstilizado>
+        <ContainerAccordionEstilizado >
+            <DivAccordionEstilizado $darkMode={usuarioPrefereModoDark}>
                 <ButtonAccordionHeaderEstilizado
                     onClick={() => toggleAccordion(!activeIndex)}
                     $corDaBorda={corDaBorda}
+                    $darkMode={usuarioPrefereModoDark}
                 >
                     <span>{titulo}</span>
                     <ArrowEstilizado

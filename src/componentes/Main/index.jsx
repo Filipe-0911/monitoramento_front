@@ -9,6 +9,7 @@ const MainEstilizada = styled.main`
     min-height: 82.4vh;
     gap: 1em;
 
+
     @media (max-width: 562px) {
         margin: 3em auto 0 auto;
         padding: 1em;

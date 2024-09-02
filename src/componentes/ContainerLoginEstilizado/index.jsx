@@ -6,7 +6,7 @@ export const ContainerEstilizado = styled.div`
     align-items: center;
     height: 100vh;
     min-width: 100vw;
-    background-color: #79717A;
+    background-color: ${props => props.$darkMode ? "#79717A" : "#fff"};
 `;
 
 export const FormEstilizado = styled.form`
