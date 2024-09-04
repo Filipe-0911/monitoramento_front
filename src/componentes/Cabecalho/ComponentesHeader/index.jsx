@@ -42,10 +42,10 @@ export const DivEstilizadaHeader = styled.div`
     background-color: #1F2024;
     border-radius: 5px;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
-    width: 170px;
+    width: 250px;
     color: #FFFFFF;
     @media (max-width: 562px) {
         padding: 0;

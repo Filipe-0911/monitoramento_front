@@ -53,8 +53,11 @@ const Cabecalho = () => {
     return (
         <HeaderEstilizado open={menuEscondido}>
             <DivEstilizadaHeader>
-                <ImgIconeDoHeaderEstilizado src="/imagens/icones/livro.png" color="white" />
-                <p>Olá, {primeiroNome}!</p>
+                <section style={{display:"flex", alignItems:"center"}}>
+                    <ImgIconeDoHeaderEstilizado src="/imagens/icones/livro.png" color="white" />
+                    <p>Olá, {primeiroNome}!</p>
+                </section>
+                <InputModoDark />
             </DivEstilizadaHeader>
             <DivPaiDoMenuEBotaoMenu>
                 <NavEstilizado open={menuEscondido}>
@@ -78,13 +81,6 @@ const Cabecalho = () => {
                             <a onClick={deslogar}>
                                 Sair
                             </a>
-                        </li>
-                        <br />
-                        <li>
-                            <a>
-                                Dark Mode
-                            </a>
-                            <InputModoDark />
                         </li>
                     </ul>
 
