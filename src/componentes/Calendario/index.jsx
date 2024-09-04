@@ -27,6 +27,7 @@ const DivCalendarioEstilizada = styled.div`
 `;
 
 const allViews = Object.keys(Views).map((k) => Views[k]);
+console.log(allViews)
 const localizer = momentLocalizer(moment);
 
 const Calendario = ({ openModal, setFormEventos, setListaDePlanejadores, listaDePlanejadores }) => {
@@ -111,7 +112,7 @@ const Calendario = ({ openModal, setFormEventos, setListaDePlanejadores, listaDe
   });
 
   const style = {
-    height: '100%',
+    minHeight: '100vh',
     borderRadius: 5,
     maxWidth: "100%",
     width: '100%',
