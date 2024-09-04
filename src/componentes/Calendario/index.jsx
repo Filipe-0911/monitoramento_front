@@ -1,17 +1,30 @@
 import styled from 'styled-components';
 import { Calendar as BigCalendar } from 'react-big-calendar';
-
-const CustomCalendar = styled(BigCalendar)`
-  .rbc-today {
-    background-color: ${props => props.$modoDark ? "rgba(0,0,0,0.2)" : "#fafafa"}
-  }
-`;
 import { momentLocalizer, Views } from 'react-big-calendar';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import PlanejadorService from "../../services/PlanejadorService";
 import useAlertContext from '../../Hooks/useAlertContext';
 import useUserContext from '../../Hooks/useUserContext';
+
+const CustomCalendar = styled(BigCalendar)`
+  .rbc-today {
+    background-color: ${props => props.$modoDark ? "rgba(0,0,0,0.2)" : "#fafafa"}
+  }
+`;
+
+const DivCalendarioEstilizada = styled.div`
+  position: relative;
+  z-index: 0;
+  width: 80%;
+
+  @media (max-width:1280px) {
+    min-width: 90%;
+  }
+  @media (max-widto:562px) {
+    max-width: 100%
+  }
+`;
 
 const allViews = Object.keys(Views).map((k) => Views[k]);
 const localizer = momentLocalizer(moment);
@@ -60,7 +73,7 @@ const Calendario = ({ openModal, setFormEventos, setListaDePlanejadores, listaDe
     });
 
     return () => {
-      window.removeEventListener('resize', () => {});
+      window.removeEventListener('resize', () => { });
     };
   }, [window.innerWidth]);
 
@@ -97,8 +110,15 @@ const Calendario = ({ openModal, setFormEventos, setListaDePlanejadores, listaDe
     }
   });
 
+  const style = {
+    height: '100%',
+    borderRadius: 5,
+    maxWidth: "100%",
+    width: '100%',
+  }
+
   return (
-    <div style={{ position: 'relative', zIndex: 0 }}>
+    <DivCalendarioEstilizada >
       <CustomCalendar
         $modoDark={usuarioPrefereModoDark}
         localizer={localizer}
@@ -106,7 +126,7 @@ const Calendario = ({ openModal, setFormEventos, setListaDePlanejadores, listaDe
         startAccessor="start"
         endAccessor="end"
         defaultView='week'
-        style={{ height: 700, width: (window.innerWidth > 1200 ? tamanhoDoCalendario : window.innerWidth), zIndex: -1 }}
+        style={style}
         selectable
         resizable
         onSelectSlot={handleSelectSlot}
@@ -118,7 +138,7 @@ const Calendario = ({ openModal, setFormEventos, setListaDePlanejadores, listaDe
           toolbar: CustomTollbar,
         }}
       />
-    </div>
+    </DivCalendarioEstilizada>
   );
 };
 
@@ -127,25 +147,25 @@ const CustomTollbar = ({ label, onView, onNavigate }) => {
   const corDoTexto = usuarioPrefereModoDark ? "white" : "black";
 
   return (
-    <div className='rbc-toolbar'>
-      <span className='rbc-btn-group'>
-        <button onClick={() => onNavigate('TODAY')} style={{color: corDoTexto}}>
+    <div className='rbc-toolbar' >
+      <span className='rbc-btn-group' >
+        <button onClick={() => onNavigate('TODAY')} style={{ color: corDoTexto }}>
           Hoje
         </button>
-        <button onClick={() => onNavigate('PREV')} style={{color: corDoTexto}}>
+        <button onClick={() => onNavigate('PREV')} style={{ color: corDoTexto }}>
           Voltar
         </button>
-        <button onClick={() => onNavigate('NEXT')} style={{color: corDoTexto}}>
+        <button onClick={() => onNavigate('NEXT')} style={{ color: corDoTexto }}>
           Avançar
         </button>
       </span>
       <span className='rbc-toolbar-label'>{label}</span>
-      <span className='rbc-btn-group' >
-        <button onClick={() => onView(Views.MONTH)} style={{color: corDoTexto}}>Mês</button>
-        <button onClick={() => onView(Views.WEEK)} style={{color: corDoTexto}}>Semana</button>
-        <button onClick={() => onView(Views.WORK_WEEK)} style={{color: corDoTexto}}>Dias úteis</button>
-        <button onClick={() => onView(Views.DAY)} style={{color: corDoTexto}}>Dia</button>
-        <button onClick={() => onView(Views.AGENDA)} style={{color: corDoTexto}}>Agenda</button>
+      <span className='rbc-btn-group' style={{ display: "flex", flexWrap: "wrap", justifyContent:"center" }}>
+        <button onClick={() => onView(Views.MONTH)} style={{ color: corDoTexto }}>Mês</button>
+        <button onClick={() => onView(Views.WEEK)} style={{ color: corDoTexto }}>Semana</button>
+        <button onClick={() => onView(Views.WORK_WEEK)} style={{ color: corDoTexto }}>Dias úteis</button>
+        <button onClick={() => onView(Views.DAY)} style={{ color: corDoTexto }}>Dia</button>
+        <button onClick={() => onView(Views.AGENDA)} style={{ color: corDoTexto }}>Agenda</button>
       </span>
     </div>
   );
