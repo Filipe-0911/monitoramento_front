@@ -123,26 +123,29 @@ const Calendario = ({ openModal, setFormEventos, setListaDePlanejadores, listaDe
 };
 
 const CustomTollbar = ({ label, onView, onNavigate }) => {
+  const { usuarioPrefereModoDark } = useUserContext();
+  const corDoTexto = usuarioPrefereModoDark ? "white" : "black";
+
   return (
     <div className='rbc-toolbar'>
       <span className='rbc-btn-group'>
-        <button onClick={() => onNavigate('TODAY')}>
+        <button onClick={() => onNavigate('TODAY')} style={{color: corDoTexto}}>
           Hoje
         </button>
-        <button onClick={() => onNavigate('PREV')}>
+        <button onClick={() => onNavigate('PREV')} style={{color: corDoTexto}}>
           Voltar
         </button>
-        <button onClick={() => onNavigate('NEXT')}>
+        <button onClick={() => onNavigate('NEXT')} style={{color: corDoTexto}}>
           Avançar
         </button>
       </span>
       <span className='rbc-toolbar-label'>{label}</span>
-      <span className='rbc-btn-group'>
-        <button onClick={() => onView(Views.MONTH)}>Mês</button>
-        <button onClick={() => onView(Views.WEEK)}>Semana</button>
-        <button onClick={() => onView(Views.WORK_WEEK)}>Dias úteis</button>
-        <button onClick={() => onView(Views.DAY)}>Dia</button>
-        <button onClick={() => onView(Views.AGENDA)}>Agenda</button>
+      <span className='rbc-btn-group' >
+        <button onClick={() => onView(Views.MONTH)} style={{color: corDoTexto}}>Mês</button>
+        <button onClick={() => onView(Views.WEEK)} style={{color: corDoTexto}}>Semana</button>
+        <button onClick={() => onView(Views.WORK_WEEK)} style={{color: corDoTexto}}>Dias úteis</button>
+        <button onClick={() => onView(Views.DAY)} style={{color: corDoTexto}}>Dia</button>
+        <button onClick={() => onView(Views.AGENDA)} style={{color: corDoTexto}}>Agenda</button>
       </span>
     </div>
   );
