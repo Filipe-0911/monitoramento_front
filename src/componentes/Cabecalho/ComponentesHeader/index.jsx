@@ -18,13 +18,14 @@ export const HeaderEstilizado = styled.header`
     @media (max-width: 820px) {
         flex-direction: row-reverse;
         justify-content: flex-start;
+        align-items: ${(props) => (props.open ? 'flex-start' : 'center')};
+        width: ${(props) => (props.open ? '50vw' : '100vw')};
+        transition-duration: 0.35s;
+        right: 0;
     }
     
     @media (max-width: 562px) {
-        transition-duration: 0.35s;
-        align-items: ${(props) => (props.open ? 'flex-start' : 'center')};
-        width: ${(props) => (props.open ? '70vw' : '100vw')};
-        right: 0;
+        width: ${(props) => (props.open ? '80vw' : '100vw')};
         border: 1px solid transparent;
         border-bottom-left-radius: 10px;
         border-bottom-right-radius: 10px;
@@ -34,9 +35,6 @@ export const HeaderEstilizado = styled.header`
 `
 
 export const DivEstilizadaHeader = styled.div`
-    position: absolute;
-    left: 0;
-    top:0;
     border: 1px solid transparent;
     box-shadow: 5px 5px 5px 1px rgba(255,255,255,0.1);
     background-color: #1F2024;
@@ -44,12 +42,13 @@ export const DivEstilizadaHeader = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
-    width: 250px;
+    width: 300px;
+    padding: 10px 10px;
     color: #FFFFFF;
+
     @media (max-width: 562px) {
         padding: 0;
-        width: 150px;
+        width: 250px;
         min-height: 56px;
 
         p {
@@ -62,6 +61,7 @@ export const DivEstilizadaHeader = styled.div`
 export const NavEstilizado = styled.nav`
     display: flex;
     justify-content: center;
+    width: 100%;
     align-items: center;
     gap: 20px;
     margin: 0 auto;
@@ -102,7 +102,11 @@ export const NavEstilizado = styled.nav`
             }
 
         }
-            
+    }
+
+    @media (max-width: 1024px) {
+        justify-content: flex-end;
+        margin: 0 1em;
     }
 
     @media (max-width: 820px) {
@@ -117,21 +121,26 @@ export const NavEstilizado = styled.nav`
         }
 
     }
+    @media (max-width: 562px) {
+        margin: 3em 0 0 0;
+    }
 
 `
 
 export const DivPaiDoMenuEBotaoMenu = styled.div`
     display: flex;
     justify-content: center;
-    margin: 0 auto;
+    align-items: center;
+    width: 100%;
     
     @media (max-width: 820px) {
         margin-right: 10px;
+        flex-direction: column;
+        align-items: flex-start;
     }
 
     @media (max-width: 562px) {
         display: flex;
-        flex-direction: column-reverse;
         align-items: flex-end;
     }
 `

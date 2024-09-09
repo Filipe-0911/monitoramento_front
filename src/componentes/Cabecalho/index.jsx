@@ -12,8 +12,21 @@ import {
 import UserService from "../../services/Usuario";
 import BtnMenu from "../BtnMenu";
 import InputModoDark from "../InputModoDark";
+import CampoTempoDeLogin from "../CampoTempoDeLogin";
+import styled from "styled-components";
 
 
+const DivNomeBotaoMenuEBotaoDarkMode = styled.div`
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    top: 0;
+    left: 0;
+
+    @media(max-width: 820px) {
+        width: 100%;
+    }
+`
 
 const Cabecalho = () => {
     const navigate = useNavigate();
@@ -50,16 +63,24 @@ const Cabecalho = () => {
         }
     }, [menuEscondido])
 
+    const horaDeLogin = JSON.parse(localStorage.getItem("horarioLogin"));
+
     return (
         <HeaderEstilizado open={menuEscondido}>
-            <DivEstilizadaHeader>
-                <section style={{display:"flex", alignItems:"center"}}>
-                    <ImgIconeDoHeaderEstilizado src="/imagens/icones/livro.png" color="white" />
-                    <p>Olá, {primeiroNome}!</p>
-                </section>
-                <InputModoDark />
-            </DivEstilizadaHeader>
             <DivPaiDoMenuEBotaoMenu>
+                
+                <DivNomeBotaoMenuEBotaoDarkMode >
+                    <DivEstilizadaHeader>
+                        <section style={{ display: "flex", alignItems: "center" }}>
+                            <ImgIconeDoHeaderEstilizado src="/imagens/icones/livro.png" color="white" />
+                            <p>Olá, {primeiroNome}!</p>
+                        </section>
+                        <CampoTempoDeLogin horaLogin={horaDeLogin} />
+                        <InputModoDark />
+                    </DivEstilizadaHeader>
+                    <BtnMenu onClick={exibeMenu} menuEscondido={menuEscondido} />
+                </DivNomeBotaoMenuEBotaoDarkMode>
+
                 <NavEstilizado open={menuEscondido}>
                     <ul>
                         <li>
@@ -83,9 +104,8 @@ const Cabecalho = () => {
                             </a>
                         </li>
                     </ul>
-
                 </NavEstilizado>
-                <BtnMenu onClick={exibeMenu} menuEscondido={menuEscondido} />
+
             </DivPaiDoMenuEBotaoMenu>
         </HeaderEstilizado>
     );
