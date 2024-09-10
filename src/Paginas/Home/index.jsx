@@ -168,6 +168,7 @@ const Home = () => {
                     ?
                     <Loader />
                     :
+                    tarefas.length > 0 &&
                     <Carrossel items={
                         tarefas.map((tarefa, index) => (
                             <CardTarefas
