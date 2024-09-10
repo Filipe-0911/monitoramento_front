@@ -63,6 +63,7 @@
     align-items: center;
     justify-content: center;
     min-height: 57px;
+    margin-right: 5px;
 
 }
 @media screen and (min-width: 820px) {
