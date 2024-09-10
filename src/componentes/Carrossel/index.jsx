@@ -6,42 +6,55 @@ import styled from 'styled-components';
 
 const IconeNextEstilizado = styled(MdNavigateNext)`
     cursor: pointer;
-    width: 50px;
-    height: 50px;
+    min-width: 50px;
+    min-height: 50px;
+
+    @media (max-width: 562px) {
+        position: absolute;
+        right: 0;
+        z-index: 1000;
+    }
 `
 
 const IconeBeforeEstilizado = styled(MdNavigateBefore)`
     cursor: pointer;
-    width: 50px;
-    height: 50px;
+    min-width: 50px;
+    min-height: 50px;
+
+    @media (max-width: 562px) {
+        position: absolute;
+        left: 0;
+        z-index: 1000;
+    }
 `
 
 export default function Carrossel({ items }) {
     const carousel = useRef();
     const [width, setWidth] = useState(0);
-    const [currentX, setCurrentX] = useState(0);
-    const slideWidth = 200; 
+    const [currentX, setCurrentX] = useState(0); 
+    const slideWidth = 300; 
 
     useEffect(() => {
         setWidth(carousel.current?.scrollWidth - carousel.current?.offsetWidth);
-    }, []);
-
-    useEffect(() => {
-        carousel.current.scrollTo({ left: -currentX, behavior: 'smooth' });
-    }, [currentX]);
+    }, [items]);
 
     const handleNext = () => {
+        
         setCurrentX(prev => Math.max(prev - slideWidth, -width));
     };
 
     const handlePrev = () => {
+        
         setCurrentX(prev => Math.min(prev + slideWidth, 0));
     };
 
     const handleDragEnd = (event, info) => {
-        if (info.offset.x < -50) {
+        const threshold = 50; 
+        const movement = info.offset.x;
+
+        if (movement < -threshold) {
             handleNext();
-        } else if (info.offset.x > 50) {
+        } else if (movement > threshold) {
             handlePrev();
         }
     };
@@ -51,16 +64,15 @@ export default function Carrossel({ items }) {
             <IconeBeforeEstilizado onClick={handlePrev} />
             <motion.div
                 className='carousel'
-                whileTap={{ cursor: "grabbing" }}
                 ref={carousel}
             >
                 <motion.div
                     className='inner'
                     drag="x"
                     dragConstraints={{ right: 0, left: -width }}
-                    onDragEnd={handleDragEnd}
-                    animate={{ x: currentX }}
-                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                    onDragEnd={handleDragEnd} 
+                    animate={{ x: currentX }} 
+                    transition={{ type: "spring", stiffness: 300, damping: 30 }} 
                 >
                     {
                         items.map((item, index) => (
