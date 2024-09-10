@@ -16,6 +16,7 @@ import Alert from "../../componentes/Alert";
 //Services
 import TarefaService from "../../services/Tarefas";
 import DataService from "../../services/DataService";
+import Carrossel from "../../componentes/Carrossel";
 
 const Home = () => {
     const tarefaService = new TarefaService();
@@ -44,7 +45,7 @@ const Home = () => {
         } catch (error) {
             alert(error.message);
             setIsLoading(false);
-        } 
+        }
     }, []);
 
     function openModal(tarefa, event) {
@@ -160,12 +161,14 @@ const Home = () => {
                     Adicionar
                 </BotaorCard>
             </SectionAdicionarTarefa>
-            <ContainerTarefas>
-                {
-                    isLoading
-                        ?
-                        <Loader />
-                        :
+
+
+            {
+                isLoading
+                    ?
+                    <Loader />
+                    :
+                    <Carrossel items={
                         tarefas.map((tarefa, index) => (
                             <CardTarefas
                                 key={index}
@@ -176,8 +179,8 @@ const Home = () => {
                                 openModal={openModal}
                             />
                         ))
-                }
-            </ContainerTarefas>
+                    } />
+            }
 
             <ModalComponent modalIsOpen={modalAberto} closeModal={closeModal}>
                 <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>

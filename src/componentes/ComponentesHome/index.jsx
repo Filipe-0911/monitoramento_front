@@ -18,6 +18,7 @@ export const CardTarefasEstilizado = styled.div`
     border: 1px solid transparent;
     border-radius: 5px;
     box-shadow: 5px 5px 5px 2px rgba(0, 0, 0, 0.3);
+    min-width: 300px;
     max-width: 300px;
     background-color: ${(props) => (props.$concluido ? "#038C73" : (props.$darkMode ? "rgba(0,0,0,0.2)" : "#d9d9d9"))};
     color: ${(props) => (props.$darkMode ? "#d9d9d9" : "#000")};

@@ -1,0 +1,28 @@
+.principal {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1em;
+}
+
+.inner {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    min-height: 300px;
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    min-height: 250px;
+    min-width: 320px;
+}
+
+.carousel {
+    cursor: grab;
+    overflow: hidden;
+}
