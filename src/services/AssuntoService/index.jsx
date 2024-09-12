@@ -95,6 +95,7 @@ export default class AssuntoService {
     }
 
     async buscarTodosOsAssuntosDoUsuario() {
+
         try {
             const { data } = await this.axios.get('/assuntos', this.userService.getHeaderWithTokenFromLocalStorage());
             

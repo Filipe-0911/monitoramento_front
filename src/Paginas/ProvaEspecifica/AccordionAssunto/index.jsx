@@ -128,7 +128,16 @@ export default function AccordionAssunto({
                 <Accordion key={materia.id} titulo={`Matéria: ${materia.nome}`} corDaBorda={prova.corDaProva}>
                     <input type="number" defaultValue={materia.id} hidden id="idMateria" />
                     <ul>
-                        {materia.listaDeAssuntos.map(assunto => {
+                        {/* feito sort no front / NÃO ESQUECER DE PASSAR PRO BACKEND */}
+                        {materia.listaDeAssuntos.sort(function (a, b) {
+                            if (a.nome < b.nome) {
+                                return -1;
+                            }
+                            if (a.nome > b.nome) {
+                                return 1;
+                            }
+                            return 0;
+                        }).map(assunto => {
                             return (
                                 <LiAcorddionEstilizado key={assunto.id}>
                                     <SectionDadosDoAssuntoEstilizado $darkMode={usuarioPrefereModoDark}>
@@ -187,11 +196,11 @@ export default function AccordionAssunto({
                                         >
                                             <TbListDetails size={15} color="red" />
                                             {
-                                                assunto.comentarios 
-                                                ?
-                                                "Ver Resumo"
-                                                :
-                                                "Criar Resumo"
+                                                assunto.comentarios
+                                                    ?
+                                                    "Ver Resumo"
+                                                    :
+                                                    "Criar Resumo"
                                             }
                                         </BotaorCard>
                                     </SectionBotoesCrudAccordion>
