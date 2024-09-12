@@ -17,7 +17,7 @@ export default class QuestoesService {
     async adicionaQuestao(dadosQuestao) {
         const { idProva, idMateria, idAssunto, questao } = dadosQuestao;
         try {
-            const response = await this.axios.post(`/provas/${idProva}/materias/${idMateria}/assuntos/${idAssunto}/questoes`, questao, this.userService.getHeaderWithTokenFromLocalStorage());
+            const response = await this.axios.post(`/provas/${idProva}/materias/${idMateria}/assuntos/${idAssunto}/estatisticas`, questao, this.userService.getHeaderWithTokenFromLocalStorage());
 
             return response.data;
             
