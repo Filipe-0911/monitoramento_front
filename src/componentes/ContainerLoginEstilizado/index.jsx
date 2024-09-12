@@ -17,7 +17,7 @@ export const FormEstilizado = styled.form`
     background-color: #201d1d;
     border-radius: 5px;
     width: 100%;
-    max-width: 450px;
+    max-width: ${props => props.$questionario ? "" : "450px"};
     gap: 30px 0px;
 
     h1 {

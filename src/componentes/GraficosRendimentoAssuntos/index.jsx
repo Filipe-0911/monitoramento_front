@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Accordion from "../Accordion";
 import TabelaDadosParaMobile from "./TabelaDadosParaMobile";
+import useUserContext from "../../Hooks/useUserContext";
 
 const SectionGraficoResponsivaEstilizada = styled.section`
     width: 100%;
@@ -17,6 +18,7 @@ const SectionGraficoResponsivaEstilizada = styled.section`
     }
 `
 const GraficosRendimentoAssuntos = ({ prova }) => {
+    const { usuarioPrefereModoDark } = useUserContext();
     const provasService = new ProvasService();
     const [mediaQuestoes, setMediaQuestoes] = useState([]);
     const [dadosObtidosDaApi, setDadosObtidosDaApi] = useState([]);
@@ -82,6 +84,9 @@ const GraficosRendimentoAssuntos = ({ prova }) => {
             tooltip: {
                 enabled: true
             }
+        },
+        theme: {
+            mode: usuarioPrefereModoDark ? "dark" : "light",
         }
     };
 
@@ -99,6 +104,7 @@ const GraficosRendimentoAssuntos = ({ prova }) => {
                     type="line"
                     width={ tamanhoDoGrafico }
                     height={480}
+                    
                 />
             </SectionGraficoResponsivaEstilizada>
         </Accordion>

@@ -12,6 +12,7 @@ import ProtectedRoutes from "./ProtectedRoutes";
 import UserProvider from "../Context/UserProvider";
 import PaginaBase from "../Paginas/PaginaBase";
 import AlertProvider from "../Context/AlertProvider";
+import Questionario from "../Paginas/Questionario";
 
 const Routering = () => {
     return (
@@ -32,6 +33,7 @@ const Routering = () => {
                                 <Route path="provas/:id" element={<ProvaEspecifica />} />
                                 <Route path="provas/:idProva/materias/:idMateria/assuntos/:idAssunto" element={<DetalhamentoAssunto />} />
                                 <Route path="planejador" element={<Agendamentos />} />
+                                <Route path="questoes/" element={<Questionario />} />
                             </Route>
                         </Routes>
                     </AlertProvider>
