@@ -1,70 +1,207 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { SectionQuestionario, H2QuestionarioEstilizado, FormEstilizadoQuestionario } from './componentesQuestionario/SectionQuestionario';
 import { BotaorCard } from '../../componentes/ComponentesHome';
 import { FormEstilizado } from '../../componentes/ContainerLoginEstilizado';
 import useUserContext from '../../Hooks/useUserContext';
+import { useNavigate, useParams } from 'react-router-dom';
+import QuestoesService from '../../services/QuestoesService';
+import styled from 'styled-components';
+import BotaoEstilizado from '../../componentes/Botao';
+import useAlertContext from '../../Hooks/useAlertContext';
+import Alert from '../../componentes/Alert';
+
+const InputRadioEstilizado = styled.input`
+    display: none;
+`
+
+const DivMensagemQuestoesNaoEncontradas = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2em;
+  width: 60%;
+`
+const DivEstatisticasEstilizada = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+  div {
+    display: flex;
+    gap: 0.5em;
+    h2, p {
+      font-size: 22px;
+    }
+  }
+  
+`
+
+function Alternativas({ index, textoAlternativa, setAlternativasSelecionadas, alternativasSelecionadas, darkMode }) {
+  const opcoesAlternativas = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+  const handleChange = (e) => {
+    setAlternativasSelecionadas(e.target.parentNode.getElementsByTagName('p')[1].innerText);
+  }
+  let corDaLetra = darkMode ? "white" : "black";
+  let corDeFundo = darkMode ? "rgba(217, 217, 217, 0.5)" : "rgba(106, 106, 106, 0.5)";
+
+  return (
+    <li>
+      <label style={{ display: 'flex', gap: '5px' }}>
+        <InputRadioEstilizado type='radio' name='opcao' onChange={e => handleChange(e)} />
+        <p>{opcoesAlternativas[index]}) </p>
+        <p id='resposta_escolhida' style={{
+          backgroundColor: alternativasSelecionadas === textoAlternativa && corDeFundo,
+          color: alternativasSelecionadas === textoAlternativa && corDaLetra,
+          cursor: 'pointer'
+        }}>{textoAlternativa}</p>
+      </label>
+    </li>
+  )
+}
+
 
 export default function Questionario() {
   const { usuarioPrefereModoDark } = useUserContext();
+  const [alternativasSelecionadas, setAlternativasSelecionadas] = useState("");
+  const questoesService = new QuestoesService();
+  const params = useParams();
+  const navigate = useNavigate();
+  const { setAlertaError, dadosAlerta, setAlertaSuccess } = useAlertContext();
+  const [enviouResposta, setEnviouResposta] = useState(false);
+
+  const [questoesRespondidas, setQuestoesRespondidas] = useState({ questoesFeitas: 0, questoesCorretas: 0 })
+
+  const [questao, setQuestao] = useState({
+    content: [],
+    page: {
+      number: 0,
+      size: 0,
+      totalElements: 0,
+      totalPages: 0,
+    }
+  });
+
+  useEffect(() => {
+    questoesService.buscaQuestoes(params.idProva, params.idMateria).then((res) => {
+      if (res.status === 200) return setQuestao(res.data);
+      setEnviouResposta(false);
+
+    }).catch(err => console.error(err));
+  }, [])
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (alternativasSelecionadas !== "") {
+      questoesService.verificaSeRepostaEstaCorreta(params.idProva, params.idMateria, questao.content[0].id, alternativasSelecionadas)
+        .then(response => {
+          if (response.acertou) {
+            setAlertaSuccess(response.resposta)
+            setEnviouResposta(true);
+          } else {
+            setAlertaError(response.resposta)
+          }
+          setQuestoesRespondidas((prevState) => ({
+            questoesFeitas: prevState.questoesFeitas + 1,
+            questoesCorretas: prevState.questoesCorretas + (response.acertou ? 1 : 0)
+          }))
+        })
+
+    } else {
+      setAlertaError("Você deve escolher pelo menos uma alternativa antes de enviar a resposta");
+    }
+  }
+
+  function buscaProxQuestao(paginaParaBusca) {
+    setEnviouResposta(false);
+    questoesService.buscaQuestoes(params.idProva, params.idMateria, paginaParaBusca).then((res) => {
+      setQuestao(res.data);
+    }).catch(err => console.error(err));
+  }
+
   return (
     <SectionQuestionario>
-      <FormEstilizadoQuestionario $questionario $darkMode={usuarioPrefereModoDark} >
-        <H2QuestionarioEstilizado>
-          Nome Matéria
-        </H2QuestionarioEstilizado>
-        <p>
-          Texto do questionário
-        </p>
-        <ul>
-          <li>
-            <BotaorCard $type="detalhar">
-              a)
-            </BotaorCard> 
-            <span>
-              resposta 1
-            </span>
-          </li>
+      {
+        questao.content.length > 0 &&
+        <>
+          <FormEstilizadoQuestionario $questionario $darkMode={usuarioPrefereModoDark} onSubmit={(e) => handleSubmit(e)}>
+            <H2QuestionarioEstilizado>
+              {questao.content[0].nomeMateria}
+            </H2QuestionarioEstilizado>
+            <p>
+              {questao.content[0].textoQuestao}
+            </p>
+            <ul>
+              {
+                questao.content[0].listaAlternativas.map((alternativa, index) => (
+                  <Alternativas index={index} textoAlternativa={alternativa.textoAlternativa} key={alternativa.id} setAlternativasSelecionadas={setAlternativasSelecionadas} alternativasSelecionadas={alternativasSelecionadas} darkMode={usuarioPrefereModoDark} />
+                ))
+              }
+            </ul>
+            <section style={{ display: 'flex', justifyContent: 'space-evenly', margin: "1em 0" }}>
+              <BotaorCard $type="concluir" disabled={enviouResposta}>
+                Salvar Resposta
+              </BotaorCard>
 
-          <li>
-            <BotaorCard $type="detalhar">
-              b)
-            </BotaorCard> 
-            <span>
-              resposta 2
-            </span>
-          </li>
-
-          <li>
-            <BotaorCard $type="detalhar">
-              c)
-            </BotaorCard> 
-            <span>
-              resposta 3
-            </span>
-          </li>
-
-          <li>
-            <BotaorCard $type="detalhar">
-              d)
-            </BotaorCard> 
-            <span>
-              resposta 4
-            </span>
-          </li>
-
-        </ul>
-        <section style={{ display: 'flex', justifyContent: 'space-evenly', margin: "1em 0" }}>
-          <BotaorCard $type="detalhar">
-            Questão anterior
-          </BotaorCard>
-          <BotaorCard $type="concluir">
-            Salvar Resposta
-          </BotaorCard>
-          <BotaorCard $type="detalhar">
-            Próxima questão
-          </BotaorCard>
-        </section>
-      </FormEstilizadoQuestionario>
+            </section>
+          </FormEstilizadoQuestionario>
+          <section style={{ display: 'flex', justifyContent: 'space-evenly', width: '100%', gap: "1em" }}>
+            <BotaoEstilizado
+              disabled={false}
+              onClick={() => navigate(-1)}
+            >
+              Voltar
+            </BotaoEstilizado>
+            <BotaoEstilizado
+              disabled={(questao.page.number < (questao.page.totalPages - 1))}
+              onClick={() => buscaProxQuestao(questao.page.number - 1)}
+            >
+              Questão anterior
+            </BotaoEstilizado>
+            <BotaoEstilizado
+              disabled={!(questao.page.totalElements > 1 && questao.page.number < questao.page.totalPages - 1)}
+              onClick={() => buscaProxQuestao(questao.page.number + 1)}
+            >
+              Próxima questão
+            </BotaoEstilizado>
+          </section>
+          <DivEstatisticasEstilizada>
+            <div>
+              <h2>
+                Questões respondidas:
+              </h2>
+              <p>
+                {questoesRespondidas.questoesFeitas.toString()}
+              </p>
+            </div>
+            <div>
+              <h2>
+                Questões corretas:
+              </h2>
+              <p>
+                {questoesRespondidas.questoesCorretas.toString()}
+              </p>
+            </div>
+          </DivEstatisticasEstilizada>
+          <Alert dados={dadosAlerta} />
+        </>
+      }
+      {
+        questao.content.length === 0 &&
+        <DivMensagemQuestoesNaoEncontradas>
+          <h2>
+            Ops...
+          </h2>
+          <p>
+            Você não tem questões adicionadas a esta matéria
+          </p>
+          <BotaoEstilizado
+            disabled={false}
+            onClick={() => navigate(-1)}
+          >
+            Voltar
+          </BotaoEstilizado>
+        </DivMensagemQuestoesNaoEncontradas>
+      }
     </SectionQuestionario>
   )
 }

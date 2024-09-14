@@ -25,4 +25,17 @@ export default class QuestoesService {
             
         }
     }
+
+    async buscaQuestoes(idProva, idMateria, paginaDeBusca = 0) {
+        const response = await this.axios.get(`/provas/${idProva}/materias/${idMateria}/questoes?page=${paginaDeBusca}`, this.userService.getHeaderWithTokenFromLocalStorage());
+        return response;
+    }
+    async verificaSeRepostaEstaCorreta(idProva, idMateria, idQuestao, resposta) {
+        const response = await this.axios.post(`/provas/${idProva}/materias/${idMateria}/questoes/${idQuestao}`, {
+            respostaEscolhida: resposta
+        } , this.userService.getHeaderWithTokenFromLocalStorage());
+        
+        return response.data;
+
+    }
 }
