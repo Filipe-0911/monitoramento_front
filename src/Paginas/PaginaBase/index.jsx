@@ -20,7 +20,7 @@ const BodyEstilizado = styled.section`
 
 export default function PaginaBase() {
     const { verificaSeEstaAutenticado, usuarioPrefereModoDark, modificaModoDarkOuWhite } = useUserContext();
-    verificaSeEstaAutenticado()
+    // verificaSeEstaAutenticado()
     return (
         <>
             <Cabecalho />

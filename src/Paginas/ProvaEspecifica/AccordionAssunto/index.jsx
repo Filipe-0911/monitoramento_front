@@ -233,7 +233,7 @@ export default function AccordionAssunto({
                             <FaPencilAlt size={15} />
                             Editar Materia
                         </BotaorCard>
-                        <BotaorCard $type="detalhar" onClick={() => navigate(`/provas/${prova.id}/materias/${materia.id}/questoes`)}>
+                        <BotaorCard $type="detalhar" onClick={() => navigate(`/provas/${prova.id}/materias/${materia.id}/questoes-dashboard`)}>
                             <FaQuestion size={15} color="red" />
                             Responder questionário
                         </BotaorCard>

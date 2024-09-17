@@ -13,6 +13,7 @@ import UserProvider from "../Context/UserProvider";
 import PaginaBase from "../Paginas/PaginaBase";
 import AlertProvider from "../Context/AlertProvider";
 import Questionario from "../Paginas/Questionario";
+import QuestoesDashboard from "../Paginas/QuestoesDashboard";
 
 const Routering = () => {
     return (
@@ -33,6 +34,7 @@ const Routering = () => {
                                 <Route path="provas/:id" element={<ProvaEspecifica />} />
                                 <Route path="provas/:idProva/materias/:idMateria/assuntos/:idAssunto" element={<DetalhamentoAssunto />} />
                                 <Route path="planejador" element={<Agendamentos />} />
+                                <Route path="provas/:idProva/materias/:idMateria/questoes-dashboard/" element={<QuestoesDashboard />} />
                                 <Route path="provas/:idProva/materias/:idMateria/questoes/" element={<Questionario />} />
                             </Route>
                         </Routes>

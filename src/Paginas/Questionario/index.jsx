@@ -29,6 +29,7 @@ const DivEstatisticasEstilizada = styled.div`
   div {
     display: flex;
     gap: 0.5em;
+    align-items: center;
     h2, p {
       font-size: 22px;
     }
