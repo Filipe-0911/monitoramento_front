@@ -3,6 +3,8 @@ import { createGlobalStyle } from "styled-components";
 const GlobalStyle = createGlobalStyle`
     :root {
         --bg-azul-claro: #357c7c;
+        --bg-cinza-light-mode: #d9d9d9;
+        --bg-cinza-dark-mode: rgba(0, 0, 0, 0.2);
     }
     * {
         margin:0;
