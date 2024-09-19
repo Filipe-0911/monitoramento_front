@@ -18,7 +18,6 @@ const DivFinalForm = styled.div`
     width: 100%;
     justify-content: flex-end;
 `
-
 export default function FormQuestao() {
     const params = useParams();
     const questoesService = new QuestoesService();
@@ -201,7 +200,6 @@ export default function FormQuestao() {
             <BotaoEstilizado disabled={verificaSeHaTextoQuestaoEDuasAlternativas()}>
                 Salvar Questão
             </BotaoEstilizado>
-            <Alert dados={dadosAlerta} />
         </FormEstilizado>
     )
 }
