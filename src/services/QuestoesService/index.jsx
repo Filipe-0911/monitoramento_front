@@ -14,7 +14,7 @@ export default class QuestoesService {
         this.userService = new UserService();
     }
 
-    async adicionaQuestao(dadosQuestao) {
+    async adicionaEstatistica(dadosQuestao) {
         const { idProva, idMateria, idAssunto, questao } = dadosQuestao;
         try {
             const response = await this.axios.post(`/provas/${idProva}/materias/${idMateria}/assuntos/${idAssunto}/estatisticas`, questao, this.userService.getHeaderWithTokenFromLocalStorage());
@@ -30,12 +30,20 @@ export default class QuestoesService {
         const response = await this.axios.get(`/provas/${idProva}/materias/${idMateria}/questoes?page=${paginaDeBusca}`, this.userService.getHeaderWithTokenFromLocalStorage());
         return response;
     }
+
     async verificaSeRepostaEstaCorreta(idProva, idMateria, idQuestao, resposta) {
         const response = await this.axios.post(`/provas/${idProva}/materias/${idMateria}/questoes/${idQuestao}`, {
             respostaEscolhida: resposta
         } , this.userService.getHeaderWithTokenFromLocalStorage());
         
         return response.data;
+
+    }
+
+    async adicionaQuestao (idProva, idMateria, dadosQuestao) {
+        console.log(dadosQuestao)
+        const response = await this.axios.post(`/provas/${idProva}/materias/${idMateria}/questoes`, dadosQuestao, this.userService.getHeaderWithTokenFromLocalStorage());
+        return response;
 
     }
 }

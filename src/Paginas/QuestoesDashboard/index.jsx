@@ -5,6 +5,8 @@ import useUserContext from '../../Hooks/useUserContext';
 import ModalComponent from '../../componentes/Modal';
 import FormQuestao from '../Questionario/componentesQuestionario/FormQuestao';
 import { useState } from 'react';
+import { BotaorCard } from '../../componentes/ComponentesHome';
+import { RiCloseLargeFill } from 'react-icons/ri';
 
 const SectionDashboardEstilizada = styled.section`
     width: 100%;
@@ -100,6 +102,11 @@ export default function QuestoesDashboard() {
             </SectionCardsDashboardEstilizada>
 
             <ModalComponent modalIsOpen={modalIsOpen} closeModal={closeModal}>
+                <div style={{ width: "100%", display:"flex", justifyContent: "flex-end" }}>
+                    <BotaorCard $type="excluir" onClick={closeModal}>
+                        <RiCloseLargeFill />
+                    </BotaorCard>
+                </div>
                 <FormQuestao />
             </ModalComponent>
         </SectionDashboardEstilizada>

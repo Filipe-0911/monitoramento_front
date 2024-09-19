@@ -149,7 +149,7 @@ const ProvaEspecifica = () => {
     const adicionarQuestoesAoAssunto = async (dadosQuestao) => {
         try {
             const dadosParaEnviarQuestoesParaApi = { idProva: prova.id, idMateria: idMateria, idAssunto: idAssunto, questao: dadosQuestao };
-            const r = await questoesService.adicionaQuestao(dadosParaEnviarQuestoesParaApi);
+            const r = await questoesService.adicionaEstatistica(dadosParaEnviarQuestoesParaApi);
             addQuestao({
                 dadosParaAlteracao: {
                     idMateria: idMateria,

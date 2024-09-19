@@ -10,8 +10,8 @@ const TextAreaEstilizado = styled.textarea`
     box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2);
     padding: 16px 20px;
     min-width: 100%;
-    max-width: 100%;
-    height: 200px;
+    max-width: 350px;
+    height: 150px;
 
     input::placeholder {
         color: #fff;
