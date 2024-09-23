@@ -32,8 +32,9 @@ export default class QuestoesService {
     }
 
     async verificaSeRepostaEstaCorreta(idProva, idMateria, idQuestao, resposta) {
+        const { id } = resposta;
         const response = await this.axios.post(`/provas/${idProva}/materias/${idMateria}/questoes/${idQuestao}`, {
-            respostaEscolhida: resposta
+            idAlternativa: id
         } , this.userService.getHeaderWithTokenFromLocalStorage());
         
         return response.data;

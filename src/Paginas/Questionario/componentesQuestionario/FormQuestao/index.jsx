@@ -12,6 +12,7 @@ import { useParams } from "react-router-dom";
 import QuestoesService from "../../../../services/QuestoesService";
 import useAlertContext from "../../../../Hooks/useAlertContext";
 import Alert from "../../../../componentes/Alert";
+import { InputRadioEstilizado } from "../../../../componentes/InputRadioEstilizado";
 
 const DivFinalForm = styled.div`
     display: flex;
@@ -25,8 +26,8 @@ export default function FormQuestao() {
 
     const [questao, setQuestao] = useState({
         textoQuestao: "",
-        respostaCerta: "",
         listaAlternativas: [
+            {textoAlternativa: ""},
             {textoAlternativa: ""},
             {textoAlternativa: ""},
             {textoAlternativa: ""},
@@ -65,6 +66,18 @@ export default function FormQuestao() {
                 prevState.listaAlternativas[1],
                 {textoAlternativa: alternativa},
                 prevState.listaAlternativas[3]
+            ]
+        }))
+    }
+
+    function setAlternativa4 (alternativa) {
+        setQuestao(prevState => ({
+            ...prevState,
+            listaAlternativas: [
+                prevState.listaAlternativas[0],
+                prevState.listaAlternativas[1],
+                prevState.listaAlternativas[2],
+                {textoAlternativa: alternativa}
             ]
         }))
     }
@@ -117,7 +130,7 @@ export default function FormQuestao() {
     }
 
     function verificaSeHaTextoQuestaoEDuasAlternativas () {
-        return !(questao.textoQuestao !== "" && questao.respostaCerta !== "" && questao.listaAlternativas.length > 0);
+        return !(questao.textoQuestao !== "" && questao.listaAlternativas.length > 1 );
     }
 
     function verificaSeAlternativaEhBlankERemoveSeFor (questao) {
@@ -129,11 +142,11 @@ export default function FormQuestao() {
         setAlternativa1("");
         setAlternativa2("");
         setAlternativa3("");
+        setAlternativa4("");
 
         setQuestao(prevState => ({
             ...prevState,
             textoQuestao: "",
-            respostaCerta: "",
         }));
     }
 
@@ -155,17 +168,6 @@ export default function FormQuestao() {
             </FieldsetEstilizado>
             <FieldsetEstilizado>
                 <label>
-                    Resposta Correta:
-                </label>
-                <CampoForm
-                    nome="respostaCerta"
-                    placeholder="Escreva a resposta correta"
-                    onChange={e => setRespostaCerta(e)}
-                    defaultValue={questao.respostaCerta}
-                />
-            </FieldsetEstilizado>
-            <FieldsetEstilizado>
-                <label>
                     Alternativa 1:
                 </label>
                 <CampoForm
@@ -174,10 +176,11 @@ export default function FormQuestao() {
                     onChange={e => setAlternativa1(e.target.value)}
                     defaultValue={questao.listaAlternativas[0].textoAlternativa}
                 />
+                <InputRadioEstilizado />
             </FieldsetEstilizado>
             <FieldsetEstilizado>
                 <label>
-                    Alternativa 2 (Opcional):
+                    Alternativa 2:
                 </label>
                 <CampoForm
                     nome="respostaCerta"
@@ -185,6 +188,7 @@ export default function FormQuestao() {
                     onChange={e => setAlternativa2(e.target.value)}
                     defaultValue={questao.listaAlternativas[1].textoAlternativa}
                 />
+                <InputRadioEstilizado />
             </FieldsetEstilizado>
             <FieldsetEstilizado>
                 <label>
@@ -196,6 +200,19 @@ export default function FormQuestao() {
                     onChange={e => setAlternativa3(e.target.value)}
                     defaultValue={questao.listaAlternativas[2].textoAlternativa}
                 />
+                <InputRadioEstilizado />
+            </FieldsetEstilizado>
+            <FieldsetEstilizado>
+                <label>
+                    Alternativa 4 (opcional)
+                </label>
+                <CampoForm
+                    nome="respostaCerta"
+                    placeholder="Escreva a Alternativa 4"
+                    onChange={e => setRespostaCerta(e)}
+                    defaultValue={questao.respostaCerta}
+                />
+                <InputRadioEstilizado />
             </FieldsetEstilizado>
             <BotaoEstilizado disabled={verificaSeHaTextoQuestaoEDuasAlternativas()}>
                 Salvar Questão

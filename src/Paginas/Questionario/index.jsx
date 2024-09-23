@@ -9,10 +9,9 @@ import styled from 'styled-components';
 import BotaoEstilizado from '../../componentes/Botao';
 import useAlertContext from '../../Hooks/useAlertContext';
 import Alert from '../../componentes/Alert';
+import { InputRadioEstilizado } from '../../componentes/InputRadioEstilizado';
 
-const InputRadioEstilizado = styled.input`
-    display: none;
-`
+
 const DivMensagemQuestoesNaoEncontradas = styled.div`
   display: flex;
   flex-direction: column;
@@ -36,10 +35,11 @@ const DivEstatisticasEstilizada = styled.div`
   
 `
 
-function Alternativas({ index, textoAlternativa, setAlternativasSelecionadas, alternativasSelecionadas, darkMode }) {
+function Alternativas({ index, alternativa, setAlternativasSelecionadas, alternativasSelecionadas, darkMode }) {
+  const { textoAlternativa } = alternativa;
   const opcoesAlternativas = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
   const handleChange = (e) => {
-    setAlternativasSelecionadas(e.target.parentNode.getElementsByTagName('p')[1].innerText);
+    setAlternativasSelecionadas(alternativa);
   }
   let corDaLetra = darkMode ? "white" : "black";
   let corDeFundo = darkMode ? "rgba(217, 217, 217, 0.5)" : "rgba(106, 106, 106, 0.5)";
@@ -50,8 +50,8 @@ function Alternativas({ index, textoAlternativa, setAlternativasSelecionadas, al
         <InputRadioEstilizado type='radio' name='opcao' onChange={e => handleChange(e)} />
         <p>{opcoesAlternativas[index]}) </p>
         <p id='resposta_escolhida' style={{
-          backgroundColor: alternativasSelecionadas === textoAlternativa && corDeFundo,
-          color: alternativasSelecionadas === textoAlternativa && corDaLetra,
+          backgroundColor: alternativasSelecionadas.textoAlternativa === textoAlternativa && corDeFundo,
+          color: alternativasSelecionadas.textoAlternativa === textoAlternativa && corDaLetra,
           cursor: 'pointer'
         }}>{textoAlternativa}</p>
       </label>
@@ -62,7 +62,7 @@ function Alternativas({ index, textoAlternativa, setAlternativasSelecionadas, al
 
 export default function Questionario() {
   const { usuarioPrefereModoDark } = useUserContext();
-  const [alternativasSelecionadas, setAlternativasSelecionadas] = useState("");
+  const [alternativasSelecionadas, setAlternativasSelecionadas] = useState({id: 0, textoAlternativa:""});
   const questoesService = new QuestoesService();
   const params = useParams();
   const navigate = useNavigate();
@@ -133,7 +133,7 @@ export default function Questionario() {
             <ul>
               {
                 questao.content[0].listaAlternativas.map((alternativa, index) => (
-                  <Alternativas index={index} textoAlternativa={alternativa.textoAlternativa} key={alternativa.id} setAlternativasSelecionadas={setAlternativasSelecionadas} alternativasSelecionadas={alternativasSelecionadas} darkMode={usuarioPrefereModoDark} />
+                  <Alternativas index={index} alternativa={alternativa} key={alternativa.id} setAlternativasSelecionadas={setAlternativasSelecionadas} alternativasSelecionadas={alternativasSelecionadas} darkMode={usuarioPrefereModoDark} />
                 ))
               }
             </ul>
