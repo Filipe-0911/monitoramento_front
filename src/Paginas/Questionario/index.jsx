@@ -62,7 +62,7 @@ function Alternativas({ index, alternativa, setAlternativasSelecionadas, alterna
 
 export default function Questionario() {
   const { usuarioPrefereModoDark } = useUserContext();
-  const [alternativasSelecionadas, setAlternativasSelecionadas] = useState({id: 0, textoAlternativa:""});
+  const [alternativasSelecionadas, setAlternativasSelecionadas] = useState({ id: 0, textoAlternativa: "" });
   const questoesService = new QuestoesService();
   const params = useParams();
   const navigate = useNavigate();
@@ -133,7 +133,14 @@ export default function Questionario() {
             <ul>
               {
                 questao.content[0].listaAlternativas.map((alternativa, index) => (
-                  <Alternativas index={index} alternativa={alternativa} key={alternativa.id} setAlternativasSelecionadas={setAlternativasSelecionadas} alternativasSelecionadas={alternativasSelecionadas} darkMode={usuarioPrefereModoDark} />
+                  <Alternativas
+                    index={index}
+                    alternativa={alternativa}
+                    key={alternativa.id}
+                    setAlternativasSelecionadas={setAlternativasSelecionadas}
+                    alternativasSelecionadas={alternativasSelecionadas}
+                    darkMode={usuarioPrefereModoDark}
+                  />
                 ))
               }
             </ul>

@@ -13,6 +13,7 @@ import QuestoesService from "../../../../services/QuestoesService";
 import useAlertContext from "../../../../Hooks/useAlertContext";
 import Alert from "../../../../componentes/Alert";
 import { InputRadioEstilizado } from "../../../../componentes/InputRadioEstilizado";
+import InputAlternativaQuestao from "./InputAlternativaQuestao";
 
 const DivFinalForm = styled.div`
     display: flex;
@@ -27,83 +28,34 @@ export default function FormQuestao() {
     const [questao, setQuestao] = useState({
         textoQuestao: "",
         listaAlternativas: [
-            {textoAlternativa: ""},
-            {textoAlternativa: ""},
-            {textoAlternativa: ""},
-            {textoAlternativa: ""},
+            {textoAlternativa: "", ehCorreta: false},
+            {textoAlternativa: "", ehCorreta: false},
+            {textoAlternativa: "", ehCorreta: false},
+            {textoAlternativa: "", ehCorreta: false},
         ]
     });
 
-    function setAlternativa1 (alternativa) {
-        setQuestao(prevState => ({
+    function setTextoAlternativa(textoAlternativaRecebido, index) {
+        setQuestao((prevState) => ({
             ...prevState,
-            listaAlternativas: [
-                {textoAlternativa: alternativa},
-                prevState.listaAlternativas[1],
-                prevState.listaAlternativas[2],
-                prevState.listaAlternativas[3],
-            ]
-        }))
-    }
-
-    function setAlternativa2 (alternativa) {
-        setQuestao(prevState => ({
-            ...prevState,
-            listaAlternativas: [
-                prevState.listaAlternativas[0],
-                {textoAlternativa: alternativa},
-                prevState.listaAlternativas[2],
-                prevState.listaAlternativas[3]
-            ]
-        }))
-    }
-
-    function setAlternativa3 (alternativa) {
-        setQuestao(prevState => ({
-            ...prevState,
-            listaAlternativas: [
-                prevState.listaAlternativas[0],
-                prevState.listaAlternativas[1],
-                {textoAlternativa: alternativa},
-                prevState.listaAlternativas[3]
-            ]
-        }))
-    }
-
-    function setAlternativa4 (alternativa) {
-        setQuestao(prevState => ({
-            ...prevState,
-            listaAlternativas: [
-                prevState.listaAlternativas[0],
-                prevState.listaAlternativas[1],
-                prevState.listaAlternativas[2],
-                {textoAlternativa: alternativa}
-            ]
-        }))
-    }
-    
-    function setRespostaCerta(e) {
-        setQuestao(prevState => {
-            const indiceRespostaCerta = 3;
-            const novasAlternativas = [...prevState.listaAlternativas];
-            novasAlternativas[indiceRespostaCerta] = { textoAlternativa: e.target.value };
-    
-            return {
-                ...prevState,
-                respostaCerta: e.target.value, 
-                listaAlternativas: novasAlternativas 
-            };
-        });
-    }
-    
-
-    function adicionaAlternativa(alternativa) {
-        setQuestao(prevState => ({
-            ...prevState,
-            listaAlternativas: [...prevState.listaAlternativas, alternativa]
+            listaAlternativas: prevState.listaAlternativas.map((alternativa, indexAlternativa) => 
+                indexAlternativa === index 
+                    ? { ...alternativa, textoAlternativa: textoAlternativaRecebido } 
+                    : alternativa
+            )
         }));
     }
-
+    
+    function setEhCorreto(checked, index) {
+        setQuestao((prevState) => ({
+            ...prevState,
+            listaAlternativas: prevState.listaAlternativas.map((alternativa, indexAlternativa) => 
+                indexAlternativa === index 
+                    ? { ...alternativa, ehCorreta: checked } 
+                    : { ...alternativa, ehCorreta: false }
+            )
+        }));
+    }   
 
     function setTextoQuestao(e) {
         setQuestao(prevState => ({
@@ -114,8 +66,6 @@ export default function FormQuestao() {
 
     function handleSubmit(e) {
         e.preventDefault();
-        console.log(questao)
-
         questoesService.adicionaQuestao(params.idProva, params.idMateria, verificaSeAlternativaEhBlankERemoveSeFor(questao)).then(() => {
             limparDadosQuestao();
             setAlertaSuccess("Questão adicionada com sucesso!");
@@ -139,19 +89,19 @@ export default function FormQuestao() {
     }
 
     async function limparDadosQuestao () {
-        setAlternativa1("");
-        setAlternativa2("");
-        setAlternativa3("");
-        setAlternativa4("");
-
-        setQuestao(prevState => ({
-            ...prevState,
+        setQuestao({
             textoQuestao: "",
-        }));
+            listaAlternativas: [
+                {textoAlternativa: "", ehCorreta: false},
+                {textoAlternativa: "", ehCorreta: false},
+                {textoAlternativa: "", ehCorreta: false},
+                {textoAlternativa: "", ehCorreta: false},
+            ]
+        });
     }
 
     return (
-        <FormEstilizado onSubmit={e => handleSubmit(e)} style={{ maxHeight: "95vh" }}>
+        <FormEstilizado onSubmit={e => handleSubmit(e)} style={{ maxHeight: "95vh", minWidth:"50vw" }}>
             <h2>
                 Formulário de questão
             </h2>
@@ -166,54 +116,19 @@ export default function FormQuestao() {
                     defaultValue={questao.textoQuestao}
                 />
             </FieldsetEstilizado>
-            <FieldsetEstilizado>
-                <label>
-                    Alternativa 1:
-                </label>
-                <CampoForm
-                    nome="respostaCerta"
-                    placeholder="Escreva a Alternativa 1"
-                    onChange={e => setAlternativa1(e.target.value)}
-                    defaultValue={questao.listaAlternativas[0].textoAlternativa}
-                />
-                <InputRadioEstilizado />
-            </FieldsetEstilizado>
-            <FieldsetEstilizado>
-                <label>
-                    Alternativa 2:
-                </label>
-                <CampoForm
-                    nome="respostaCerta"
-                    placeholder="Escreva a Alternativa 2"
-                    onChange={e => setAlternativa2(e.target.value)}
-                    defaultValue={questao.listaAlternativas[1].textoAlternativa}
-                />
-                <InputRadioEstilizado />
-            </FieldsetEstilizado>
-            <FieldsetEstilizado>
-                <label>
-                    Alternativa 3 (Opcional):
-                </label>
-                <CampoForm
-                    nome="respostaCerta"
-                    placeholder="Escreva a Alternativa 3"
-                    onChange={e => setAlternativa3(e.target.value)}
-                    defaultValue={questao.listaAlternativas[2].textoAlternativa}
-                />
-                <InputRadioEstilizado />
-            </FieldsetEstilizado>
-            <FieldsetEstilizado>
-                <label>
-                    Alternativa 4 (opcional)
-                </label>
-                <CampoForm
-                    nome="respostaCerta"
-                    placeholder="Escreva a Alternativa 4"
-                    onChange={e => setRespostaCerta(e)}
-                    defaultValue={questao.respostaCerta}
-                />
-                <InputRadioEstilizado />
-            </FieldsetEstilizado>
+
+            {
+                questao.listaAlternativas.map((alternativa, index) => (
+                    <InputAlternativaQuestao
+                        key={index}
+                        index={index}
+                        valorAlternativaDefault={alternativa}
+                        setEhCorreto={setEhCorreto}
+                        setAlternativa={setTextoAlternativa}
+                    />
+                ))
+            }
+
             <BotaoEstilizado disabled={verificaSeHaTextoQuestaoEDuasAlternativas()}>
                 Salvar Questão
             </BotaoEstilizado>
