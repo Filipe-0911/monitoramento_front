@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 // Componentes auxiliares
 import { BotaorCard, ContainerTarefas, SectionAdicionarTarefa } from "../../componentes/ComponentesHome";
+import { MdOutlineAddToPhotos } from "react-icons/md";
 
 // Componentes default
 import ModalComponent from "../../componentes/Modal";
