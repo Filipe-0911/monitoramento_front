@@ -9,10 +9,11 @@ import { BotaorCard } from '../../componentes/ComponentesHome';
 import { RiCloseLargeFill } from 'react-icons/ri';
 import Alert from '../../componentes/Alert';
 import useAlertContext from '../../Hooks/useAlertContext';
-import { 
-    CardDashboardEstilizada, 
-    SectionCardsDashboardEstilizada, 
-    SectionDashboardEstilizada } from "./ComponentesDashboardQuestoes"
+import {
+    CardDashboardEstilizada,
+    SectionCardsDashboardEstilizada,
+    SectionDashboardEstilizada
+} from "./ComponentesDashboardQuestoes"
 
 export default function QuestoesDashboard() {
     const params = useParams();
@@ -20,12 +21,12 @@ export default function QuestoesDashboard() {
     const { usuarioPrefereModoDark } = useUserContext();
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const { dadosAlerta } = useAlertContext();
-    
-    function openModal () {
+
+    function openModal() {
         setModalIsOpen(true);
     }
 
-    function closeModal () {
+    function closeModal() {
         setModalIsOpen(false);
     }
 
@@ -35,19 +36,28 @@ export default function QuestoesDashboard() {
                 Questões Dashboard
             </h2>
             <SectionCardsDashboardEstilizada>
-                <CardDashboardEstilizada $darkMode={usuarioPrefereModoDark} onClick={openModal}>
+                <CardDashboardEstilizada
+                    $darkMode={usuarioPrefereModoDark}
+                    onClick={openModal}
+                >
                     <h3>
                         Adicionar Questões
                     </h3>
                     <FaPlus size={32} />
                 </CardDashboardEstilizada>
-                <CardDashboardEstilizada $darkMode={usuarioPrefereModoDark} onClick={() => navigate(`/provas/${params.idProva}/materias/${params.idMateria}/questoes`)}>
+                <CardDashboardEstilizada
+                    $darkMode={usuarioPrefereModoDark}
+                    onClick={() => navigate(`/provas/${params.idProva}/materias/${params.idMateria}/questoes`)}
+                >
                     <h3>
                         Responder Questões
                     </h3>
                     <FaWpforms size={32} />
                 </CardDashboardEstilizada>
-                <CardDashboardEstilizada $darkMode={usuarioPrefereModoDark}>
+                <CardDashboardEstilizada
+                    $darkMode={usuarioPrefereModoDark}
+                    onClick={() => navigate(`/provas/${params.idProva}/materias/${params.idMateria}/editar-questoes`)}
+                >
                     <h3>
                         Editar Questões
                     </h3>
@@ -56,7 +66,7 @@ export default function QuestoesDashboard() {
             </SectionCardsDashboardEstilizada>
 
             <ModalComponent modalIsOpen={modalIsOpen} closeModal={closeModal}>
-                <div style={{ width: "100%", display:"flex", justifyContent: "flex-end" }}>
+                <div style={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
                     <BotaorCard $type="excluir" onClick={closeModal}>
                         <RiCloseLargeFill />
                     </BotaorCard>

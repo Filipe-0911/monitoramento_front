@@ -116,7 +116,9 @@ export default function FormQuestao() {
                     defaultValue={questao.textoQuestao}
                 />
             </FieldsetEstilizado>
-
+            <h3>
+                Marque a alternativa correta
+            </h3>
             {
                 questao.listaAlternativas.map((alternativa, index) => (
                     <InputAlternativaQuestao
