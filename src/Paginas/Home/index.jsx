@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
 
-//icons
-import { MdCancel, MdOutlineAddToPhotos } from "react-icons/md";
-
 // Componentes auxiliares
 import { BotaorCard, ContainerTarefas, SectionAdicionarTarefa } from "../../componentes/ComponentesHome";
 
@@ -17,6 +14,7 @@ import Alert from "../../componentes/Alert";
 import TarefaService from "../../services/Tarefas";
 import DataService from "../../services/DataService";
 import Carrossel from "../../componentes/Carrossel";
+import { RiCloseLargeFill } from "react-icons/ri";
 
 const Home = () => {
     const tarefaService = new TarefaService();
@@ -186,7 +184,7 @@ const Home = () => {
             <ModalComponent modalIsOpen={modalAberto} closeModal={closeModal}>
                 <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
                     <BotaorCard $type="excluir" onClick={closeModal}>
-                        <MdCancel />
+                        <RiCloseLargeFill />
                     </BotaorCard>
                 </div>
                 <FormEstilizadoTarefa

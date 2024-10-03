@@ -19,13 +19,14 @@ export const HeaderEstilizado = styled.header`
         flex-direction: row-reverse;
         justify-content: flex-start;
         align-items: ${(props) => (props.open ? 'flex-start' : 'center')};
-        width: ${(props) => (props.open ? '50vw' : '100vw')};
+        background-color: ${(props) => (props.open ? "rgba(13, 13, 13, 0.98)" : "rgba(13, 13, 13, 0.90)")};
+        width: 100vw;
         transition-duration: 0.35s;
         right: 0;
     }
     
     @media (max-width: 562px) {
-        width: ${(props) => (props.open ? '80vw' : '100vw')};
+        width: 100vw;
         border: 1px solid transparent;
         border-bottom-left-radius: 10px;
         border-bottom-right-radius: 10px;
@@ -106,7 +107,7 @@ export const NavEstilizado = styled.nav`
 
     @media (max-width: 1024px) {
         justify-content: flex-end;
-        margin: 0 1em;
+        margin-top: 3em;
     }
 
     @media (max-width: 820px) {
@@ -116,6 +117,7 @@ export const NavEstilizado = styled.nav`
             flex-direction: column;
             align-items: flex-start;
             display: ${(props) => (props.open ? 'flex' : 'none')};
+            transition: 1s;
             padding: 2em;
 
         }

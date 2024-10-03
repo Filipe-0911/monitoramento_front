@@ -1,9 +1,9 @@
 import React from 'react';
 import { FaCheckCircle, FaPencilAlt } from "react-icons/fa";
-import { MdCancel } from "react-icons/md";
 import { CardTarefasEstilizado } from "../ComponentesHome";
 import { BotaorCard } from '../ComponentesHome';
 import useUserContext from '../../Hooks/useUserContext';
+import { RiCloseLargeFill } from 'react-icons/ri';
 
 export default function CardTarefas({ tarefa, transformarDataEmString, concluirTarefa, deletarTarefa, openModal }) {
     const { usuarioPrefereModoDark } = useUserContext();
@@ -25,7 +25,7 @@ export default function CardTarefas({ tarefa, transformarDataEmString, concluirT
                     </BotaorCard>
                 )}
                 <BotaorCard $type="excluir" onClick={() => deletarTarefa(tarefa.id)}>
-                    <MdCancel /> Excluir
+                    <RiCloseLargeFill /> Excluir
                 </BotaorCard>
                 <BotaorCard $type="editar" name="Editar" onClick={(event) => openModal(tarefa, event)}>
                     <FaPencilAlt /> Editar

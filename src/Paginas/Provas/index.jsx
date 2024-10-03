@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import ProvasService from "../../services/Provas";
 import DataService from "../../services/DataService";
 import { BotaorCard } from "../../componentes/ComponentesHome";
-import { MdCancel } from "react-icons/md";
 import { FaPencilAlt } from "react-icons/fa";
 import { TbListDetails } from "react-icons/tb";
 import styled from "styled-components";
@@ -18,6 +17,7 @@ import Loader from "../../componentes/Loader";
 import { FieldsetEstilizado } from "../../componentes/Fieldset";
 import useAlertContext from "../../Hooks/useAlertContext"
 import useUserContext from "../../Hooks/useUserContext";
+import { RiCloseLargeFill } from "react-icons/ri";
 
 const LiEstilizadoAccordionProvas = styled.li`
     display: flex;
@@ -263,7 +263,7 @@ const Provas = () => {
                                         $type="excluir"
                                         name="excluir"
                                         onClick={() => deletarProva(prova.id)}>
-                                        <MdCancel />
+                                        <RiCloseLargeFill />
                                         Deletar
                                     </BotaorCard>
                                     <BotaorCard
@@ -285,7 +285,7 @@ const Provas = () => {
             >
                 <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
                     <BotaorCard $type="excluir" onClick={closeModal}>
-                        <MdCancel />
+                        <RiCloseLargeFill />
                     </BotaorCard>
                 </div>
                 <FormEstilizado onSubmit={e => e.preventDefault()}>

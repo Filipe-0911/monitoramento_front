@@ -3,12 +3,13 @@ import { BotaorCard } from "../../../componentes/ComponentesHome";
 import styled from "styled-components";
 
 import { FaPencilAlt, FaQuestion } from "react-icons/fa";
-import { MdCancel, MdOutlineAddToPhotos } from "react-icons/md";
+import { MdOutlineAddToPhotos } from "react-icons/md";
 import { TbListDetails } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
 import { useProvaContext } from "../../../Hooks/useProvaContext";
 import { DivBotoesCrudMateria } from "../ComponentesProvaEspecifica";
 import useUserContext from "../../../Hooks/useUserContext";
+import { RiCloseLargeFill } from "react-icons/ri";
 
 export const LiAcorddionEstilizado = styled.li`
     display: flex;
@@ -17,7 +18,7 @@ export const LiAcorddionEstilizado = styled.li`
     
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
     text-align: left;
-    padding: 1em 0;
+    padding: 1em 3em;
 
     @media (max-width: 820px) {
         margin: auto;
@@ -27,15 +28,17 @@ export const LiAcorddionEstilizado = styled.li`
         align-items: flex-start;
         justify-content: space-evenly;
         gap: 1em;
+        padding: 1em 0;
     }
 `
 
 const SectionBotoesCrudAccordion = styled.section`
     display: flex;
     gap: 1em;
+    max-width: 50%;
 
     
-    @media (max-width: 1280px) { 
+    @media (max-width: 1500px) { 
         flex-direction: column;
         justify-content: flex-start;
         
@@ -170,7 +173,7 @@ export default function AccordionAssunto({
                                             $type="excluir"
                                             name="excluir_assunto"
                                         >
-                                            <MdCancel size={15} color="white" />
+                                            <RiCloseLargeFill size={20} />
                                             Excluir Assunto
                                         </BotaorCard>
                                         <BotaorCard
@@ -178,7 +181,7 @@ export default function AccordionAssunto({
                                             onClick={() => editarAssunto(materia.id, assunto.id)}
                                             name="editar_assunto"
                                         >
-                                            <FaPencilAlt color="white" size={15} />
+                                            <FaPencilAlt size={20} />
                                             Editar Assunto
                                         </BotaorCard>
                                         <BotaorCard
@@ -186,7 +189,7 @@ export default function AccordionAssunto({
                                             $type="questao"
                                             name="adicionar_questao"
                                         >
-                                            <FaQuestion size={15} color="red" />
+                                            <FaQuestion size={20} />
                                             Estatística de Questões
                                         </BotaorCard>
                                         <BotaorCard
@@ -194,7 +197,7 @@ export default function AccordionAssunto({
                                             $type="adicionar"
                                             name="detalhes_assunto"
                                         >
-                                            <TbListDetails size={15} color="red" />
+                                            <TbListDetails size={20} />
                                             {
                                                 assunto.comentarios
                                                     ?
@@ -222,7 +225,7 @@ export default function AccordionAssunto({
                             $type="excluir"
                             name="excluir_materia"
                         >
-                            <MdCancel size={15} />
+                            <RiCloseLargeFill size={15} />
                             Excluir Materia
                         </BotaorCard>
                         <BotaorCard

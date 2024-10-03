@@ -1,6 +1,6 @@
 import styled from "styled-components"
 import { BotaorCard } from "../ComponentesHome";
-import { MdCancel } from "react-icons/md";
+import { RiCloseLargeFill } from "react-icons/ri";
 
 const DivEstilizadaParaBotaoDeFecharModal = styled.div`
     display: flex;
@@ -20,7 +20,7 @@ export default function DivBotaoFecharModal({ closeModal }) {
     return (
         <DivEstilizadaParaBotaoDeFecharModal>
             <StyledBotaoCard $type="excluir" onClick={closeModal}>
-                <MdCancel />
+                <RiCloseLargeFill />
             </StyledBotaoCard>
         </DivEstilizadaParaBotaoDeFecharModal>
     );

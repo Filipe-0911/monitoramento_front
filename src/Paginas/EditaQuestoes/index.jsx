@@ -50,10 +50,9 @@ export default function EditarQuestoes() {
     const navigate = useNavigate();
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
-
     function buscaProxQuestao(paginaParaBusca) {
         setEnviouResposta(false);
-        questoesService.buscaQuestoes(params.idProva, params.idMateria, paginaParaBusca).then((res) => {
+        questoesService.buscaQuestoesParaEditar(params.idProva, params.idMateria, paginaParaBusca).then((res) => {
             setQuestao(res.data);
         }).catch(err => console.error(err));
     }
