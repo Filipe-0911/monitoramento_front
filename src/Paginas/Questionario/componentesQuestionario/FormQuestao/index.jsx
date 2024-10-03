@@ -4,7 +4,7 @@ import { BotaorCard } from "../../../../componentes/ComponentesHome";
 import { FormEstilizado } from "../../../../componentes/ContainerLoginEstilizado";
 import { FaPlus } from "react-icons/fa";
 import { FieldsetEstilizado } from "../../../../componentes/Fieldset";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { forEachChild } from "typescript";
 import BotaoEstilizado from "../../../../componentes/Botao";
 import TextAreaEstilizado from "../../../../componentes/TextAreaEstilizado";
@@ -20,7 +20,7 @@ const DivFinalForm = styled.div`
     width: 100%;
     justify-content: flex-end;
 `
-export default function FormQuestao() {
+export default function FormQuestao({ $questaoParaEditar = null, setQuestaoParaEditar = null }) {
     const params = useParams();
     const questoesService = new QuestoesService();
     const { dadosAlerta, setAlertaError, setAlertaSuccess } = useAlertContext();
@@ -34,6 +34,10 @@ export default function FormQuestao() {
             {textoAlternativa: "", ehCorreta: false},
         ]
     });
+
+    useEffect(() => {
+        $questaoParaEditar !== null && setQuestao($questaoParaEditar)
+    },[])
 
     function setTextoAlternativa(textoAlternativaRecebido, index) {
         setQuestao((prevState) => ({
@@ -66,6 +70,14 @@ export default function FormQuestao() {
 
     function handleSubmit(e) {
         e.preventDefault();
+        if ($questaoParaEditar) {
+            questoesService.editarQuestao(params.idProva, params.idMateria, $questaoParaEditar.id, questao).then((res) => {
+                setAlertaSuccess("Questão editada com sucesso!");
+                setQuestaoParaEditar(res.data);
+            })
+            return;
+        }
+
         questoesService.adicionaQuestao(params.idProva, params.idMateria, verificaSeAlternativaEhBlankERemoveSeFor(questao)).then(() => {
             limparDadosQuestao();
             setAlertaSuccess("Questão adicionada com sucesso!");

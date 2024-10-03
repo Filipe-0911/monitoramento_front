@@ -31,6 +31,11 @@ export default class QuestoesService {
         return response;
     }
 
+    async buscaQuestoesParaEditar(idProva, idMateria, paginaDeBusca = 0) {
+        const response = await this.axios.get(`/provas/${idProva}/materias/${idMateria}/questoes/editar?page=${paginaDeBusca}`, this.userService.getHeaderWithTokenFromLocalStorage());
+        return response;
+    }
+
     async verificaSeRepostaEstaCorreta(idProva, idMateria, idQuestao, resposta) {
         const { id } = resposta;
         const response = await this.axios.post(`/provas/${idProva}/materias/${idMateria}/questoes/${idQuestao}`, {
@@ -42,9 +47,18 @@ export default class QuestoesService {
     }
 
     async adicionaQuestao (idProva, idMateria, dadosQuestao) {
-        console.log(dadosQuestao)
         const response = await this.axios.post(`/provas/${idProva}/materias/${idMateria}/questoes`, dadosQuestao, this.userService.getHeaderWithTokenFromLocalStorage());
         return response;
 
+    }
+
+    async deletaQuestao (idProva, idMateria, idQuestao) {
+        const response = await this.axios.delete(`/provas/${idProva}/materias/${idMateria}/questoes/${idQuestao}`, this.userService.getHeaderWithTokenFromLocalStorage());
+        return response;
+    }
+
+    async editarQuestao(idProva, idMateria, idQuestao, questao) {
+        const response = await this.axios.put(`/provas/${idProva}/materias/${idMateria}/questoes/${idQuestao}`, questao, this.userService.getHeaderWithTokenFromLocalStorage());
+        return response;
     }
 }

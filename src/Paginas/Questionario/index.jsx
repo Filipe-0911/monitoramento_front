@@ -67,7 +67,10 @@ export default function Questionario() {
       }
       setIsLoading(false);
 
-    }).catch(err => console.error(err));
+    }).catch(err => {
+      console.error(err);
+      setIsLoading(false)
+    });
   }, [])
 
   function handleSubmit(e) {
@@ -98,81 +101,83 @@ export default function Questionario() {
       setQuestao(res.data);
     }).catch(err => console.error(err));
   }
+  const estaNaPrimeiraPaginaDeQuestoes = !(questao.page.number > 0);
+  const naoHaProximaQuestao = !(questao.page.totalElements > 1 && questao.page.number < questao.page.totalPages - 1);
 
   return (
     <SectionQuestionario>
       {
         isLoading ? <Loader /> :
-        questao.content.length > 0 &&
-        <>
-          <FormEstilizadoQuestionario $questionario $darkMode={usuarioPrefereModoDark} onSubmit={(e) => handleSubmit(e)}>
-            <H2QuestionarioEstilizado>
-              {questao.content[0].nomeMateria}
-            </H2QuestionarioEstilizado>
-            <p>
-              {questao.content[0].textoQuestao}
-            </p>
-            <ul>
-              {
-                questao.content[0].listaAlternativas.map((alternativa, index) => (
-                  <Alternativas
-                    index={index}
-                    alternativa={alternativa}
-                    key={alternativa.id}
-                    setAlternativasSelecionadas={setAlternativasSelecionadas}
-                    alternativasSelecionadas={alternativasSelecionadas}
-                    darkMode={usuarioPrefereModoDark}
-                  />
-                ))
-              }
-            </ul>
-            <section style={{ display: 'flex', justifyContent: 'space-evenly', margin: "1em 0" }}>
-              <BotaorCard $type="concluir" disabled={enviouResposta}>
-                Salvar Resposta
-              </BotaorCard>
+          questao.content.length > 0 &&
+          <>
+            <FormEstilizadoQuestionario $questionario $darkMode={usuarioPrefereModoDark} onSubmit={(e) => handleSubmit(e)}>
+              <H2QuestionarioEstilizado>
+                {questao.content[0].nomeMateria}
+              </H2QuestionarioEstilizado>
+              <p>
+                {questao.content[0].textoQuestao}
+              </p>
+              <ul>
+                {
+                  questao.content[0].listaAlternativas.map((alternativa, index) => (
+                    <Alternativas
+                      index={index}
+                      alternativa={alternativa}
+                      key={alternativa.id}
+                      setAlternativasSelecionadas={setAlternativasSelecionadas}
+                      alternativasSelecionadas={alternativasSelecionadas}
+                      darkMode={usuarioPrefereModoDark}
+                    />
+                  ))
+                }
+              </ul>
+              <section style={{ display: 'flex', justifyContent: 'space-evenly', margin: "1em 0" }}>
+                <BotaorCard $type="concluir" disabled={enviouResposta}>
+                  Salvar Resposta
+                </BotaorCard>
 
+              </section>
+            </FormEstilizadoQuestionario>
+            <section style={{ display: 'flex', justifyContent: 'space-evenly', width: '100%', gap: "1em" }}>
+              <BotaoEstilizado
+                disabled={false}
+                onClick={() => navigate(-1)}
+              >
+                Voltar
+              </BotaoEstilizado>
+              <BotaoEstilizado
+                disabled={estaNaPrimeiraPaginaDeQuestoes}
+                onClick={() => buscaProxQuestao(questao.page.number - 1)}
+              >
+                Questão anterior
+              </BotaoEstilizado>
+              <BotaoEstilizado
+                disabled={naoHaProximaQuestao}
+                onClick={() => buscaProxQuestao(questao.page.number + 1)}
+              >
+                Próxima questão
+              </BotaoEstilizado>
             </section>
-          </FormEstilizadoQuestionario>
-          <section style={{ display: 'flex', justifyContent: 'space-evenly', width: '100%', gap: "1em" }}>
-            <BotaoEstilizado
-              disabled={false}
-              onClick={() => navigate(-1)}
-            >
-              Voltar
-            </BotaoEstilizado>
-            <BotaoEstilizado
-              disabled={(questao.page.number < (questao.page.totalPages - 1))}
-              onClick={() => buscaProxQuestao(questao.page.number - 1)}
-            >
-              Questão anterior
-            </BotaoEstilizado>
-            <BotaoEstilizado
-              disabled={!(questao.page.totalElements > 1 && questao.page.number < questao.page.totalPages - 1)}
-              onClick={() => buscaProxQuestao(questao.page.number + 1)}
-            >
-              Próxima questão
-            </BotaoEstilizado>
-          </section>
-          <DivEstatisticasEstilizada>
-            <div>
-              <h2>
-                Questões respondidas:
-              </h2>
-              <p>
-                {questoesRespondidas.questoesFeitas.toString()}
-              </p>
-            </div>
-            <div>
-              <h2>
-                Questões corretas:
-              </h2>
-              <p>
-                {questoesRespondidas.questoesCorretas.toString()}
-              </p>
-            </div>
-          </DivEstatisticasEstilizada>
-          <Alert dados={dadosAlerta} />
-        </>
+            <DivEstatisticasEstilizada>
+              <div>
+                <h2>
+                  Questões respondidas:
+                </h2>
+                <p>
+                  {questoesRespondidas.questoesFeitas.toString()}
+                </p>
+              </div>
+              <div>
+                <h2>
+                  Questões corretas:
+                </h2>
+                <p>
+                  {questoesRespondidas.questoesCorretas.toString()}
+                </p>
+              </div>
+            </DivEstatisticasEstilizada>
+            <Alert dados={dadosAlerta} />
+          </>
       }
       {
         questao.content.length === 0 && isLoading === false &&

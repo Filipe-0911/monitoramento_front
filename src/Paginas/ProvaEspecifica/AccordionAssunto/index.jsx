@@ -187,7 +187,7 @@ export default function AccordionAssunto({
                                             name="adicionar_questao"
                                         >
                                             <FaQuestion size={15} color="red" />
-                                            Add Estatística de Questões
+                                            Estatística de Questões
                                         </BotaorCard>
                                         <BotaorCard
                                             onClick={() => navigate(`/provas/${prova.id}/materias/${materia.id}/assuntos/${assunto.id}`)}
@@ -235,7 +235,7 @@ export default function AccordionAssunto({
                         </BotaorCard>
                         <BotaorCard $type="detalhar" onClick={() => navigate(`/provas/${prova.id}/materias/${materia.id}/questoes-dashboard`)}>
                             <FaQuestion size={15} color="red" />
-                            Responder questionário
+                            Menu questões
                         </BotaorCard>
                     </DivBotoesCrudMateria>
                 </Accordion>

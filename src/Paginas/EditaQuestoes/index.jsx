@@ -60,20 +60,6 @@ export default function EditarQuestoes() {
     function closeModal() {
         setModalIsOpen(false)
     }
-
-    useEffect(() => {
-        questoesService.buscaQuestoes(params.idProva, params.idMateria).then((res) => {
-            if (res.status === 200) {
-                setQuestao(res.data);
-            } else {
-                setEnviouResposta(false);
-            }
-            setIsLoading(false);
-            console.log(res.data)
-
-        }).catch(err => console.error(err));
-    }, [])
-
     const [questao, setQuestao] = useState({
         content: [],
         page: {
@@ -83,6 +69,42 @@ export default function EditarQuestoes() {
             totalPages: 0,
         }
     });
+
+    function deletaQuestao () {
+        questoesService.deletaQuestao(params.idProva, params.idMateria, questao.content[0].id).then(res => {
+            console.log(res);
+            setAlertaSuccess("Questão excluída com sucesso!");
+            setEnviouResposta(true);
+        })
+    }
+
+    function modificaQuestao(questaoModificada) {
+        setQuestao(prevState => ({
+            ...prevState,
+            content: [
+               questaoModificada
+            ]
+        }))
+    }
+
+    const estaNaPrimeiraPaginaDeQuestoes = !(questao.page.number > 0);
+    const naoHaProximaQuestao = !(questao.page.totalElements > 1 && questao.page.number < questao.page.totalPages - 1);
+
+    useEffect(() => {
+        questoesService.buscaQuestoesParaEditar(params.idProva, params.idMateria).then((res) => {
+            if (res.status === 200) {
+                setQuestao(res.data);
+            } else {
+                setEnviouResposta(false);
+            }
+            setIsLoading(false);
+
+        }).catch(err => {
+            console.error(err);
+            setIsLoading(false)
+        });
+    }, [])
+
 
     return (
         <SectionQuestionario>
@@ -104,8 +126,6 @@ export default function EditarQuestoes() {
                                             index={index}
                                             alternativa={alternativa}
                                             key={alternativa.id}
-                                            // setAlternativasSelecionadas={setAlternativasSelecionadas}
-                                            // alternativasSelecionadas={alternativasSelecionadas}
                                             darkMode={usuarioPrefereModoDark}
                                         />
                                     ))
@@ -115,7 +135,7 @@ export default function EditarQuestoes() {
                                 <BotaorCard $type="editar" disabled={enviouResposta} onClick={() => setModalIsOpen(true)}>
                                     Editar questão
                                 </BotaorCard>
-                                <BotaorCard $type="excluir" disabled={enviouResposta}>
+                                <BotaorCard $type="excluir" disabled={enviouResposta} onClick={deletaQuestao}>
                                     Excluir questão
                                 </BotaorCard>
 
@@ -129,13 +149,13 @@ export default function EditarQuestoes() {
                                 Voltar
                             </BotaoEstilizado>
                             <BotaoEstilizado
-                                disabled={(questao.page.number < (questao.page.totalPages - 1))}
+                                disabled={estaNaPrimeiraPaginaDeQuestoes}
                                 onClick={() => buscaProxQuestao(questao.page.number - 1)}
                             >
                                 Questão anterior
                             </BotaoEstilizado>
                             <BotaoEstilizado
-                                disabled={!(questao.page.totalElements > 1 && questao.page.number < questao.page.totalPages - 1)}
+                                disabled={naoHaProximaQuestao}
                                 onClick={() => buscaProxQuestao(questao.page.number + 1)}
                             >
                                 Próxima questão
@@ -167,7 +187,7 @@ export default function EditarQuestoes() {
                         <RiCloseLargeFill />
                     </BotaorCard>
                 </div>
-                <FormQuestao />
+                <FormQuestao $questaoParaEditar={questao.content[0]} setQuestaoParaEditar={modificaQuestao} />
             </ModalComponent>
         </SectionQuestionario>
     )
