@@ -3,13 +3,11 @@ import { FieldsetEstilizado } from '../../../../../componentes/Fieldset'
 import CampoForm from '../../../../../componentes/CampoForm'
 
 export default function InputAlternativaQuestao({ index, valorAlternativaDefault, setAlternativa, setEhCorreto }) {
-    // Estado local para controlar o valor do campo de radio
     const [checked, setChecked] = useState(false);
 
-    // Atualiza o estado 'checked' quando o valorAlternativaDefault mudar
     useEffect(() => {
         if (valorAlternativaDefault && typeof valorAlternativaDefault.ehCorreta === 'boolean') {
-            setChecked(valorAlternativaDefault.ehCorreta); // Atualizei para ehCorreta, como no valor recebido
+            setChecked(valorAlternativaDefault.ehCorreta); 
         }
     }, [valorAlternativaDefault]);
 
@@ -26,14 +24,14 @@ export default function InputAlternativaQuestao({ index, valorAlternativaDefault
                 <div style={{ display: "flex", gap: "10px" }}>
                     <CampoForm
                         nome="respostaCerta"
-                        placeholder={`Escreva a Alternativa ${index}`}
+                        placeholder={`Escreva a Alternativa ${index + 1}`}
                         defaultValue={valorAlternativaDefault?.textoAlternativa || ''}
                         onChange={e => setAlternativa(e.target.value, index)}
                     />
                     <input
                         type="radio"
                         name='alternativaCorreta'
-                        checked={checked} // Usando 'checked' ao invés de 'defaultChecked'
+                        checked={checked}
                         onChange={handleRadioChange}
                     />
                 </div>
