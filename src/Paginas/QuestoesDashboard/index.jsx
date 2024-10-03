@@ -59,7 +59,7 @@ export default function QuestoesDashboard() {
                     onClick={() => navigate(`/provas/${params.idProva}/materias/${params.idMateria}/editar-questoes`)}
                 >
                     <h3>
-                        Editar Questões
+                        Editar ou Excluir Questões
                     </h3>
                     <FaEdit size={32} />
                 </CardDashboardEstilizada>
@@ -71,7 +71,7 @@ export default function QuestoesDashboard() {
                         <RiCloseLargeFill />
                     </BotaorCard>
                 </div>
-                <FormQuestao />
+                <FormQuestao closeModal={closeModal}/>
             </ModalComponent>
             <Alert dados={dadosAlerta} />
         </SectionDashboardEstilizada>

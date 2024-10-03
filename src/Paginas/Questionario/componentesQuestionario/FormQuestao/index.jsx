@@ -20,7 +20,7 @@ const DivFinalForm = styled.div`
     width: 100%;
     justify-content: flex-end;
 `
-export default function FormQuestao({ $questaoParaEditar = null, setQuestaoParaEditar = null }) {
+export default function FormQuestao({ $questaoParaEditar = null, setQuestaoParaEditar = null, closeModal }) {
     const params = useParams();
     const questoesService = new QuestoesService();
     const { dadosAlerta, setAlertaError, setAlertaSuccess } = useAlertContext();
@@ -74,6 +74,7 @@ export default function FormQuestao({ $questaoParaEditar = null, setQuestaoParaE
             questoesService.editarQuestao(params.idProva, params.idMateria, $questaoParaEditar.id, questao).then((res) => {
                 setAlertaSuccess("Questão editada com sucesso!");
                 setQuestaoParaEditar(res.data);
+                closeModal();
             })
             return;
         }
@@ -81,6 +82,7 @@ export default function FormQuestao({ $questaoParaEditar = null, setQuestaoParaE
         questoesService.adicionaQuestao(params.idProva, params.idMateria, verificaSeAlternativaEhBlankERemoveSeFor(questao)).then(() => {
             limparDadosQuestao();
             setAlertaSuccess("Questão adicionada com sucesso!");
+            closeModal();
         })
         .catch(err => {
             if (err.response.data.length > 1) {
@@ -125,7 +127,7 @@ export default function FormQuestao({ $questaoParaEditar = null, setQuestaoParaE
                     name="textoQuestao"
                     placeholder="Escreva a questão"
                     onChange={e => setTextoQuestao(e)}
-                    defaultValue={questao.textoQuestao}
+                    value={questao.textoQuestao}
                 />
             </FieldsetEstilizado>
             <h3>

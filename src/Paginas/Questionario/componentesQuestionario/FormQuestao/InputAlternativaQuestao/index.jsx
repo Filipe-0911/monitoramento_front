@@ -22,7 +22,7 @@ export default function InputAlternativaQuestao({ index, valorAlternativaDefault
     return (
         <FieldsetEstilizado>
             <label>
-                Alternativa {index} {index > 1 && "(Opcional)"}:
+                Alternativa {index + 1} {index > 1 && "(Opcional)"}:
                 <div style={{ display: "flex", gap: "10px" }}>
                     <CampoForm
                         nome="respostaCerta"
