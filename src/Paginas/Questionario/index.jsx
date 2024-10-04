@@ -35,7 +35,6 @@ const DivEstatisticasEstilizada = styled.div`
   }
   
 `
-
 export default function Questionario() {
   const [isLoading, setIsLoading] = useState(true);
   const { usuarioPrefereModoDark } = useUserContext();
@@ -176,6 +175,11 @@ export default function Questionario() {
                 </p>
               </div>
             </DivEstatisticasEstilizada>
+            <section>
+              <p>
+                Você tem {questao.page.totalElements} questões cadastradas nessa matéria.
+              </p>
+            </section>
             <Alert dados={dadosAlerta} />
           </>
       }
