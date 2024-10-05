@@ -82,7 +82,6 @@ export default function FormQuestao({ $questaoParaEditar = null, setQuestaoParaE
         questoesService.adicionaQuestao(params.idProva, params.idMateria, verificaSeAlternativaEhBlankERemoveSeFor(questao)).then(() => {
             limparDadosQuestao();
             setAlertaSuccess("Questão adicionada com sucesso!");
-            closeModal();
         })
         .catch(err => {
             if (err.response.data.length > 1) {
