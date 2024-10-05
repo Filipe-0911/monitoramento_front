@@ -113,6 +113,11 @@ export default function Questionario() {
               <H2QuestionarioEstilizado>
                 {questao.content[0].nomeMateria}
               </H2QuestionarioEstilizado>
+              <section style={{ display: 'flex', width: "100%", justifyContent: "flex-end", marginBottom: "1em"}}>
+                <p>
+                  {questao.page.number + 1}/{questao.page.totalElements}
+                </p>
+              </section>
               <p>
                 {questao.content[0].textoQuestao}
               </p>
@@ -175,11 +180,7 @@ export default function Questionario() {
                 </p>
               </div>
             </DivEstatisticasEstilizada>
-            <section>
-              <p>
-                Você tem {questao.page.totalElements} questões cadastradas nessa matéria.
-              </p>
-            </section>
+
             <Alert dados={dadosAlerta} />
           </>
       }

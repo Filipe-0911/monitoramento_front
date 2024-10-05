@@ -33,7 +33,13 @@ export const FormEstilizadoQuestionario = styled.form`
             flex-direction: row;
             align-items: center;
             gap: 1em;
-            margin: 1em;
+            margin: 1em 0;
         }
+    }
+
+    text-align: justify;
+
+    @media (max-width:562px) {
+        padding: 1em;
     }
 `
