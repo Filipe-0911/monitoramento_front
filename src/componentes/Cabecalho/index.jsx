@@ -68,7 +68,6 @@ const Cabecalho = () => {
     return (
         <HeaderEstilizado open={menuEscondido}>
             <DivPaiDoMenuEBotaoMenu>
-                
                 <DivNomeBotaoMenuEBotaoDarkMode >
                     <DivEstilizadaHeader>
                         <section style={{ display: "flex", alignItems: "center" }}>

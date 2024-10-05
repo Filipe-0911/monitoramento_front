@@ -62,8 +62,8 @@ export const DivEstilizadaHeader = styled.div`
 export const NavEstilizado = styled.nav`
     display: flex;
     justify-content: center;
-    width: 100%;
     align-items: center;
+    width: 100%;
     gap: 20px;
     margin: 0 auto;
 
@@ -107,24 +107,20 @@ export const NavEstilizado = styled.nav`
 
     @media (max-width: 1024px) {
         justify-content: flex-end;
-        margin-top: 3em;
+        margin-right: 1em;
     }
 
     @media (max-width: 820px) {
         flex-direction: column;
         align-items: flex-start;
+        margin-top: 3em;
         ul {
             flex-direction: column;
             align-items: flex-start;
             display: ${(props) => (props.open ? 'flex' : 'none')};
             transition: 1s;
             padding: 2em;
-
         }
-
-    }
-    @media (max-width: 562px) {
-        margin: 3em 0 0 0;
     }
 
 `
