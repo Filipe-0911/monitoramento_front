@@ -7,6 +7,10 @@ export const SectionQuestionario = styled.section`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    p {
+        font-size: 20px;
+    }
  
 `
 export const H2QuestionarioEstilizado = styled.h2`

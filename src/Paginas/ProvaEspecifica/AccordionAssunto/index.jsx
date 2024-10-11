@@ -16,7 +16,7 @@ export const LiAcorddionEstilizado = styled.li`
     justify-content: space-between;
     align-items: center;
     
-    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    border-bottom: ${props => props.$darkMode ? "1px solid rgba(255, 255, 255, 0.4)" : "1px solid rgba(0, 0, 0, 0.4)" } ;
     text-align: left;
     padding: 1em 3em;
 
@@ -142,7 +142,7 @@ export default function AccordionAssunto({
                             return 0;
                         }).map(assunto => {
                             return (
-                                <LiAcorddionEstilizado key={assunto.id}>
+                                <LiAcorddionEstilizado key={assunto.id} $darkMode={usuarioPrefereModoDark}>
                                     <SectionDadosDoAssuntoEstilizado $darkMode={usuarioPrefereModoDark}>
                                         <h5>
                                             {assunto.nome}
@@ -237,7 +237,7 @@ export default function AccordionAssunto({
                             Editar Materia
                         </BotaorCard>
                         <BotaorCard $type="detalhar" onClick={() => navigate(`/provas/${prova.id}/materias/${materia.id}/questoes-dashboard`)}>
-                            <FaQuestion size={15} color="red" />
+                            <FaQuestion size={15} />
                             Menu questões
                         </BotaorCard>
                     </DivBotoesCrudMateria>

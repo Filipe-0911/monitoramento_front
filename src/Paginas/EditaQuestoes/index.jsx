@@ -71,7 +71,6 @@ export default function EditarQuestoes() {
 
     function deletaQuestao () {
         questoesService.deletaQuestao(params.idProva, params.idMateria, questao.content[0].id).then(res => {
-            console.log(res);
             setAlertaSuccess("Questão excluída com sucesso!");
             setEnviouResposta(true);
         })

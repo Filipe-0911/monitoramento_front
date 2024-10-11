@@ -114,6 +114,16 @@ export default class AssuntoService {
         }
     }
 
+    async buscarAssuntoPorIdMateria (idMateria) {
+        try {
+            const { data } = await this.axios.get(`/assuntos?idMateria=${idMateria}`, this.userService.getHeaderWithTokenFromLocalStorage());
+            return data;
+
+        } catch (error) {
+            return error;
+        }
+    }
+
 
 
 }

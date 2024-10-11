@@ -6,16 +6,20 @@ import CampoForm from '../CampoForm';
 const Wrapper = styled.div`
   position: relative;
   width: 100%;
-`;
+  `;
 
 const StyledSelect = styled.div`
+  height: 50px;
+  display: flex;
+  align-items: center;
   padding: 8px 16px;
   border: 2px solid #6a6a6a;
   border-radius: 8px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   background-color: transparent;
   color: white;
-  font-size: 16px;
+  opacity: 0.7;
+  font-size: 18px;
   cursor: pointer;
   width: 100%;
 `;
@@ -30,13 +34,15 @@ const Options = styled.div`
   border-radius: 8px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   z-index: 10;
+  max-height: 300px;
+  overflow-y: auto; 
 `;
 
 const Option = styled.div`
   padding: 8px 16px;
   cursor: pointer;
   background-color: transparent;
-  text-align: center;
+  text-align: left;
   color: white;
   &:hover {
     background-color: #f0f0f0;
@@ -70,16 +76,16 @@ const SelectDeAssuntos = ({ options, onChange }) => {
       </StyledSelect>
       {isOpen && (
         <Options>
-          <div style={{display: 'flex', alignItems:"center"}}>
-          <CampoForm
-            type="search"
-            defaultValue={valorParaBusca}
-            onChange={(e) => setValorParaBusca(e.target.value)}
-            placeholder="Buscar assunto"
-            name="busca"
-            autoFocus={true}
-          />
-          {valorParaBusca.length === 0 && <FaSearch style={{ position: 'absolute', right:"10px" }}/>}
+          <div style={{ display: 'flex', alignItems: "center" }}>
+            <CampoForm
+              type="search"
+              defaultValue={valorParaBusca}
+              onChange={(e) => setValorParaBusca(e.target.value)}
+              placeholder="Buscar assunto"
+              name="busca"
+              autoFocus={true}
+            />
+            {valorParaBusca.length === 0 && <FaSearch style={{ position: 'absolute', right: "10px" }} />}
           </div>
           {
             valorParaBusca
@@ -89,11 +95,11 @@ const SelectDeAssuntos = ({ options, onChange }) => {
                     {assunto.nome}
                   </Option>
                 ))
-            : options.map((assunto) => (
-              <Option key={assunto.id} onClick={() => handleSelect(assunto)}>
-                {assunto.nome}
-              </Option>
-            ))
+              : options.map((assunto) => (
+                <Option key={assunto.id} onClick={() => handleSelect(assunto)}>
+                  {assunto.nome}
+                </Option>
+              ))
           }
         </Options>
       )}

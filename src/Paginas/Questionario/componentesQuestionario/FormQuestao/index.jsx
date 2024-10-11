@@ -14,6 +14,8 @@ import useAlertContext from "../../../../Hooks/useAlertContext";
 import Alert from "../../../../componentes/Alert";
 import { InputRadioEstilizado } from "../../../../componentes/InputRadioEstilizado";
 import InputAlternativaQuestao from "./InputAlternativaQuestao";
+import SelectDeAssuntos from "../../../../componentes/SelectDeAssuntos";
+import AssuntoService from "../../../../services/AssuntoService";
 
 const DivFinalForm = styled.div`
     display: flex;
@@ -24,10 +26,14 @@ export default function FormQuestao({ $questaoParaEditar = null, setQuestaoParaE
     const params = useParams();
     const questoesService = new QuestoesService();
     const { dadosAlerta, setAlertaError, setAlertaSuccess } = useAlertContext();
+    const [listaAssuntosDaMateria, setListaAssuntosDaMateria] = useState([]);
+    const assuntoService = new AssuntoService();
 
     const [questao, setQuestao] = useState({
         textoQuestao: "",
+        idAssunto: 0,
         listaAlternativas: [
+            {textoAlternativa: "", ehCorreta: false},
             {textoAlternativa: "", ehCorreta: false},
             {textoAlternativa: "", ehCorreta: false},
             {textoAlternativa: "", ehCorreta: false},
@@ -36,7 +42,8 @@ export default function FormQuestao({ $questaoParaEditar = null, setQuestaoParaE
     });
 
     useEffect(() => {
-        $questaoParaEditar !== null && setQuestao($questaoParaEditar)
+        $questaoParaEditar !== null && setQuestao($questaoParaEditar);
+        assuntoService.buscarAssuntoPorIdMateria(params.idMateria).then(res => setListaAssuntosDaMateria(res.content))
     },[])
 
     function setTextoAlternativa(textoAlternativaRecebido, index) {
@@ -50,6 +57,13 @@ export default function FormQuestao({ $questaoParaEditar = null, setQuestaoParaE
         }));
     }
     
+    function assuntoHandler(e) {
+        setQuestao(prevState => ({
+           ...prevState,
+            idAssunto: parseInt(e.target.value)
+        }))
+    }
+
     function setEhCorreto(checked, index) {
         setQuestao((prevState) => ({
             ...prevState,
@@ -78,7 +92,6 @@ export default function FormQuestao({ $questaoParaEditar = null, setQuestaoParaE
             })
             return;
         }
-
         questoesService.adicionaQuestao(params.idProva, params.idMateria, verificaSeAlternativaEhBlankERemoveSeFor(questao)).then(() => {
             limparDadosQuestao();
             setAlertaSuccess("Questão adicionada com sucesso!");
@@ -104,7 +117,9 @@ export default function FormQuestao({ $questaoParaEditar = null, setQuestaoParaE
     async function limparDadosQuestao () {
         setQuestao({
             textoQuestao: "",
+            idAssunto: 0,
             listaAlternativas: [
+                {textoAlternativa: "", ehCorreta: false},
                 {textoAlternativa: "", ehCorreta: false},
                 {textoAlternativa: "", ehCorreta: false},
                 {textoAlternativa: "", ehCorreta: false},
@@ -114,7 +129,7 @@ export default function FormQuestao({ $questaoParaEditar = null, setQuestaoParaE
     }
 
     return (
-        <FormEstilizado onSubmit={e => handleSubmit(e)} style={{ maxHeight: "95vh", minWidth:"50vw" }}>
+        <FormEstilizado onSubmit={e => handleSubmit(e)} style={{ maxHeight:"100vh", minWidth:"60vw", gap:"10px" }}>
             <h2>
                 Formulário de questão
             </h2>
@@ -129,7 +144,13 @@ export default function FormQuestao({ $questaoParaEditar = null, setQuestaoParaE
                     value={questao.textoQuestao}
                 />
             </FieldsetEstilizado>
-            <h3>
+            <FieldsetEstilizado>
+                <label>
+                    Assunto da questão (Optional):
+                </label>
+                <SelectDeAssuntos options={listaAssuntosDaMateria} onChange={assuntoHandler}/>
+            </FieldsetEstilizado>
+            <h3 style={{ padding: "0"}}>
                 Marque a alternativa correta
             </h3>
             {

@@ -13,7 +13,7 @@ export function Alternativas({ index, alternativa, setAlternativasSelecionadas, 
     return (
       <li>
         <label style={{ display: 'flex', gap: '5px' }}>
-          <InputRadioEstilizado type='radio' name='opcao' onChange={e => handleChange(e)} />
+          <input type='radio' name='opcao' onChange={e => handleChange(e)} />
           <p>{opcoesAlternativas[index]}) </p>
           <p id='resposta_escolhida' style={{
             backgroundColor: alternativasSelecionadas?.textoAlternativa === textoAlternativa && corDeFundo,

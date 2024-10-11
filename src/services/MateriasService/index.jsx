@@ -14,7 +14,7 @@ export default class MateriasService {
         this.userService = new UserService();
     }
 
-    async buscaMateriaEspecifica() {
+    async buscaMateriaEspecifica(idProva, idMateria) {
         try {
             const { data } = await this.axios.get(`/provas/${idProva}/materias/${idMateria}`, this.userService.getHeaderWithTokenFromLocalStorage());
             return data;

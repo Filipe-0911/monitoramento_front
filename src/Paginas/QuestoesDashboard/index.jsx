@@ -4,7 +4,7 @@ import { FaPlus, FaWpforms, FaEdit } from "react-icons/fa";
 import useUserContext from '../../Hooks/useUserContext';
 import ModalComponent from '../../componentes/Modal';
 import FormQuestao from '../Questionario/componentesQuestionario/FormQuestao';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BotaorCard } from '../../componentes/ComponentesHome';
 import { RiCloseLargeFill } from 'react-icons/ri';
 import Alert from '../../componentes/Alert';
@@ -14,6 +14,61 @@ import {
     SectionCardsDashboardEstilizada,
     SectionDashboardEstilizada
 } from "./ComponentesDashboardQuestoes"
+import MateriasService from '../../services/MateriasService';
+import QuestoesService from '../../services/QuestoesService';
+
+const DivEstatisticasQuestoesEstilizada = styled.div`
+    width: 20%;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 1px solid transparent;
+    gap: 2em;
+    border-radius: 20px;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: ${props => props.$darkMode ? "var(--bg-cinza-dark-mode)" : "var(--bg-cinza-light-mode)"};
+
+
+    &:hover {
+        box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+        transform: translate(0, -0.25rem);
+        transition: all.2s;
+    }
+    h3 {
+        text-align: center;
+    }
+
+    h3, p {
+        margin-bottom: 1em;
+        font-size: 18px;
+    }
+
+    @media (max-width: 820px) {
+        width: 50%;
+        justify-content: flex-start;
+
+    }
+
+    @media (max-width: 562px) {
+        width: 100%;
+        padding: 0.3em;
+        text-align: left;
+    }
+`
+
+const DivQueComportaBotoesEEstatisticaEstilizada = styled.div`
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+    gap: 1em;
+    padding: 1em;
+
+    @media (max-width: 562px) {
+        padding: 0;
+    }
+`
 
 export default function QuestoesDashboard() {
     const params = useParams();
@@ -21,6 +76,17 @@ export default function QuestoesDashboard() {
     const { usuarioPrefereModoDark } = useUserContext();
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const { dadosAlerta } = useAlertContext();
+    const materiaService = new MateriasService();
+    const [nomeDaMateria, setNomeDaMateria] = useState("");
+
+    const questoesService = new QuestoesService();
+
+    useEffect(() => {
+        materiaService.buscaMateriaEspecifica(params.idProva, params.idMateria).then(res => {
+            setNomeDaMateria(res.nome)
+        }).catch(e => console.log(e));
+
+    }, [])
 
     function openModal() {
         setModalIsOpen(true);
@@ -32,46 +98,51 @@ export default function QuestoesDashboard() {
 
     return (
         <SectionDashboardEstilizada>
-            <h2>
-                Questões Dashboard
+            <h2 style={{fontSize:"32px"}}>
+                Dashboard de questões
             </h2>
-            <SectionCardsDashboardEstilizada>
-                <CardDashboardEstilizada
-                    $darkMode={usuarioPrefereModoDark}
-                    onClick={openModal}
-                >
-                    <h3>
-                        Adicionar Questões
-                    </h3>
-                    <FaPlus size={32} />
-                </CardDashboardEstilizada>
-                <CardDashboardEstilizada
-                    $darkMode={usuarioPrefereModoDark}
-                    onClick={() => navigate(`/provas/${params.idProva}/materias/${params.idMateria}/questoes`)}
-                >
-                    <h3>
-                        Responder Questões
-                    </h3>
-                    <FaWpforms size={32} />
-                </CardDashboardEstilizada>
-                <CardDashboardEstilizada
-                    $darkMode={usuarioPrefereModoDark}
-                    onClick={() => navigate(`/provas/${params.idProva}/materias/${params.idMateria}/editar-questoes`)}
-                >
-                    <h3>
-                        Editar ou Excluir Questões
-                    </h3>
-                    <FaEdit size={32} />
-                </CardDashboardEstilizada>
-            </SectionCardsDashboardEstilizada>
+            <h3 style={{fontSize:"24px"}}>
+                {nomeDaMateria}
+            </h3>
+            <DivQueComportaBotoesEEstatisticaEstilizada>
+                <SectionCardsDashboardEstilizada>
+                    <CardDashboardEstilizada
+                        $darkMode={usuarioPrefereModoDark}
+                        onClick={openModal}
+                    >
+                        <h3>
+                            Adicionar Questões
+                        </h3>
+                        <FaPlus size={32} />
+                    </CardDashboardEstilizada>
+                    <CardDashboardEstilizada
+                        $darkMode={usuarioPrefereModoDark}
+                        onClick={() => navigate(`/provas/${params.idProva}/materias/${params.idMateria}/questoes`)}
+                    >
+                        <h3>
+                            Responder Questões
+                        </h3>
+                        <FaWpforms size={32} />
+                    </CardDashboardEstilizada>
+                    <CardDashboardEstilizada
+                        $darkMode={usuarioPrefereModoDark}
+                        onClick={() => navigate(`/provas/${params.idProva}/materias/${params.idMateria}/editar-questoes`)}
+                    >
+                        <h3>
+                            Editar ou Excluir Questões
+                        </h3>
+                        <FaEdit size={32} />
+                    </CardDashboardEstilizada>
+                </SectionCardsDashboardEstilizada>
 
+            </DivQueComportaBotoesEEstatisticaEstilizada>
             <ModalComponent modalIsOpen={modalIsOpen} closeModal={closeModal}>
                 <div style={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
                     <BotaorCard $type="excluir" onClick={closeModal}>
                         <RiCloseLargeFill />
                     </BotaorCard>
                 </div>
-                <FormQuestao closeModal={closeModal}/>
+                <FormQuestao closeModal={closeModal} />
             </ModalComponent>
             <Alert dados={dadosAlerta} />
         </SectionDashboardEstilizada>

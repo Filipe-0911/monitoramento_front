@@ -13,12 +13,13 @@ export const SectionDashboardEstilizada = styled.section`
 `
 
 export const SectionCardsDashboardEstilizada = styled.section`
-    width: 90%;
+    width: 70%;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
+    gap: 1em;
 
-    @media (max-width: 562px) {
+    @media (max-width: 820px) {
         flex-direction: column;
         justify-content: center;
         gap: 1em;
