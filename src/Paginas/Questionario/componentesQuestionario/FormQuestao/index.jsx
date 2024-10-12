@@ -150,7 +150,7 @@ export default function FormQuestao({ $questaoParaEditar = null, setQuestaoParaE
                 <label>
                     Assunto da questão (Optional):
                 </label>
-                <SelectDeAssuntos options={listaAssuntosDaMateria} onChange={assuntoHandler} valorDefault={questao.nomeAssunto}/>
+                <SelectDeAssuntos options={listaAssuntosDaMateria} onChange={assuntoHandler}/>
             </FieldsetEstilizado>
             <h3 style={{ padding: "0"}}>
                 Marque a alternativa correta
