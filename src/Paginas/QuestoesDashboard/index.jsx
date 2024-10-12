@@ -75,6 +75,7 @@ export default function QuestoesDashboard() {
     const navigate = useNavigate();
     const { usuarioPrefereModoDark } = useUserContext();
     const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [modalAvisoIsOpen, setModalAvisoIsOpen] = useState(true);
     const { dadosAlerta } = useAlertContext();
     const materiaService = new MateriasService();
     const [nomeDaMateria, setNomeDaMateria] = useState("");
@@ -88,6 +89,10 @@ export default function QuestoesDashboard() {
 
     }, [])
 
+    function closeModalAviso() {
+        setModalAvisoIsOpen(false);
+    }
+
     function openModal() {
         setModalIsOpen(true);
     }
@@ -98,10 +103,10 @@ export default function QuestoesDashboard() {
 
     return (
         <SectionDashboardEstilizada>
-            <h2 style={{fontSize:"32px"}}>
+            <h2 style={{ fontSize: "32px" }}>
                 Dashboard de questões
             </h2>
-            <h3 style={{fontSize:"24px"}}>
+            <h3 style={{ fontSize: "24px" }}>
                 {nomeDaMateria}
             </h3>
             <DivQueComportaBotoesEEstatisticaEstilizada>
@@ -134,8 +139,31 @@ export default function QuestoesDashboard() {
                         <FaEdit size={32} />
                     </CardDashboardEstilizada>
                 </SectionCardsDashboardEstilizada>
-
             </DivQueComportaBotoesEEstatisticaEstilizada>
+            <ModalComponent modalIsOpen={modalAvisoIsOpen} closeModal={closeModalAviso} >
+                <div style={{ width: "100%" }}>
+                    <BotaorCard $type="excluir" onClick={closeModalAviso} style={{ position: "fixed", right: "0px" }}>
+                        <RiCloseLargeFill />
+                    </BotaorCard>
+                </div>
+                <div style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    borderRadius: "10px",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    padding: "2em",
+                    gap: "3em",
+                }}>
+                    <h3 style={{ fontSize: "24px", color: "red" }}>
+                        IMPORTANTE
+                    </h3>
+                    <p style={{ fontSize: "20px" }}>
+                        Ao adicionar questões, é importante informar a qual assunto esta questão se refere para que seja contabilizada automaticamente a estatistica referente a esta questão quando for respondida!
+                    </p>
+                </div>
+            </ModalComponent>
             <ModalComponent modalIsOpen={modalIsOpen} closeModal={closeModal}>
                 <div style={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
                     <BotaorCard $type="excluir" onClick={closeModal}>

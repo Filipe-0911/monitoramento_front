@@ -54,12 +54,12 @@ const HiddenSelect = styled.select`
   display: none;
 `;
 
-const SelectDeAssuntos = ({ options, onChange }) => {
+const SelectDeAssuntos = ({ options, onChange, valorDefault }) => {
   const [valorParaBusca, setValorParaBusca] = useState("")
   const [isOpen, setIsOpen] = useState(false);
   const [selectValue, setSelectValue] = useState({
     id: null,
-    nome: "Escolha uma opção"
+    nome: valorDefault ? valorDefault : "Escolha uma opção"
   });
 
   const handleSelect = (option) => {

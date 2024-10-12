@@ -5,6 +5,8 @@ import styled from "styled-components";
 import Accordion from "../Accordion";
 import TabelaDadosParaMobile from "./TabelaDadosParaMobile";
 import useUserContext from "../../Hooks/useUserContext";
+import { MdPadding } from "react-icons/md";
+import { color } from "jodit/esm/plugins/color/color";
 
 const SectionGraficoResponsivaEstilizada = styled.section`
     width: 100%;
@@ -78,9 +80,28 @@ const GraficosRendimentoAssuntos = ({ prova }) => {
 
     const options = {
         xaxis: {
+            title: {
+                text: "Data da Preenchimento",
+                style: {
+                    fontSize: '14px',
+                    fontWeight: 'bold',
+                    color: usuarioPrefereModoDark ? "yellow" : "black",
+                },
+            },
             type: 'datetime',
         },
         yaxis: {
+            title: {
+                text: "Porcetagens",
+                style: {
+                    fontSize: '14px',
+                    fontWeight: 'bold',
+                    color: usuarioPrefereModoDark ? "yellow" : "black",
+                },
+            },
+            
+            min:0,
+            max: 100,
             tooltip: {
                 enabled: true
             }

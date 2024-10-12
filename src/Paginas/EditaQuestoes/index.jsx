@@ -69,7 +69,7 @@ export default function EditarQuestoes() {
         }
     });
 
-    function deletaQuestao () {
+    function deletaQuestao() {
         questoesService.deletaQuestao(params.idProva, params.idMateria, questao.content[0].id).then(res => {
             setAlertaSuccess("Questão excluída com sucesso!");
             setEnviouResposta(true);
@@ -80,7 +80,7 @@ export default function EditarQuestoes() {
         setQuestao(prevState => ({
             ...prevState,
             content: [
-               questaoModificada
+                questaoModificada
             ]
         }))
     }
@@ -114,6 +114,15 @@ export default function EditarQuestoes() {
                             <H2QuestionarioEstilizado>
                                 {questao.content[0].nomeMateria}
                             </H2QuestionarioEstilizado>
+                            <section style={{ display: 'flex', width: "100%", justifyContent: "space-between", marginBottom: "1em" }}>
+                                <h3>
+                                    Assunto: <u>{questao.content[0].nomeAssunto}</u>
+                                </h3>
+                                <p>
+                                    {questao.page.number + 1}/{questao.page.totalElements}
+                                </p>
+                            </section>
+
                             <p>
                                 {questao.content[0].textoQuestao}
                             </p>
@@ -185,7 +194,10 @@ export default function EditarQuestoes() {
                         <RiCloseLargeFill />
                     </BotaorCard>
                 </div>
-                <FormQuestao $questaoParaEditar={questao.content[0]} setQuestaoParaEditar={modificaQuestao} />
+                <FormQuestao
+                    $questaoParaEditar={questao.content[0]}
+                    setQuestaoParaEditar={modificaQuestao}
+                />
             </ModalComponent>
         </SectionQuestionario>
     )

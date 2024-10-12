@@ -116,7 +116,15 @@ export default class AssuntoService {
 
     async buscarAssuntoPorIdMateria (idMateria) {
         try {
-            const { data } = await this.axios.get(`/assuntos?idMateria=${idMateria}`, this.userService.getHeaderWithTokenFromLocalStorage());
+            const { data } = await this.axios.get(`/assuntos/idMateria=${idMateria}`, this.userService.getHeaderWithTokenFromLocalStorage());
+            if (data.page.totalPages > 1) {
+                let assuntos = new Array();
+                for (let i = 0; i < data.page.totalPages; i++) {
+                    const { data } = await this.axios.get(`/assuntos/idMateria=${idMateria}?page=${i}`, this.userService.getHeaderWithTokenFromLocalStorage());
+                    assuntos = [...assuntos,...data.content];
+                }
+                return { content: assuntos.flat(Infinity), page: data.page };
+            }
             return data;
 
         } catch (error) {

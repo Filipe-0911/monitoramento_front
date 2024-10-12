@@ -113,10 +113,10 @@ export default function Questionario() {
               <H2QuestionarioEstilizado>
                 {questao.content[0].nomeMateria}
               </H2QuestionarioEstilizado>
-              <section style={{ display: 'flex', width: "100%", justifyContent: "space-between", marginBottom: "1em"}}>
-              <h3>
-                Assunto: <u>{questao.content[0].nomeAssunto}</u>
-              </h3>
+              <section style={{ display: 'flex', width: "100%", justifyContent: "space-between", marginBottom: "1em" }}>
+                <h3>
+                  Assunto: <u>{questao.content[0].nomeAssunto}</u>
+                </h3>
                 <p>
                   {questao.page.number + 1}/{questao.page.totalElements}
                 </p>

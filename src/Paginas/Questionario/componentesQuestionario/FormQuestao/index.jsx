@@ -22,7 +22,7 @@ const DivFinalForm = styled.div`
     width: 100%;
     justify-content: flex-end;
 `
-export default function FormQuestao({ $questaoParaEditar = null, setQuestaoParaEditar = null, closeModal }) {
+export default function FormQuestao({ $questaoParaEditar = null, setQuestaoParaEditar = null }) {
     const params = useParams();
     const questoesService = new QuestoesService();
     const { dadosAlerta, setAlertaError, setAlertaSuccess } = useAlertContext();
@@ -43,7 +43,9 @@ export default function FormQuestao({ $questaoParaEditar = null, setQuestaoParaE
 
     useEffect(() => {
         $questaoParaEditar !== null && setQuestao($questaoParaEditar);
-        assuntoService.buscarAssuntoPorIdMateria(params.idMateria).then(res => setListaAssuntosDaMateria(res.content))
+        assuntoService.buscarAssuntoPorIdMateria(params.idMateria).then(res => {
+            setListaAssuntosDaMateria(res.content)
+        })
     },[])
 
     function setTextoAlternativa(textoAlternativaRecebido, index) {
@@ -88,7 +90,6 @@ export default function FormQuestao({ $questaoParaEditar = null, setQuestaoParaE
             questoesService.editarQuestao(params.idProva, params.idMateria, $questaoParaEditar.id, questao).then((res) => {
                 setAlertaSuccess("Questão editada com sucesso!");
                 setQuestaoParaEditar(res.data);
-                closeModal();
             })
             return;
         }
@@ -118,6 +119,7 @@ export default function FormQuestao({ $questaoParaEditar = null, setQuestaoParaE
         setQuestao({
             textoQuestao: "",
             idAssunto: 0,
+            nomeAssunto: "",
             listaAlternativas: [
                 {textoAlternativa: "", ehCorreta: false},
                 {textoAlternativa: "", ehCorreta: false},
@@ -148,7 +150,7 @@ export default function FormQuestao({ $questaoParaEditar = null, setQuestaoParaE
                 <label>
                     Assunto da questão (Optional):
                 </label>
-                <SelectDeAssuntos options={listaAssuntosDaMateria} onChange={assuntoHandler}/>
+                <SelectDeAssuntos options={listaAssuntosDaMateria} onChange={assuntoHandler} valorDefault={questao.nomeAssunto}/>
             </FieldsetEstilizado>
             <h3 style={{ padding: "0"}}>
                 Marque a alternativa correta
