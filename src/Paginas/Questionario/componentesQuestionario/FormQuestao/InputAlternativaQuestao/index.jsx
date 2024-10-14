@@ -31,7 +31,7 @@ export default function InputAlternativaQuestao({ index, valorAlternativaDefault
                     <input
                         type="radio"
                         name='alternativaCorreta'
-                        checked={checked}
+                        checked={valorAlternativaDefault.ehCorreta}
                         onChange={handleRadioChange}
                     />
                 </div>

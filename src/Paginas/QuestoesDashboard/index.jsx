@@ -152,9 +152,9 @@ export default function QuestoesDashboard() {
                     alignItems: "center",
                     borderRadius: "10px",
                     justifyContent: "center",
-                    alignItems: "center",
                     padding: "2em",
                     gap: "3em",
+                    maxWidth: "600px"
                 }}>
                     <h3 style={{ fontSize: "24px", color: "red" }}>
                         IMPORTANTE

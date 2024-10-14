@@ -22,7 +22,7 @@ const DivFinalForm = styled.div`
     width: 100%;
     justify-content: flex-end;
 `
-export default function FormQuestao({ $questaoParaEditar = null, setQuestaoParaEditar = null }) {
+export default function FormQuestao({ $questaoParaEditar = null, setQuestaoParaEditar = null, modificaQuestao }) {
     const params = useParams();
     const questoesService = new QuestoesService();
     const { dadosAlerta, setAlertaError, setAlertaSuccess } = useAlertContext();
@@ -32,6 +32,7 @@ export default function FormQuestao({ $questaoParaEditar = null, setQuestaoParaE
     const [questao, setQuestao] = useState({
         textoQuestao: "",
         idAssunto: 0,
+        assunto: {nome: "Escolha uma opção", id: null},
         listaAlternativas: [
             {textoAlternativa: "", ehCorreta: false},
             {textoAlternativa: "", ehCorreta: false},
@@ -120,6 +121,7 @@ export default function FormQuestao({ $questaoParaEditar = null, setQuestaoParaE
             textoQuestao: "",
             idAssunto: 0,
             nomeAssunto: "",
+            assunto: {nome: "Escolha uma opção", id: null},
             listaAlternativas: [
                 {textoAlternativa: "", ehCorreta: false},
                 {textoAlternativa: "", ehCorreta: false},
@@ -150,7 +152,7 @@ export default function FormQuestao({ $questaoParaEditar = null, setQuestaoParaE
                 <label>
                     Assunto da questão (Optional):
                 </label>
-                <SelectDeAssuntos options={listaAssuntosDaMateria} onChange={assuntoHandler}/>
+                <SelectDeAssuntos options={listaAssuntosDaMateria} onChange={assuntoHandler} defaultValue={questao.assunto}/>
             </FieldsetEstilizado>
             <h3 style={{ padding: "0"}}>
                 Marque a alternativa correta

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { FaSearch } from 'react-icons/fa';
 import CampoForm from '../CampoForm';
@@ -54,13 +54,18 @@ const HiddenSelect = styled.select`
   display: none;
 `;
 
-const SelectDeAssuntos = ({ options, onChange }) => {
+const SelectDeAssuntos = ({ options, onChange, defaultValue = null }) => {
   const [valorParaBusca, setValorParaBusca] = useState("")
   const [isOpen, setIsOpen] = useState(false);
   const [selectValue, setSelectValue] = useState({
     id: null,
     nome: "Escolha uma opção"
   });
+
+  useEffect(() => {
+    defaultValue !== null && setSelectValue(defaultValue);
+  }, [defaultValue])
+
 
   const handleSelect = (option) => {
     let eventoOpcaoEscolhida = { target: { name: "idAssunto", value: option.id } }
@@ -103,7 +108,7 @@ const SelectDeAssuntos = ({ options, onChange }) => {
           }
         </Options>
       )}
-      <HiddenSelect value={selectValue.nome} onChange={(e) => handleSelect(e)}>
+      <HiddenSelect value={selectValue.nome} onChange={(e) => handleSelect(e)} >
 
         {options.map((assunto) => (
           <option key={assunto.id} value={assunto} name={assunto.nome}>

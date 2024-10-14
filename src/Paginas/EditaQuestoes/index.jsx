@@ -116,7 +116,7 @@ export default function EditarQuestoes() {
                             </H2QuestionarioEstilizado>
                             <section style={{ display: 'flex', width: "100%", justifyContent: "space-between", marginBottom: "1em" }}>
                                 <h3>
-                                    Assunto: <u>{questao.content[0].nomeAssunto}</u>
+                                    Assunto: <u>{questao.content[0].nomeAssunto || questao.content[0].assunto.nome}</u>
                                 </h3>
                                 <p>
                                     {questao.page.number + 1}/{questao.page.totalElements}
@@ -134,6 +134,7 @@ export default function EditarQuestoes() {
                                             alternativa={alternativa}
                                             key={alternativa.id}
                                             darkMode={usuarioPrefereModoDark}
+                                            ehCorreta={alternativa.ehCorreta}
                                         />
                                     ))
                                 }
@@ -188,17 +189,20 @@ export default function EditarQuestoes() {
                     </BotaoEstilizado>
                 </DivMensagemQuestoesNaoEncontradas>
             }
-            <ModalComponent modalIsOpen={modalIsOpen} closeModal={closeModal}>
-                <div style={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
-                    <BotaorCard $type="excluir" onClick={closeModal}>
-                        <RiCloseLargeFill />
-                    </BotaorCard>
-                </div>
-                <FormQuestao
-                    $questaoParaEditar={questao.content[0]}
-                    setQuestaoParaEditar={modificaQuestao}
-                />
-            </ModalComponent>
+            {
+                questao.content.length > 0 &&
+                <ModalComponent modalIsOpen={modalIsOpen} closeModal={closeModal}>
+                    <div style={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
+                        <BotaorCard $type="excluir" onClick={closeModal}>
+                            <RiCloseLargeFill />
+                        </BotaorCard>
+                    </div>
+                    <FormQuestao
+                        $questaoParaEditar={questao.content[0]}
+                        setQuestaoParaEditar={modificaQuestao}
+                    />
+                </ModalComponent>
+            }
         </SectionQuestionario>
     )
 }

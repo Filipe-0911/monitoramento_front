@@ -58,7 +58,12 @@ export default class QuestoesService {
     }
 
     async editarQuestao(idProva, idMateria, idQuestao, questao) {
-        const response = await this.axios.put(`/provas/${idProva}/materias/${idMateria}/questoes/${idQuestao}`, questao, this.userService.getHeaderWithTokenFromLocalStorage());
+        let questaoModificada = {
+            textoQuestao: questao.textoQuestao,
+            idAssunto: questao.assunto.id,
+            listaAlternativas: questao.listaAlternativas,
+        }
+        const response = await this.axios.put(`/provas/${idProva}/materias/${idMateria}/questoes/${idQuestao}`, questaoModificada, this.userService.getHeaderWithTokenFromLocalStorage());
         return response;
     }
 }

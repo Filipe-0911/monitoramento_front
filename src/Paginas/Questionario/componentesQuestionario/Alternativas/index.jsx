@@ -7,13 +7,14 @@ export function Alternativas({ index, alternativa, setAlternativasSelecionadas, 
     const handleChange = (e) => {
       setAlternativasSelecionadas(alternativa);
     }
+   
     let corDaLetra = darkMode ? "white" : "black";
     let corDeFundo = darkMode ? "rgba(217, 217, 217, 0.5)" : "rgba(106, 106, 106, 0.5)";
     
     return (
       <li>
         <label style={{ display: 'flex', gap: '5px' }}>
-          <input type='radio' name='opcao' onChange={e => handleChange(e)} />
+          <input type='radio' name='opcao' onChange={e => handleChange(e)} checked={alternativa.ehCorreta}/>
           <p>{opcoesAlternativas[index]}) </p>
           <p id='resposta_escolhida' style={{
             backgroundColor: alternativasSelecionadas?.textoAlternativa === textoAlternativa && corDeFundo,
