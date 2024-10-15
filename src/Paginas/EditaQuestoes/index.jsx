@@ -16,6 +16,7 @@ import FormQuestao from "../Questionario/componentesQuestionario/FormQuestao";
 import ModalComponent from "../../componentes/Modal";
 import { RiCloseLargeFill } from "react-icons/ri";
 import styled from "styled-components";
+import ParagrafoPreWrap from "../../componentes/ParagrafoPreWrap";
 
 const DivEditarExcluirQuestao = styled.div`
     display: flex;
@@ -127,9 +128,9 @@ export default function EditarQuestoes() {
                                 </p>
                             </section>
 
-                            <p>
+                            <ParagrafoPreWrap>
                                 {questao.content[0].textoQuestao}
-                            </p>
+                            </ParagrafoPreWrap>
                             <ul>
                                 {
                                     questao.content[0].listaAlternativas.map((alternativa, index) => (

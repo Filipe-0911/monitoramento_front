@@ -12,6 +12,7 @@ import Alert from '../../componentes/Alert';
 import { InputRadioEstilizado } from '../../componentes/InputRadioEstilizado';
 import Loader from '../../componentes/Loader';
 import { Alternativas } from './componentesQuestionario/Alternativas';
+import ParagrafoPreWrap from '../../componentes/ParagrafoPreWrap';
 
 export const DivMensagemQuestoesNaoEncontradas = styled.div`
   display: flex;
@@ -121,9 +122,9 @@ export default function Questionario() {
                   {questao.page.number + 1}/{questao.page.totalElements}
                 </p>
               </section>
-              <p>
+              <ParagrafoPreWrap>
                 {questao.content[0].textoQuestao}
-              </p>
+              </ParagrafoPreWrap>
               <ul>
                 {
                   questao.content[0].listaAlternativas.map((alternativa, index) => (
