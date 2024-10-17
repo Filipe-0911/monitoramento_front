@@ -115,9 +115,9 @@ const GraficosRendimentoAssuntos = ({ prova }) => {
         <Accordion
             titulo={"Desempenho da prova " + prova.titulo}
         >
-            {mediaQuestoes.length > 0 ? 
+            {/* {mediaQuestoes.length > 0 ? 
             <TabelaDadosParaMobile dadosPorcentagem={dadosObtidosDaApi} />
-            : null}
+            : null} */}
             <SectionGraficoResponsivaEstilizada>
                 <ReactApexChart
                     options={options}

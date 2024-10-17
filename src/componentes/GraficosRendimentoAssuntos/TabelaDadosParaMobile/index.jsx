@@ -6,6 +6,7 @@ const TableEstilizadaParaDadosMediaMobile = styled.table`
     border-collapse: collapse;
     border: 1px solid transparent;
     border-radius: 10px;
+    color: ${props => props.$usuarioPrefereModoDark ? "white" : "black"};
     
     tr, th {
         border-bottom: 1px solid rgba(0, 0, 0, 0.15);
@@ -30,30 +31,36 @@ const TableEstilizadaParaDadosMediaMobile = styled.table`
 
 `
 
-export default function TabelaDadosParaMobile({ dadosPorcentagem }) {
+export default function TabelaDadosParaMobile({ header, dadosPorcentagem, usuarioPrefereModoDark }) {
     const dataService = new DataService();
     return (
-        <TableEstilizadaParaDadosMediaMobile>
+        <TableEstilizadaParaDadosMediaMobile $usuarioPrefereModoDark={usuarioPrefereModoDark}>
             <thead>
                 <tr>
-                    <th>Data</th>
-                    <th>Assunto</th>
-                    <th>Média</th>
-                    <th>Questões feitas</th>
+                    {header.map((header, index) => <th key={index}>{header}</th>)}
                 </tr>
             </thead>
             <tbody>
                 {
-                    dadosPorcentagem.map((media, index) => {
+
+                    dadosPorcentagem.map((dados, index) => {
                         return (
                             <tr key={index}>
-                                <td>{dataService.transformarDataEmString(media.dataPreenchimento)}</td>
-                                <td>{media.nome}</td>
-                                <td>{media.porcentagem}%</td>
-                                <td>{media.questoesFeitas}</td>
+                                {
+                                    Object.keys(dados).map((chave, indice) => {
+                                        if (chave !== "idMateria") {
+                                            return (
+                                                <td key={indice}>
+                                                    {dados[chave]}
+                                                </td>
+                                            )
+                                        }
+                                    })
+                                }
                             </tr>
-                        );
+                        )
                     })
+
                 }
             </tbody>
         </TableEstilizadaParaDadosMediaMobile>

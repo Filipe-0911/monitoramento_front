@@ -66,4 +66,9 @@ export default class QuestoesService {
         const response = await this.axios.put(`/provas/${idProva}/materias/${idMateria}/questoes/${idQuestao}`, questaoModificada, this.userService.getHeaderWithTokenFromLocalStorage());
         return response;
     }
+
+    async buscaEstatisticaPorMateria(idProva, idMateria) {
+        const response = await this.axios.get(`/provas/${idProva}/materias/${idMateria}/estatisticas/buscaPorMateria`, this.userService.getHeaderWithTokenFromLocalStorage());
+        return response;
+    }
 }

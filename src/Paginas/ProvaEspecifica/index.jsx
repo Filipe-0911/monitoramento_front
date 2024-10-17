@@ -17,6 +17,7 @@ import ModalFormFlexivel from "./ModalFormFlexivel";
 import { DivEstilizadaProvaEspecífica } from "./ComponentesProvaEspecifica";
 import useAlertContext from "../../Hooks/useAlertContext"
 import useUserContext from "../../Hooks/useUserContext";
+import ApexChart from "../../componentes/DonutChart";
 
 
 const ProvaEspecifica = () => {
@@ -31,6 +32,7 @@ const ProvaEspecifica = () => {
     const { dadosAlerta, setAlertaError, setAlertaSuccess } = useAlertContext();
     const parametros = useParams();
     const [acaoUsuario, setAcaoUsuario] = useState("");
+    const [listaEstatisticasMaterias, setListaEstatisticasMaterias] = useState([]);
 
     const {
         addProva,
@@ -65,6 +67,24 @@ const ProvaEspecifica = () => {
                 setIsLoading(false);
             });
     }, [+parametros.id]);
+
+    useEffect(() => {
+        if (prova.listaDeMaterias.length > 0) {
+            prova.listaDeMaterias.forEach(materia => {
+                questoesService.buscaEstatisticaPorMateria(prova.id, materia.id)
+                    .then(res => {
+                        setListaEstatisticasMaterias(prevState => {
+                            const exists = prevState.some(estatistica => estatistica.idMateria === res.data.idMateria);
+                            if (!exists) {
+                                return [...prevState, res.data];
+                            } 
+                            return prevState;
+                        });
+                    });
+            });
+        }
+    }, [prova]);
+    
 
     const openModal = () => {
         setModalIsOpen(true);
@@ -225,9 +245,8 @@ const ProvaEspecifica = () => {
                                     </BotaoEstilizado>
                                 </span>
                             </DivEstilizadaProvaEspecífica>
-                            <GraficosRendimentoAssuntos
-                                prova={prova}
-                            />
+
+                            <ApexChart listaEstatisticasMaterias={listaEstatisticasMaterias} />
                             <AccordionAssunto
                                 $darkMode={usuarioPrefereModoDark}
                                 prova={prova}
