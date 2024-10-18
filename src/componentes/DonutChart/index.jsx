@@ -12,7 +12,7 @@ const DivGraficoEstilizada = styled.div`
     height: 500px;
     margin-bottom: 24px;
 
-    @media (max-width: 1000px) {
+    @media (max-width: 820px) {
         display: none;
     }
 `
@@ -82,33 +82,32 @@ const ApexChart = ({ listaEstatisticasMaterias }) => {
             enabled: true,
             y: {
                 formatter: function (val) {
-                    return val + "% de acerto"; // Personalizando o valor que aparece no hover
+                    return val + "% de acerto";
                 }
             },
             x: {
                 formatter: function (val) {
-                    return "Matéria: " + val; // Personalizando o título que aparece no hover
+                    return "Matéria: " + val;
                 }
             },
-            theme: usuarioPrefereModoDark ? 'dark' : 'light' // Tema escuro ou claro para o tooltip
+            theme: usuarioPrefereModoDark ? 'dark' : 'light'
         }
     }
 
     function removeId(lista) {
-        return Object.keys(lista).map((key) =>{
-            if(key !== "idMateria") {
-                return lista[key]
-            }
-        }).sort((a, b) => {
-            if (a.nome.toLowerCase() < b.nome.toLowerCase()) {
-                return -1;
-            }
-            if (a.nome.toLowerCase() > b.nome.toLowerCase()) {
-                return 1;
-            }
-            return 0;
+        return lista.map(obj => {
+            const { idMateria, questoesCorretas, questoesRespondidas, ...rest } = obj;
+            return rest;
         });
     }
+
+
+
+    // idMateria
+    // nome
+    // porcentagemAcertoMateria
+    // questoesCorretas
+    // questoesRespondidas
 
     return (
         <Accordion titulo={"Gráfico rendimento por matéria"} $darkMode={usuarioPrefereModoDark}>
@@ -126,10 +125,10 @@ const ApexChart = ({ listaEstatisticasMaterias }) => {
                     <div id="html-dist"></div>
                 </DivGraficoEstilizada>
                 <DivTabelaEstilizada>
-                    <TabelaDadosParaMobile 
-                        dadosPorcentagem={removeId(listaEstatisticasMaterias)} 
+                    <TabelaDadosParaMobile
+                        dadosPorcentagem={removeId(listaEstatisticasMaterias)}
                         header={
-                            ["Nome", "Questões Respondidas", "Questões corretas", "Porcentagem"]
+                            ["Nome", "Porcentagem"]
                         }
                         usuarioPrefereModoDark={usuarioPrefereModoDark}
                     />

@@ -7,14 +7,10 @@ const TableEstilizadaParaDadosMediaMobile = styled.table`
     border: 1px solid transparent;
     border-radius: 10px;
     color: ${props => props.$usuarioPrefereModoDark ? "white" : "black"};
+    min-width: 100%;
     
     tr, th {
         border-bottom: 1px solid rgba(0, 0, 0, 0.15);
-    }
-    
-    th {
-        text-align: center;
-        
     }
 
     td {
@@ -23,9 +19,10 @@ const TableEstilizadaParaDadosMediaMobile = styled.table`
 
     th, td {
         padding: 8px;
+        min-width: 172px;
     }
 
-    @media (min-width: 821px) {
+    @media (min-width: 820px) {
         display: none;
     }
 
@@ -51,7 +48,7 @@ export default function TabelaDadosParaMobile({ header, dadosPorcentagem, usuari
                                         if (chave !== "idMateria") {
                                             return (
                                                 <td key={indice}>
-                                                    {dados[chave]}
+                                                    {typeof dados[chave] === "number" ? dados[chave].toFixed(2) + "%": dados[chave]}
                                                 </td>
                                             )
                                         }
