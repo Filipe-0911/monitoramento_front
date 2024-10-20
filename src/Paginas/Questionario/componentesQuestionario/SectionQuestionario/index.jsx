@@ -26,6 +26,7 @@ export const FormEstilizadoQuestionario = styled.form`
     background-color: ${props => props.$darkMode ? "var(--bg-cinza-dark-mode)" : "var(--bg-cinza-light-mode)"};
     border-radius: 5px;
     width: 100%;
+    max-width: 100%;
     padding: 2rem;
 
     ul {

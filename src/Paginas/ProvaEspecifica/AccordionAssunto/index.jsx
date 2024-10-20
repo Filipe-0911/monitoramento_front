@@ -10,13 +10,15 @@ import { useProvaContext } from "../../../Hooks/useProvaContext";
 import { DivBotoesCrudMateria } from "../ComponentesProvaEspecifica";
 import useUserContext from "../../../Hooks/useUserContext";
 import { RiCloseLargeFill } from "react-icons/ri";
+import { useEffect, useState } from "react";
+import QuestoesService from "../../../services/QuestoesService";
 
 export const LiAcorddionEstilizado = styled.li`
     display: flex;
     justify-content: space-between;
     align-items: center;
     
-    border-bottom: ${props => props.$darkMode ? "1px solid rgba(255, 255, 255, 0.4)" : "1px solid rgba(0, 0, 0, 0.4)" } ;
+    border-bottom: ${props => props.$darkMode ? "1px solid rgba(255, 255, 255, 0.4)" : "1px solid rgba(0, 0, 0, 0.4)"} ;
     text-align: left;
     padding: 1em 3em;
 
@@ -25,7 +27,7 @@ export const LiAcorddionEstilizado = styled.li`
 
     }
     @media (max-width: 562px) {
-        align-items: flex-start;
+        align-items: center;
         justify-content: space-evenly;
         gap: 1em;
         padding: 1em 0;
@@ -55,6 +57,7 @@ const SectionDadosDoAssuntoEstilizado = styled.section`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    text-align: left;
 
     h5 {
         font-size: 20px;
@@ -62,15 +65,19 @@ const SectionDadosDoAssuntoEstilizado = styled.section`
         color: ${props => props.$darkMode ? "#ffffff" : "#000000"}
     }
 
-    p{
+    p {
         color: ${props => props.$darkMode ? "#ffffff" : "#000000"};
         font-size: 16px;
+        margin: 5px 0;
     }
     
     @media (max-width: 820px) {
         margin: auto;
-        h5, p {
+        
+        h5 {
             text-align: center;
+        }
+        h5, p {
             width: 100%;
         }
         gap: 1em;
@@ -78,7 +85,7 @@ const SectionDadosDoAssuntoEstilizado = styled.section`
 
     @media (max-width: 562px) {
         max-width: 50%;
-        
+
         h5, p {
             font-size: 16px !important;
             word-wrap: break-word;
@@ -93,13 +100,14 @@ export default function AccordionAssunto({
     setModalIsOpen,
     setAcaoUsuario }) {
 
-    const navigate = useNavigate();
-
     const {
         setIdAssunto,
         setIdMateria,
-        prova
+        prova,
     } = useProvaContext();
+
+    const navigate = useNavigate();
+    const questoesService = new QuestoesService();
 
     function adicionarAssunto(idMateria) {
         setAcaoUsuario("adicionar_assunto")
@@ -125,13 +133,14 @@ export default function AccordionAssunto({
     }
 
     const { usuarioPrefereModoDark } = useUserContext();
+
     return (
         prova.listaDeMaterias.map(materia => {
+
             return (
                 <Accordion key={materia.id} titulo={`Matéria: ${materia.nome}`} corDaBorda={prova.corDaProva}>
                     <input type="number" defaultValue={materia.id} hidden id="idMateria" />
                     <ul>
-                        {/* feito sort no front / NÃO ESQUECER DE PASSAR PRO BACKEND */}
                         {materia.listaDeAssuntos.sort(function (a, b) {
                             if (a.nome < b.nome) {
                                 return -1;
@@ -148,10 +157,13 @@ export default function AccordionAssunto({
                                             {assunto.nome}
                                         </h5>
                                         <p>
-                                            Quantidade de pdfs: {assunto.quantidadePdf}
+                                            Quantidade páginas no PDF: {assunto.quantidadePdf}
                                         </p>
                                         <p>
-                                            Questões feitas: {assunto.idQuestoes.length}
+                                            Questões cadastradas: {assunto.idQuestoes.length}
+                                        </p>
+                                        <p>
+                                            Porcentagem de acertos: {assunto.estatisticas ? `${assunto.estatisticas.porcentagem.toFixed(2)}%`  : "0%"}
                                         </p>
 
                                         {assunto.comentarios

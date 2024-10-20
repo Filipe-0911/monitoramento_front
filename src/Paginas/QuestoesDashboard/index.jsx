@@ -16,6 +16,8 @@ import {
 } from "./ComponentesDashboardQuestoes"
 import MateriasService from '../../services/MateriasService';
 import QuestoesService from '../../services/QuestoesService';
+import { GiReturnArrow } from "react-icons/gi";
+import { useProvaContext } from '../../Hooks/useProvaContext';
 
 const DivEstatisticasQuestoesEstilizada = styled.div`
     width: 20%;
@@ -80,7 +82,18 @@ export default function QuestoesDashboard() {
     const materiaService = new MateriasService();
     const [nomeDaMateria, setNomeDaMateria] = useState("");
 
+    const [estatisticaDoAssunto, setEstatisticaDoAssunto] = useState(
+        {
+            idAssunto: 0,
+            nome: "",
+            questoesFeitas: 0,
+            questoesCorretas: 0,
+            porcentagem: 0
+        }
+    );
+
     const questoesService = new QuestoesService();
+    const { prova } = useProvaContext();
 
     useEffect(() => {
         materiaService.buscaMateriaEspecifica(params.idProva, params.idMateria).then(res => {
@@ -137,6 +150,15 @@ export default function QuestoesDashboard() {
                             Editar ou Excluir Questões
                         </h3>
                         <FaEdit size={32} />
+                    </CardDashboardEstilizada>
+                    <CardDashboardEstilizada
+                        $darkMode={usuarioPrefereModoDark}
+                        onClick={() => navigate(-1)}
+                    >
+                        <h3>
+                            Voltar
+                        </h3>
+                        <GiReturnArrow size={32} />
                     </CardDashboardEstilizada>
                 </SectionCardsDashboardEstilizada>
             </DivQueComportaBotoesEEstatisticaEstilizada>

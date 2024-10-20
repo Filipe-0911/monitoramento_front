@@ -84,7 +84,6 @@ const ProvaEspecifica = () => {
             });
         }
     }, [prova]);
-    
 
     const openModal = () => {
         setModalIsOpen(true);

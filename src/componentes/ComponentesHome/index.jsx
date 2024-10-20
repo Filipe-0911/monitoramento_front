@@ -65,6 +65,7 @@ export const BotaorCard = styled.button`
     border-radius: 5px;
     font-size: 18px;
     transition: transform .2s;
+    justify-content: space-evenly;
     cursor: pointer;
 
     &:hover {
@@ -82,8 +83,8 @@ export const BotaorCard = styled.button`
 
     @media (max-width: 562px) {
         min-width: 130px;
-        justify-content: center;
-        gap: 0.5em;
+        justify-content: flex-start;
+        /* gap: 0.5em; */
         font-size: 16px;
     }
 `;
