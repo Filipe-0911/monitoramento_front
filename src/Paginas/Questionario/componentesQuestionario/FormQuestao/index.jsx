@@ -90,9 +90,14 @@ export default function FormQuestao({ $questaoParaEditar = null, setQuestaoParaE
         e.preventDefault();
         setIsLoading(true);
         if ($questaoParaEditar) {
-            questoesService.editarQuestao(params.idProva, params.idMateria, $questaoParaEditar.id, questao).then((res) => {
+            questoesService.editarQuestao(params.idProva, params.idMateria, $questaoParaEditar.id, questao)
+            .then((res) => {
                 setAlertaSuccess("Questão editada com sucesso!");
                 setQuestaoParaEditar(res.data);
+            })
+            .catch(err => console.log(err))
+            .finally(() => {
+                setIsLoading(false);
             })
             return;
         }
