@@ -18,6 +18,7 @@ import MateriasService from '../../services/MateriasService';
 import QuestoesService from '../../services/QuestoesService';
 import { GiReturnArrow } from "react-icons/gi";
 import { useProvaContext } from '../../Hooks/useProvaContext';
+import DivBotaoFecharModal from '../../componentes/DivBotaoFecharModal';
 
 const DivEstatisticasQuestoesEstilizada = styled.div`
     width: 20%;
@@ -163,11 +164,7 @@ export default function QuestoesDashboard() {
                 </SectionCardsDashboardEstilizada>
             </DivQueComportaBotoesEEstatisticaEstilizada>
             <ModalComponent modalIsOpen={modalAvisoIsOpen} closeModal={closeModalAviso} >
-                <div style={{ width: "100%" }}>
-                    <BotaorCard $type="excluir" onClick={closeModalAviso} style={{ position: "fixed", right: "0px" }}>
-                        <RiCloseLargeFill />
-                    </BotaorCard>
-                </div>
+                <DivBotaoFecharModal closeModal={closeModalAviso} />
                 <div style={{
                     display: "flex",
                     flexDirection: "column",
@@ -176,7 +173,8 @@ export default function QuestoesDashboard() {
                     justifyContent: "center",
                     padding: "2em",
                     gap: "3em",
-                    maxWidth: "600px"
+                    maxWidth: "600px",
+                    margin: "1em"
                 }}>
                     <h3 style={{ fontSize: "24px", color: "red" }}>
                         IMPORTANTE
@@ -187,11 +185,7 @@ export default function QuestoesDashboard() {
                 </div>
             </ModalComponent>
             <ModalComponent modalIsOpen={modalIsOpen} closeModal={closeModal}>
-                <div style={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
-                    <BotaorCard $type="excluir" onClick={closeModal}>
-                        <RiCloseLargeFill />
-                    </BotaorCard>
-                </div>
+                <DivBotaoFecharModal closeModal={closeModal} />
                 <FormQuestao closeModal={closeModal} />
             </ModalComponent>
             <Alert dados={dadosAlerta} />

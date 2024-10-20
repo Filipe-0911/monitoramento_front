@@ -61,7 +61,7 @@ export default function FormAdicionarQuestoes({ adicionarQuestoesAoAssunto }) {
     return (
         <>
             <FormEstilizado onSubmit={e => e.preventDefault()}>
-                <h3>Adicionar Questões</h3>
+                <h3>Adicionar Estatísticas de Questões</h3>
                 <InputQuestoes
                     input={{ name: "dataPreenchimento", placeholder: "Selecione a data e hora" }}
                     onChange={handleChanger}

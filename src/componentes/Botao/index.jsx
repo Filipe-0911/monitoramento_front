@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "styled-components";
+import Loader from "../Loader";
 
-const BotaoEstilizado = styled.button`
+const BotaoCinzaOuBrancoEstilizado = styled.button`
     color: #fff;
     font-size:20px;
     border: 30px;
@@ -29,5 +30,16 @@ ${props => props.disabled === false && `
             }
         `}
 `
+
+function BotaoEstilizado({ children, disabled, onClick, isLoading=false }) {
+    return (
+        <BotaoCinzaOuBrancoEstilizado disabled={disabled} onClick={onClick}>
+            {
+                isLoading? <Loader $ehDeBotao /> :  // se isLoading for true, renderiza o Loader
+                children
+            }
+        </BotaoCinzaOuBrancoEstilizado>
+    )
+}
 
 export default BotaoEstilizado;

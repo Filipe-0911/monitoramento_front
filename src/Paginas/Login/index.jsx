@@ -63,15 +63,10 @@ const Login = () => {
                 <BotaoEstilizado
                     type="submit"
                     disabled={loading === true || !validadorInput(form)}
+                    isLoading={loading}
 
                 >
-                    {
-                        !loading ?
-                            "Fazer Login"
-                            : 
-                            // <Spinner $login/>
-                            <Loader $login />
-                    }
+                    Fazer Login
                 </BotaoEstilizado>
                 <SubContainerSign>
                     <p>Não possui conta?</p>

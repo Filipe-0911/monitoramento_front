@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Loader from "../Loader";
 
 export const ContainerTarefas = styled.section`
     margin: 2em 0;
@@ -53,20 +54,21 @@ export const CardTarefasEstilizado = styled.div`
     }
 `;
 
-export const BotaorCard = styled.button`
+const BotaoColoridoEstilizado = styled.button`
     display: flex;
     flex-wrap: 'nowrap';
     align-items: center;
     gap: 5px;
     padding: 0.5em;
     border: none;
-    background-color: ${(props) => (props.$type === "concluir" ? "#42AB84" : props.$type === "excluir" ? "#c01930" : props.$type === "editar" ? "#FAA800" : props.$type === "adicionar" ? "var(--bg-azul-claro)" : props.$type === "detalhar" ? "#0087B6" : props.$type === "questao" ? "#01238E" : "")};
+    background-color: ${(props) => (props.$type === "concluir" ? "#42AB84" : props.$type === "excluir" ? "#c01930" : props.$type === "fechar" ? "#c01930" : props.$type === "editar" ? "#FAA800" : props.$type === "adicionar" ? "var(--bg-azul-claro)" : props.$type === "detalhar" ? "#0087B6" : props.$type === "questao" ? "#01238E" : "")};
     color: white;
     border-radius: 5px;
     font-size: 18px;
     transition: transform .2s;
     justify-content: space-evenly;
     cursor: pointer;
+    max-width: ${props => props.$type === "fechar" ? "100px" : ""};
 
     &:hover {
         box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
@@ -82,12 +84,19 @@ export const BotaorCard = styled.button`
     }
 
     @media (max-width: 562px) {
-        min-width: 130px;
-        justify-content: flex-start;
-        /* gap: 0.5em; */
+        min-width: ${props => props.$type === "fechar" ? "16px" : "130px"};;
+        justify-content: space-evenly;
         font-size: 16px;
     }
 `;
+
+export function BotaorCard({ children, $type, disabled = false, onClick, isLoading = false }) {
+    return (
+        <BotaoColoridoEstilizado $type={$type} disabled={disabled} onClick={onClick}>
+            {isLoading ? <Loader $ehDeBotao /> : children}
+        </BotaoColoridoEstilizado>
+    );
+}
 
 export const SectionAdicionarTarefa = styled.section`
     margin: 2em 0;

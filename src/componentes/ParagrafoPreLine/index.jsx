@@ -2,10 +2,10 @@ import styled from "styled-components";
 
 const ParagrafoEstilizadoPreWrap = styled.p`
     font-size: 20px;
-    white-space: pre-wrap;
+    white-space: pre-line;
 `
 
-export default function ParagrafoPreWrap({ children }) {
+export default function ParagrafoPreLine({ children }) {
     return (
         <ParagrafoEstilizadoPreWrap>
             {children}

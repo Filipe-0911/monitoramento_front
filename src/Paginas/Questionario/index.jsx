@@ -12,7 +12,7 @@ import Alert from '../../componentes/Alert';
 import { InputRadioEstilizado } from '../../componentes/InputRadioEstilizado';
 import Loader from '../../componentes/Loader';
 import { Alternativas } from './componentesQuestionario/Alternativas';
-import ParagrafoPreWrap from '../../componentes/ParagrafoPreWrap';
+import ParagrafoPreLine from '../../componentes/ParagrafoPreLine';
 
 export const DivMensagemQuestoesNaoEncontradas = styled.div`
   display: flex;
@@ -46,7 +46,8 @@ export default function Questionario() {
   const { setAlertaError, dadosAlerta, setAlertaSuccess } = useAlertContext();
   const [enviouResposta, setEnviouResposta] = useState(false);
 
-  const [questoesRespondidas, setQuestoesRespondidas] = useState({ questoesFeitas: 0, questoesCorretas: 0 })
+  const [questoesRespondidas, setQuestoesRespondidas] = useState({ questoesFeitas: 0, questoesCorretas: 0 });
+  const [isLoadingButton, setIsLoadingButton] = useState(false);
 
   const [questao, setQuestao] = useState({
     content: [],
@@ -75,6 +76,7 @@ export default function Questionario() {
 
   function handleSubmit(e) {
     e.preventDefault();
+    setIsLoadingButton(true)
     if (alternativasSelecionadas !== "") {
       questoesService.verificaSeRepostaEstaCorreta(params.idProva, params.idMateria, questao.content[0].id, alternativasSelecionadas)
         .then(response => {
@@ -88,7 +90,10 @@ export default function Questionario() {
             questoesFeitas: prevState.questoesFeitas + 1,
             questoesCorretas: prevState.questoesCorretas + (response.acertou ? 1 : 0)
           }))
-        })
+        }).catch((err) => {console.log(err)})
+        .finally(() => {
+          setIsLoadingButton(false)
+        });
 
     } else {
       setAlertaError("Você deve escolher pelo menos uma alternativa antes de enviar a resposta");
@@ -122,9 +127,9 @@ export default function Questionario() {
                   {questao.page.number + 1}/{questao.page.totalElements}
                 </p>
               </section>
-              <ParagrafoPreWrap>
+              <ParagrafoPreLine>
                 {questao.content[0].textoQuestao}
-              </ParagrafoPreWrap>
+              </ParagrafoPreLine>
               <ul>
                 {
                   questao.content[0].listaAlternativas.map((alternativa, index) => (
@@ -140,7 +145,7 @@ export default function Questionario() {
                 }
               </ul>
               <section style={{ display: 'flex', justifyContent: 'space-evenly', margin: "1em 0" }}>
-                <BotaorCard $type="concluir" disabled={enviouResposta}>
+                <BotaorCard $type="concluir" disabled={enviouResposta} isLoading={isLoadingButton}>
                   Salvar Resposta
                 </BotaorCard>
 

@@ -1,10 +1,10 @@
 import styles from "./Loader.module.css";
 
-function Spinner({ $login = false }) {
+function Spinner({ $ehDeBotao = false }) {
   return (
     <div className={styles.container}>
       <div
-        className={!$login ? styles.loader : styles.loaderLogin}
+        className={!$ehDeBotao ? styles.loader : styles.loaderLogin}
       >
       </div>
     </div>

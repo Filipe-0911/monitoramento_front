@@ -28,6 +28,7 @@ export default function FormQuestao({ $questaoParaEditar = null, setQuestaoParaE
     const { dadosAlerta, setAlertaError, setAlertaSuccess } = useAlertContext();
     const [listaAssuntosDaMateria, setListaAssuntosDaMateria] = useState([]);
     const assuntoService = new AssuntoService();
+    const [isLoading, setIsLoading] = useState(false);
 
     const [questao, setQuestao] = useState({
         textoQuestao: "",
@@ -87,6 +88,7 @@ export default function FormQuestao({ $questaoParaEditar = null, setQuestaoParaE
 
     function handleSubmit(e) {
         e.preventDefault();
+        setIsLoading(true);
         if ($questaoParaEditar) {
             questoesService.editarQuestao(params.idProva, params.idMateria, $questaoParaEditar.id, questao).then((res) => {
                 setAlertaSuccess("Questão editada com sucesso!");
@@ -104,6 +106,9 @@ export default function FormQuestao({ $questaoParaEditar = null, setQuestaoParaE
                     setAlertaError("O campo " + err.response.data[i].campo + " " + err.response.data[i].mensagem);
                 }
             }
+        })
+        .finally(() => {
+            setIsLoading(false);
         });
     }
 
@@ -169,7 +174,7 @@ export default function FormQuestao({ $questaoParaEditar = null, setQuestaoParaE
                 ))
             }
 
-            <BotaoEstilizado disabled={verificaSeHaTextoQuestaoEDuasAlternativas()}>
+            <BotaoEstilizado disabled={verificaSeHaTextoQuestaoEDuasAlternativas()} isLoading={isLoading}>
                 Salvar Questão
             </BotaoEstilizado>
         </FormEstilizado>

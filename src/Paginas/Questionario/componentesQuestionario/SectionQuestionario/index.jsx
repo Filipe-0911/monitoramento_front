@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 export const SectionQuestionario = styled.section`
-    min-width: 80%;
+    width: 80%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -10,6 +10,11 @@ export const SectionQuestionario = styled.section`
 
     p {
         font-size: 20px;
+    }
+
+    @media (max-width: 820px) {
+        width: 100%;
+        
     }
  
 `
@@ -25,8 +30,8 @@ export const FormEstilizadoQuestionario = styled.form`
     flex-direction: column;
     background-color: ${props => props.$darkMode ? "var(--bg-cinza-dark-mode)" : "var(--bg-cinza-light-mode)"};
     border-radius: 5px;
-    width: 100%;
-    max-width: 100%;
+    min-width: 100%;
+    min-height: 600px;
     padding: 2rem;
 
     ul {
