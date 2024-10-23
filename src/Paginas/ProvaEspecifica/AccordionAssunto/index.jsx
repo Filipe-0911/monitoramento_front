@@ -87,6 +87,7 @@ const SectionDadosDoAssuntoEstilizado = styled.section`
         max-width: 50%;
 
         h5, p {
+            text-align: left;
             font-size: 16px !important;
             word-wrap: break-word;
             max-width: 100%;
@@ -163,7 +164,19 @@ export default function AccordionAssunto({
                                             Questões cadastradas: {assunto.idQuestoes.length}
                                         </p>
                                         <p>
-                                            Porcentagem de acertos: {assunto.estatisticas ? `${assunto.estatisticas.porcentagem.toFixed(2)}%`  : "0%"}
+                                            Porcentagem de acertos: {
+                                                assunto.estatisticas 
+                                                ? <span style={{
+                                                    color: assunto.estatisticas.porcentagem >= 60 
+                                                            ? 'green' 
+                                                            : 'red'
+                                                }}>
+                                                    {
+                                                        assunto.estatisticas.porcentagem.toFixed(2)
+                                                    }%
+                                                </span>
+                                                : "Sem rendimentos registrados"
+                                            }
                                         </p>
 
                                         {assunto.comentarios

@@ -155,12 +155,11 @@ const Home = () => {
             <h2 style={{ margin: "0 1em", textAlign: 'center' }}>Visualize abaixo sua lista de tarefas pendentes / a concluir: </h2>
             <SectionAdicionarTarefa>
                 <h4>Adicionar Tarefa</h4>
-                <BotaorCard name="adicionar" $type="adicionar" onClick={(event) => openModal(null, event)}>
+                <BotaorCard id="adicionar" name="adicionar" $type="adicionar" onClick={(event) => openModal(null, event)}>
                     <MdOutlineAddToPhotos id="adicionar" size={15} style={{ cursor: 'pointer' }} />
                     Adicionar
                 </BotaorCard>
             </SectionAdicionarTarefa>
-
 
             {
                 isLoading

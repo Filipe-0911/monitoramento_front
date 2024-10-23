@@ -69,6 +69,7 @@ const BotaoColoridoEstilizado = styled.button`
     justify-content: space-evenly;
     cursor: pointer;
     max-width: ${props => props.$type === "fechar" ? "100px" : ""};
+    min-width: 150px;
 
     &:hover {
         box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
@@ -90,9 +91,9 @@ const BotaoColoridoEstilizado = styled.button`
     }
 `;
 
-export function BotaorCard({ children, $type, disabled = false, onClick, isLoading = false }) {
+export function BotaorCard({ children, $type, disabled = false, onClick, isLoading = false, id=null }) {
     return (
-        <BotaoColoridoEstilizado $type={$type} disabled={disabled} onClick={onClick}>
+        <BotaoColoridoEstilizado $type={$type} disabled={disabled} onClick={onClick} id={id}>
             {isLoading ? <Loader $ehDeBotao /> : children}
         </BotaoColoridoEstilizado>
     );
