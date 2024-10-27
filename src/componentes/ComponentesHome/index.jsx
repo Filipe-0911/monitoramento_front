@@ -69,7 +69,7 @@ const BotaoColoridoEstilizado = styled.button`
     justify-content: space-evenly;
     cursor: pointer;
     max-width: ${props => props.$type === "fechar" ? "100px" : ""};
-    min-width: 150px;
+    min-width: ${props => props.$type === "fechar" ? "" : "150px"};
 
     &:hover {
         box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
@@ -80,7 +80,7 @@ const BotaoColoridoEstilizado = styled.button`
     }
 
     @media (max-width: 820px) {
-        min-width: 200px;
+        min-width: ${props => props.$type === "fechar" ? "" : "200px"};
         justify-content: space-evenly;
     }
 
