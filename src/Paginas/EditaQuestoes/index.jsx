@@ -18,6 +18,7 @@ import { RiCloseLargeFill } from "react-icons/ri";
 import styled from "styled-components";
 import ParagrafoPreLine from "../../componentes/ParagrafoPreLine";
 import { FaPencilAlt, FaTrashAlt } from "react-icons/fa";
+import Pageable from "../Questionario/componentesQuestionario/Pageable";
 
 const DivEditarExcluirQuestao = styled.div`
     display: flex;
@@ -154,6 +155,8 @@ export default function EditarQuestoes() {
                                 </BotaorCard>
 
                             </section>
+
+                            <Pageable dadosQuestao={questao} buscaQuestaoEspecifica={buscaProxQuestao} />
                         </DivEditarExcluirQuestao>
                         <section style={{ display: 'flex', justifyContent: 'space-evenly', width: '100%', gap: "1em" }}>
                             <BotaoEstilizado

@@ -13,6 +13,8 @@ import { InputRadioEstilizado } from '../../componentes/InputRadioEstilizado';
 import Loader from '../../componentes/Loader';
 import { Alternativas } from './componentesQuestionario/Alternativas';
 import ParagrafoPreLine from '../../componentes/ParagrafoPreLine';
+import { GrFormNext, GrFormPrevious } from "react-icons/gr";
+import Pageable from './componentesQuestionario/Pageable';
 
 export const DivMensagemQuestoesNaoEncontradas = styled.div`
   display: flex;
@@ -36,6 +38,29 @@ const DivEstatisticasEstilizada = styled.div`
   }
   
 `
+
+const SectionEstilizadaQuestoes = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  gap: 1em;
+  width: 100%;
+  margin-top: 1em;
+  
+`
+
+const SectionEstilizadaNomeAssuntoENumeroQuestao = styled.section`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  margin-bottom: 1em;
+
+  @media (max-width: 562px) {
+    gap: 10px;
+  }
+
+`;
+
+
 export default function Questionario() {
   const [isLoading, setIsLoading] = useState(true);
   const { usuarioPrefereModoDark } = useUserContext();
@@ -90,7 +115,7 @@ export default function Questionario() {
             questoesFeitas: prevState.questoesFeitas + 1,
             questoesCorretas: prevState.questoesCorretas + (response.acertou ? 1 : 0)
           }))
-        }).catch((err) => {console.log(err)})
+        }).catch((err) => { console.log(err) })
         .finally(() => {
           setIsLoadingButton(false)
         });
@@ -103,6 +128,13 @@ export default function Questionario() {
   function buscaProxQuestao(paginaParaBusca) {
     setEnviouResposta(false);
     questoesService.buscaQuestoes(params.idProva, params.idMateria, paginaParaBusca).then((res) => {
+      setQuestao(res.data);
+    }).catch(err => console.error(err));
+  }
+
+  function buscaQuestaoEspecifica(numeroQuestao) {
+    setEnviouResposta(false);
+    questoesService.buscaQuestoes(params.idProva, params.idMateria, numeroQuestao).then((res) => {
       setQuestao(res.data);
     }).catch(err => console.error(err));
   }
@@ -119,14 +151,14 @@ export default function Questionario() {
               <H2QuestionarioEstilizado>
                 {questao.content[0].nomeMateria}
               </H2QuestionarioEstilizado>
-              <section style={{ display: 'flex', width: "100%", justifyContent: "space-between", marginBottom: "1em" }}>
+              <SectionEstilizadaNomeAssuntoENumeroQuestao>
                 <h3>
                   Assunto: <u>{questao.content[0].nomeAssunto}</u>
                 </h3>
                 <p>
                   {questao.page.number + 1}/{questao.page.totalElements}
                 </p>
-              </section>
+              </SectionEstilizadaNomeAssuntoENumeroQuestao>
               <ParagrafoPreLine>
                 {questao.content[0].textoQuestao}
               </ParagrafoPreLine>
@@ -144,12 +176,14 @@ export default function Questionario() {
                   ))
                 }
               </ul>
-              <section style={{ display: 'flex', justifyContent: 'space-evenly', margin: "1em 0" }}>
+              <SectionEstilizadaQuestoes>
                 <BotaorCard $type="concluir" disabled={enviouResposta} isLoading={isLoadingButton}>
-                  Salvar Resposta
+                  Enviar Resposta
                 </BotaorCard>
-
-              </section>
+              </SectionEstilizadaQuestoes>
+              <SectionEstilizadaQuestoes>
+                <Pageable dadosQuestao={questao} buscaQuestaoEspecifica={buscaQuestaoEspecifica}/>
+              </SectionEstilizadaQuestoes>
             </FormEstilizadoQuestionario>
             <section style={{ display: 'flex', justifyContent: 'space-evenly', width: '100%', gap: "1em" }}>
               <BotaoEstilizado

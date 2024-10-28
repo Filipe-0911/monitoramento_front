@@ -26,13 +26,14 @@ export const H2QuestionarioEstilizado = styled.h2`
 
 export const FormEstilizadoQuestionario = styled.form`
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     flex-direction: column;
     background-color: ${props => props.$darkMode ? "var(--bg-cinza-dark-mode)" : "var(--bg-cinza-light-mode)"};
     border-radius: 5px;
     min-width: 100%;
     min-height: 600px;
     padding: 2rem;
+    margin: 1em 0;
 
     ul {
         list-style: none;

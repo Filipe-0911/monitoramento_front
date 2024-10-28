@@ -5,6 +5,10 @@ const ParagrafoEstilizadoPreWrap = styled.p`
     white-space: pre-line;
     text-align: start;
 
+    @media (max-width: 562px) {
+        text-align: center;
+    }
+
 `
 
 export default function ParagrafoPreLine({ children }) {
