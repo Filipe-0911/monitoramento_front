@@ -17,6 +17,7 @@ import ModalComponent from "../../componentes/Modal";
 import { RiCloseLargeFill } from "react-icons/ri";
 import styled from "styled-components";
 import ParagrafoPreLine from "../../componentes/ParagrafoPreLine";
+import { FaPencilAlt, FaTrashAlt } from "react-icons/fa";
 
 const DivEditarExcluirQuestao = styled.div`
     display: flex;
@@ -146,10 +147,10 @@ export default function EditarQuestoes() {
                             </ul>
                             <section style={{ display: 'flex', justifyContent: 'space-evenly', margin: "1em 0" }}>
                                 <BotaorCard $type="editar" disabled={enviouResposta} onClick={() => setModalIsOpen(true)}>
-                                    Editar questão
+                                    <FaPencilAlt size={30} />
                                 </BotaorCard>
                                 <BotaorCard $type="excluir" disabled={enviouResposta} onClick={deletaQuestao}>
-                                    Excluir questão
+                                    <FaTrashAlt size={30}/>
                                 </BotaorCard>
 
                             </section>

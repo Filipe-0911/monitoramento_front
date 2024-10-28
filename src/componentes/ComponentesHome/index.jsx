@@ -68,8 +68,8 @@ const BotaoColoridoEstilizado = styled.button`
     transition: transform .2s;
     justify-content: space-evenly;
     cursor: pointer;
-    max-width: ${props => props.$type === "fechar" ? "100px" : ""};
-    min-width: ${props => props.$type === "fechar" ? "" : "150px"};
+    /* max-width: ${props => props.$type === "fechar" ? "100px" : ""};
+    min-width: ${props => props.$type === "fechar" ? "" : "150px"}; */
 
     &:hover {
         box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
@@ -80,12 +80,12 @@ const BotaoColoridoEstilizado = styled.button`
     }
 
     @media (max-width: 820px) {
-        min-width: ${props => props.$type === "fechar" ? "" : "200px"};
+        /* min-width: ${props => props.$type === "fechar" ? "" : "200px"}; */
         justify-content: space-evenly;
     }
 
     @media (max-width: 562px) {
-        min-width: ${props => props.$type === "fechar" ? "16px" : "130px"};;
+        /* min-width: ${props => props.$type === "fechar" ? "16px" : "130px"};; */
         justify-content: space-evenly;
         font-size: 16px;
     }

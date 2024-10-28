@@ -2,7 +2,7 @@ import Accordion from "../../../componentes/Accordion";
 import { BotaorCard } from "../../../componentes/ComponentesHome";
 import styled from "styled-components";
 
-import { FaPencilAlt, FaQuestion } from "react-icons/fa";
+import { FaPencilAlt, FaQuestion, FaTrash, FaTrashAlt } from "react-icons/fa";
 import { MdOutlineAddToPhotos } from "react-icons/md";
 import { TbListDetails } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
@@ -198,7 +198,7 @@ export default function AccordionAssunto({
                                             $type="excluir"
                                             name="excluir_assunto"
                                         >
-                                            <RiCloseLargeFill size={20} />
+                                            <FaTrashAlt size={20} />
                                             Excluir Assunto
                                         </BotaorCard>
                                         <BotaorCard
@@ -250,7 +250,7 @@ export default function AccordionAssunto({
                             $type="excluir"
                             name="excluir_materia"
                         >
-                            <RiCloseLargeFill size={15} />
+                            <FaTrashAlt size={15} />
                             Excluir Materia
                         </BotaorCard>
                         <BotaorCard

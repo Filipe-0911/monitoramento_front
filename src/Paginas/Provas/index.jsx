@@ -18,6 +18,7 @@ import { FieldsetEstilizado } from "../../componentes/Fieldset";
 import useAlertContext from "../../Hooks/useAlertContext"
 import useUserContext from "../../Hooks/useUserContext";
 import { RiCloseLargeFill } from "react-icons/ri";
+import { FaTrashAlt } from "react-icons/fa";
 
 const LiEstilizadoAccordionProvas = styled.li`
     display: flex;
@@ -263,7 +264,7 @@ const Provas = () => {
                                         $type="excluir"
                                         name="excluir"
                                         onClick={() => deletarProva(prova.id)}>
-                                        <RiCloseLargeFill />
+                                        <FaTrashAlt />
                                         Deletar
                                     </BotaorCard>
                                     <BotaorCard
