@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { GrFormPrevious, GrFormNext } from 'react-icons/gr';
 import { MdLastPage, MdFirstPage } from "react-icons/md";
 
-export default function Pageable({ dadosQuestao, buscaQuestaoEspecifica }) {
+export default function Pageable({ dadosQuestao, buscaQuestaoEspecifica, numQuestao }) {
     const totalPages = dadosQuestao.page.totalElements;
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -16,10 +16,11 @@ export default function Pageable({ dadosQuestao, buscaQuestaoEspecifica }) {
         if (currentPage > 1) {
             setCurrentPage(currentPage - 1);
         }
+
     }
 
     const pagesToDisplay = Array.from({ length: totalPages }, (_, index) => index + 1)
-        .slice((currentPage - 1) * 3, currentPage * 3);
+    .slice((currentPage - 1) * 3, currentPage * 3);
 
     return (
         <div style={{ display: 'flex', justifyContent: "center", alignItems: "center", width: "100%", gap: "0.5em" }}>

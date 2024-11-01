@@ -151,7 +151,7 @@ export default function EditarQuestoes() {
                                     <FaPencilAlt size={30} />
                                 </BotaorCard>
                                 <BotaorCard $type="excluir" disabled={enviouResposta} onClick={deletaQuestao}>
-                                    <FaTrashAlt size={30}/>
+                                    <FaTrashAlt size={30} />
                                 </BotaorCard>
 
                             </section>

@@ -182,7 +182,11 @@ export default function Questionario() {
                 </BotaorCard>
               </SectionEstilizadaQuestoes>
               <SectionEstilizadaQuestoes>
-                <Pageable dadosQuestao={questao} buscaQuestaoEspecifica={buscaQuestaoEspecifica}/>
+                <Pageable
+                  dadosQuestao={questao}
+                  buscaQuestaoEspecifica={buscaQuestaoEspecifica}
+                  numQuestao={questao.page.number + 1}
+                />
               </SectionEstilizadaQuestoes>
             </FormEstilizadoQuestionario>
             <section style={{ display: 'flex', justifyContent: 'space-evenly', width: '100%', gap: "1em" }}>

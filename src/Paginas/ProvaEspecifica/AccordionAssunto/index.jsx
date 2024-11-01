@@ -167,8 +167,10 @@ export default function AccordionAssunto({
                                             Porcentagem de acertos: {
                                                 assunto.estatisticas 
                                                 ? <span style={{
-                                                    color: assunto.estatisticas.porcentagem >= 60 
+                                                    color: assunto.estatisticas.porcentagem >= 70 
                                                             ? 'green' 
+                                                            : assunto.estatisticas.porcentagem < 70 && assunto.estatisticas.porcentagem > 60 
+                                                            ? "orange" 
                                                             : 'red'
                                                 }}>
                                                     {
