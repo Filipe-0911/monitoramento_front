@@ -161,7 +161,7 @@ export default function AccordionAssunto({
                                             Quantidade páginas no PDF: {assunto.quantidadePdf}
                                         </p>
                                         <p>
-                                            Questões cadastradas: {assunto.idQuestoes.length}
+                                            Questões respondidas: {assunto.idQuestoes.length}
                                         </p>
                                         <p>
                                             Porcentagem de acertos: {
