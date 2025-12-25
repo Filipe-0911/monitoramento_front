@@ -29,7 +29,7 @@
     "react-dom": "^18.3.1",
     "react-modal": "^3.16.3",
     "react-router-dom": "^6.24.1",
-    "react-toastify": "^10.0.5",
+    "react-toastify": "^11.0.5",
     "styled-components": "^6.1.11",
     "tsc": "^2.0.4",
     "tsc-init": "^2.1.0",
