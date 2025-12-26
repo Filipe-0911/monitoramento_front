@@ -12,10 +12,6 @@ export default class UserService {
     
     async login(dados) {
         const { data } = await this.axios.post('/login', dados);
-        console.log("/login chamado")
-        console.log(`Variável de ambiente: ${import.meta.env.VITE_LOGIN_API}`)
-        console.log("this.axios: ")
-        console.log(this.axios)
 
         if (data) {
             localStorage.setItem('Authorization', data.tokenJWT);

@@ -33,7 +33,7 @@ const Cadastro = () => {
                     senha: form.senha
                 });
 
-                return login? navigate("/home") : console.log("Entre novamente", response);
+                return login? navigate("/") : console.log("Entre novamente", response);
             }
             alert(data);
             setLoading(false);
