@@ -1,2 +1,6 @@
-docker build -t monitoramento_front_v1 .
-docker run -d -p 5173:80 --name monitoramento_front_v1 monitoramento_front_v1
+docker build \
+  --build-arg VITE_LOGIN_API=/api \
+  -t filipe0911/monitoramento_front_v1 .
+
+docker tag monitoramento_front_v1 filipe0911/monitoramento_front_v1:latest
+docker push filipe0911/monitoramento_front_v1:latest

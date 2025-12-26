@@ -2,20 +2,32 @@ FROM node:20-alpine AS build
 
 WORKDIR /app
 
+ARG VITE_LOGIN_API
+ENV VITE_LOGIN_API=$VITE_LOGIN_API
+
 COPY package*.json ./
 RUN npm install
 
 COPY . .
+# Define um argumento de build que pode ser passado via linha de comando
+ARG VITE_LOGIN_API
+
+# Define a variável de ambiente dentro do container para que o comando 'npm run build' a veja
+ENV VITE_LOGIN_API=$VITE_LOGIN_API
+
+RUN echo $VITE_LOGIN_API
+
 RUN npm run build
 
-FROM nginx:alpine
+# Runtime
+FROM node:20-alpine
 
-RUN rm /etc/nginx/conf.d/default.conf
+WORKDIR /app
 
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+RUN npm install -g serve
 
-COPY --from=build /app/dist /usr/share/nginx/html
+COPY --from=build /app/dist ./dist
 
-EXPOSE 80
+EXPOSE 3000
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["serve", "-s", "dist", "-l", "3000"]
