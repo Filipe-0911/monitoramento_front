@@ -232,6 +232,10 @@ const Provas = () => {
                             <Accordion key={prova.id} titulo={prova.titulo} corDaBorda={prova.corDaProva}>
                                 <ul>
                                     <LiEstilizadoAccordionProvas $darkMode={usuarioPrefereModoDark}>
+                                        <h5>Dias até a prova</h5>
+                                        <p>{prova.numeroDeDiasAteAProva}</p>
+                                    </LiEstilizadoAccordionProvas>
+                                    <LiEstilizadoAccordionProvas $darkMode={usuarioPrefereModoDark}>
                                         <h5>Data da prova:</h5>
                                         <p>{new DataService().transformarDataEmString(prova.dataDaProva)}</p>
                                     </LiEstilizadoAccordionProvas>
