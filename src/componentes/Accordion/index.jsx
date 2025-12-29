@@ -105,7 +105,9 @@ export default function Accordion({ children, titulo, corDaBorda, $darkMode, num
                 >
                     <DivTituloAccordionEstilizado $darkMode={usuarioPrefereModoDark}>
                         <span>{titulo}</span>
-                        <p>Faltam {numeroDeDiasAteAProva} dias!</p>
+                        {
+                            numeroDeDiasAteAProva !== undefined && <p>Faltam {numeroDeDiasAteAProva} dias!</p>
+                        }
                     </DivTituloAccordionEstilizado>
                     <ArrowEstilizado
 
