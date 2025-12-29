@@ -31,6 +31,7 @@ const LiEstilizadoAccordionProvas = styled.li`
     
     h5{
         font-size: 18px;
+        text-align: left;
     }
     p {
         font-size: 16px;
@@ -183,7 +184,7 @@ const Provas = () => {
         } catch (error) {
             let mensagemErroOuArrayErro = error.response.data;
             if (Array.isArray(mensagemErroOuArrayErro)) {
-                const [{ campo, mensagem }, ] = mensagemErroOuArrayErro;
+                const [{ campo, mensagem },] = mensagemErroOuArrayErro;
                 setAlertaError(`Erro no campo ${campo}: ${mensagem}`)
             } else {
                 setAlertaError(mensagemErroOuArrayErro);
@@ -229,12 +230,13 @@ const Provas = () => {
                 {!isLoading &&
                     provas.map(prova => {
                         return (
-                            <Accordion key={prova.id} titulo={prova.titulo} corDaBorda={prova.corDaProva}>
+                            <Accordion
+                                key={prova.id}
+                                titulo={prova.titulo}
+                                corDaBorda={prova.corDaProva}
+                                numeroDeDiasAteAProva={prova.numeroDeDiasAteAProva}
+                            >
                                 <ul>
-                                    <LiEstilizadoAccordionProvas $darkMode={usuarioPrefereModoDark}>
-                                        <h5>Dias até a prova</h5>
-                                        <p>{prova.numeroDeDiasAteAProva}</p>
-                                    </LiEstilizadoAccordionProvas>
                                     <LiEstilizadoAccordionProvas $darkMode={usuarioPrefereModoDark}>
                                         <h5>Data da prova:</h5>
                                         <p>{new DataService().transformarDataEmString(prova.dataDaProva)}</p>

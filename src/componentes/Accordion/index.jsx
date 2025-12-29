@@ -74,7 +74,20 @@ export const DivBotoesCrudEstilizado = styled.div`
         align-items: center;
     }
 `;
-export default function Accordion({ children, titulo, corDaBorda, $darkMode}) {
+
+const DivTituloAccordionEstilizado = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    color: ${(props) => (props.$darkMode ? "#d9d9d9" : "#000")};
+
+    p {
+        margin: 0 1em;
+        font-size: 20px;
+    }
+`;
+export default function Accordion({ children, titulo, corDaBorda, $darkMode, numeroDeDiasAteAProva }) {
     const [activeIndex, setActiveIndex] = useState(false);
     const {usuarioPrefereModoDark} = useUserContext()
 
@@ -90,7 +103,10 @@ export default function Accordion({ children, titulo, corDaBorda, $darkMode}) {
                     $corDaBorda={corDaBorda}
                     $darkMode={usuarioPrefereModoDark}
                 >
-                    <span>{titulo}</span>
+                    <DivTituloAccordionEstilizado $darkMode={usuarioPrefereModoDark}>
+                        <span>{titulo}</span>
+                        <p>Faltam {numeroDeDiasAteAProva} dias!</p>
+                    </DivTituloAccordionEstilizado>
                     <ArrowEstilizado
 
                         $activeIndex={activeIndex}
