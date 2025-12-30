@@ -19,7 +19,7 @@
     "axios": "^1.7.2",
     "bootstrap": "^5.3.8",
     "dotenv": "^17.2.3",
-    "framer-motion": "^11.5.4",
+    "framer-motion": "^12.23.26",
     "jodit": "^4.2.27",
     "jodit-react": "^5.2.38",
     "moment": "^2.30.1",
