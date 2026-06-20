@@ -2191,10 +2191,10 @@ jodit-react@^5.2.38:
   dependencies:
     jodit "^4.7.9"
 
-jodit@^4.2.27, jodit@^4.7.9:
-  version "4.7.9"
-  resolved "https://registry.yarnpkg.com/jodit/-/jodit-4.7.9.tgz#168581750fffbbc34cddba72eeb08d911531ad34"
-  integrity sha512-dPlewnu2+vVXELh9BEJTNQoSBL3Cf2E0fNh30yjSEgUtJHYSUYToDjMDEqr0T/L9iNpqPTODy2b4pzyGpPRUog==
+jodit@^4.12.27, jodit@^4.7.9:
+  version "4.12.27"
+  resolved "https://registry.yarnpkg.com/jodit/-/jodit-4.12.27.tgz#561a0b473208bb0331574400ae66fd2df7350500"
+  integrity sha512-Gc8QH6szUbwV2oFvflxeaTfKf9RyXdOHdMLcKuK2OekejKuXfSy85FQlMyHQOjQFMFKd6FuDU1pyVVPaj2BjZQ==
 
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
