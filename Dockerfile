@@ -7,7 +7,7 @@ ARG VITE_LOGIN_API=/api
 ENV VITE_LOGIN_API=$VITE_LOGIN_API
 
 COPY package*.json ./
-RUN npm install
+RUN npm install --legacy-peer-deps
 
 COPY . .
 
