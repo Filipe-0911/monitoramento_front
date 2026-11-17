@@ -369,10 +369,10 @@
   dependencies:
     dequal "^2.0.3"
 
-"@rolldown/binding-linux-x64-gnu@1.2.19":
+"@rolldown/binding-win32-x64-msvc@1.2.19":
   version "1.2.19"
-  resolved "https://registry.npmjs.org/@rolldown/binding-linux-x64-gnu/-/binding-linux-x64-gnu-1.2.19.tgz"
-  integrity sha512-rm75/9DkHKeU2WnA8w4X94WGYgLlDCFCfkQC+4bguVJmC/jvDRv2B+2wLOYhyE0fVuv7//Ckk39OoOufyCu76Q==
+  resolved "https://registry.npmjs.org/@rolldown/binding-win32-x64-msvc/-/binding-win32-x64-msvc-1.2.19.tgz"
+  integrity sha512-y/sqRRc6d7hECzOFc5n3LSeqctmIp9mMjY1Kq4s14uLPd/LZ4z7i1zrW6fMtp2mPeuQIC4e6ULMcwQzMomqQag==
 
 "@rolldown/pluginutils@^1.0.0", "@rolldown/pluginutils@^1.0.1":
   version "1.1.1"
@@ -384,10 +384,10 @@
   resolved "https://registry.npmjs.org/@sinclair/typebox/-/typebox-0.34.45.tgz"
   integrity sha512-qJcFVfCa5jxBFSuv7S5WYbA8XdeCPmhnaVVfX/2Y6L8WYg8sk3XY2+6W0zH+3mq1Cz+YC7Ki66HfqX6IHAwnkg==
 
-"@swc/core-linux-x64-gnu@1.16.22":
+"@swc/core-win32-x64-msvc@1.16.22":
   version "1.16.22"
-  resolved "https://registry.npmjs.org/@swc/core-linux-x64-gnu/-/core-linux-x64-gnu-1.16.22.tgz"
-  integrity sha512-u9hdfNEI3oI/dTRJ+In8G32EgfFpZDvMoI5elIERl6/XfaIzE9gpv4WomhKblAXA1+EYyLfDCS1EFFKQlBXTQQ==
+  resolved "https://registry.npmjs.org/@swc/core-win32-x64-msvc/-/core-win32-x64-msvc-1.16.22.tgz"
+  integrity sha512-IyBPJn/SpXsh7i5ZLfQUPJ+R+fuELPI7Sz51igmYMTv2wdnDn/tqnIlAUwQe6AgnclbuJdbOb6crUbyN/zwMzw==
 
 "@swc/core@^1.15.46":
   version "1.16.22"
@@ -575,10 +575,10 @@
   dependencies:
     "@types/yargs-parser" "*"
 
-"@typescript/typescript-linux-x64@7.0.2":
+"@typescript/typescript-win32-x64@7.0.2":
   version "7.0.2"
-  resolved "https://registry.npmjs.org/@typescript/typescript-linux-x64/-/typescript-linux-x64-7.0.2.tgz"
-  integrity sha512-EYdf2cNg7rgCWJnxCdJ+F3V39O8ihb37eHAu1LK8oAFizgTQbPOK7zHHXbPt8rX24COqODXeI3sIf0fCXG7H/A==
+  resolved "https://registry.npmjs.org/@typescript/typescript-win32-x64/-/typescript-win32-x64-7.0.2.tgz"
+  integrity sha512-0BQ3HkAHHlKLSp1qRvf3SUhGpGsDuhB/jgFw75guyqbxJqEaS0Cw/VFO8i2nHglJUzQCRtMMR/IBAKE3ETMC4g==
 
 "@vitejs/plugin-react-swc@^4.3.3":
   version "4.3.3"
@@ -1998,10 +1998,10 @@ levn@^0.4.1:
     prelude-ls "^1.2.1"
     type-check "~0.4.0"
 
-lightningcss-linux-x64-gnu@1.33.0:
+lightningcss-win32-x64-msvc@1.33.0:
   version "1.33.0"
-  resolved "https://registry.npmjs.org/lightningcss-linux-x64-gnu/-/lightningcss-linux-x64-gnu-1.33.0.tgz"
-  integrity sha512-ar+Ju7LmcN0Jo4FpL4hpFybwNG9/3A/Br5KW2n2jyODg3MEZXaDYADdemoNS+BDNfMgKvylJLj4S5tyRActuAg==
+  resolved "https://registry.npmjs.org/lightningcss-win32-x64-msvc/-/lightningcss-win32-x64-msvc-1.33.0.tgz"
+  integrity sha512-OlEICDx/Xl0FqSp4bry8zFnCvGpig3Gl4gCquvYwHuqJKEC1+n9NgDniFvqHGmMv1ZkqDJrDqKKSykTDX+ehuA==
 
 lightningcss@^1.33.0:
   version "1.33.0"
