@@ -162,13 +162,13 @@ const Provas = () => {
     }
 
     function openModal(event, prova = null) {
-        if (event.target.name === "Editar" || event.target.id === "Editar") {
+        if (prova || event.currentTarget?.name === "Editar" || event.target?.name === "Editar" || event.target?.id === "Editar") {
             setAdicionarOuAlterar("Editar");
             setForm({ id: prova.id, titulo: prova.titulo, dataDaProva: prova.dataDaProva, corDaProva: prova.corDaProva });
         }
         else {
             setAdicionarOuAlterar("Adicionar");
-            setForm({ titulo: "", dataDaProva: "" });
+            setForm({ id: 0, titulo: "", dataDaProva: "", corDaProva: "black" });
         }
 
         setModalAberto(true);

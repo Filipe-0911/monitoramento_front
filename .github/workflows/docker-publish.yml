@@ -1,0 +1,74 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches:
+      - dev
+      - master
+      - main
+      - refatoracao
+
+jobs:
+  build-validation:
+    name: Validar Build do Frontend
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar o código (Checkout)
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Testar Build de Produção
+        env:
+          VITE_LOGIN_API: /api
+        run: npm run build
+
+  docker-build-push:
+    name: Build e Push para Docker Hub
+    needs: build-validation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar o código (Checkout)
+        uses: actions/checkout@v4
+
+      - name: Configurar Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login no Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Definir tags de acordo com a branch
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: filipe0911/monitoramento_front_v1
+          tags: |
+            # Gera a tag com o nome da branch do push (ex: :dev, :master, :refatoracao)
+            type=ref,event=branch
+            # Na branch padrão ('master') também atualiza a tag :latest
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      - name: Build e Push da imagem para o Docker Hub
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          build-args: |
+            VITE_LOGIN_API=/api
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

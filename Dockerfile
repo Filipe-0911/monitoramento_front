@@ -2,21 +2,16 @@ FROM node:20-alpine AS build
 
 WORKDIR /app
 
-ARG VITE_LOGIN_API
+# Define o argumento de build (padrão: /api para uso com o proxy Nginx)
+ARG VITE_LOGIN_API=/api
 ENV VITE_LOGIN_API=$VITE_LOGIN_API
 
 COPY package*.json ./
 RUN npm install
 
 COPY . .
-# Define um argumento de build que pode ser passado via linha de comando
-ARG VITE_LOGIN_API
 
-# Define a variável de ambiente dentro do container para que o comando 'npm run build' a veja
-ENV VITE_LOGIN_API=$VITE_LOGIN_API
-
-RUN echo $VITE_LOGIN_API
-
+RUN echo "Building frontend with VITE_LOGIN_API=$VITE_LOGIN_API"
 RUN npm run build
 
 # Runtime

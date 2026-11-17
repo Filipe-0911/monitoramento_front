@@ -91,9 +91,9 @@ const BotaoColoridoEstilizado = styled.button`
     }
 `;
 
-export function BotaorCard({ children, $type, disabled = false, onClick, isLoading = false, id=null }) {
+export function BotaorCard({ children, $type, disabled = false, onClick, isLoading = false, id = null, name = null }) {
     return (
-        <BotaoColoridoEstilizado $type={$type} disabled={disabled} onClick={onClick} id={id}>
+        <BotaoColoridoEstilizado $type={$type} disabled={disabled} onClick={onClick} id={id} name={name}>
             {isLoading ? <Loader $ehDeBotao /> : children}
         </BotaoColoridoEstilizado>
     );
