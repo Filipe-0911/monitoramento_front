@@ -3,7 +3,6 @@ import { BotaorCard } from "../../../componentes/ComponentesHome";
 import styled from "styled-components";
 
 import { FaClock, FaPencilAlt, FaQuestion, FaTrashAlt } from "react-icons/fa";
-import { FaClock, FaPencilAlt, FaQuestion, FaTrashAlt } from "react-icons/fa";
 import { MdOutlineAddToPhotos } from "react-icons/md";
 import { TbListDetails } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
@@ -150,7 +149,6 @@ export default function AccordionAssunto({
     excluirMateria,
     excluirAssunto,
     alterarStatusConcluidoAssunto,
-    alterarStatusConcluidoAssunto,
     setModalIsOpen,
     setAcaoUsuario }) {
 
@@ -227,14 +225,12 @@ export default function AccordionAssunto({
                                 <LiAcorddionEstilizado key={assunto.id} $darkMode={usuarioPrefereModoDark}>
                                     <SectionDadosDoAssuntoEstilizado $darkMode={usuarioPrefereModoDark}>
                                         <h5 style={{ textDecoration: assunto.concluido ? "line-through" : "none" }}>
-                                        <h5 style={{ textDecoration: assunto.concluido ? "line-through" : "none" }}>
                                             {assunto.nome}
                                         </h5>
                                         <p>
                                             Quantidade páginas no PDF: {assunto.quantidadePdf}
                                         </p>
                                         <p>
-                                            Questões respondidas: {assunto.quantidadeQuestoes ?? 0}
                                             Questões respondidas: {assunto.quantidadeQuestoes ?? 0}
                                         </p>
                                         <p>
@@ -272,66 +268,6 @@ export default function AccordionAssunto({
                                         }
 
                                     </SectionDadosDoAssuntoEstilizado>
-                                    <ContainerAcoesAssunto>
-                                        <SectionBotoesCrudAccordion>
-                                            <WrapperBotaoComTooltip data-tooltip="Excluir Assunto">
-                                                <BotaorCard
-                                                    onClick={(e) => excluirAssunto(assunto.id, materia.id)}
-                                                    $type="excluir"
-                                                    name="excluir_assunto"
-                                                >
-                                                    <FaTrashAlt size={20} />
-                                                </BotaorCard>
-                                            </WrapperBotaoComTooltip>
-                                            <WrapperBotaoComTooltip data-tooltip="Editar Assunto">
-                                                <BotaorCard
-                                                    $type="editar"
-                                                    onClick={() => editarAssunto(materia.id, assunto.id)}
-                                                    name="editar_assunto"
-                                                >
-                                                    <FaPencilAlt size={20} />
-                                                </BotaorCard>
-                                            </WrapperBotaoComTooltip>
-                                            <WrapperBotaoComTooltip data-tooltip="Estatística de Questões">
-                                                <BotaorCard
-                                                    onClick={(e) => adicionarQuestao(materia.id, assunto.id)}
-                                                    $type="questao"
-                                                    name="adicionar_questao"
-                                                >
-                                                    <FaQuestion size={20} />
-                                                </BotaorCard>
-                                            </WrapperBotaoComTooltip>
-                                            <WrapperBotaoComTooltip data-tooltip="Horas de Estudo">
-                                                <BotaorCard
-                                                    onClick={() => gerenciarEstudos(materia.id, assunto.id)}
-                                                    $type="estudo"
-                                                    name="gerenciar_estudos"
-                                                >
-                                                    <FaClock size={20} />
-                                                </BotaorCard>
-                                            </WrapperBotaoComTooltip>
-                                            <WrapperBotaoComTooltip data-tooltip={textoBotaoResumo}>
-                                                <BotaorCard
-                                                    onClick={() => navigate(`/provas/${prova.id}/materias/${materia.id}/assuntos/${assunto.id}`)}
-                                                    $type="adicionar"
-                                                    name="detalhes_assunto"
-                                                >
-                                                    <TbListDetails size={20} />
-                                                </BotaorCard>
-                                            </WrapperBotaoComTooltip>
-                                        </SectionBotoesCrudAccordion>
-                                        <LabelCheckboxConcluido
-                                            $concluido={Boolean(assunto.concluido)}
-                                            $darkMode={usuarioPrefereModoDark}
-                                        >
-                                            <input
-                                                type="checkbox"
-                                                checked={Boolean(assunto.concluido)}
-                                                onChange={(e) => alterarStatusConcluidoAssunto(materia.id, assunto.id, e.target.checked)}
-                                            />
-                                            {assunto.concluido ? "Matéria concluída" : "Marcar matéria como concluída"}
-                                        </LabelCheckboxConcluido>
-                                    </ContainerAcoesAssunto>
                                     <ContainerAcoesAssunto>
                                         <SectionBotoesCrudAccordion>
                                             <WrapperBotaoComTooltip data-tooltip="Excluir Assunto">
