@@ -61,7 +61,7 @@ const BotaoColoridoEstilizado = styled.button`
     gap: 5px;
     padding: 0.5em;
     border: none;
-    background-color: ${(props) => (props.$type === "concluir" ? "#42AB84" : props.$type === "excluir" ? "#c01930" : props.$type === "fechar" ? "#c01930" : props.$type === "editar" ? "#FAA800" : props.$type === "adicionar" ? "var(--bg-azul-claro)" : props.$type === "detalhar" ? "#0087B6" : props.$type === "questao" ? "#01238E" : "")};
+    background-color: ${(props) => (props.$type === "concluir" ? "#42AB84" : props.$type === "excluir" ? "#c01930" : props.$type === "fechar" ? "#c01930" : props.$type === "editar" ? "#FAA800" : props.$type === "adicionar" ? "var(--bg-azul-claro)" : props.$type === "detalhar" ? "#0087B6" : props.$type === "questao" ? "#01238E" : props.$type === "estudo" ? "#6f42c1" : "")};
     color: white;
     border-radius: 5px;
     font-size: 18px;

@@ -8,7 +8,10 @@ import {
     EXCLUIR_ASSUNTO,
     EXCLUIR_MATERIA,
     EDITAR_ASSUNTO,
-    EDITAR_MATERIA
+    EDITAR_MATERIA,
+    ADICIONAR_ESTUDO,
+    EDITAR_ESTUDO,
+    EXCLUIR_ESTUDO
 } from "../../Paginas/ProvaEspecifica/reducer";
 
 export const useProvaContext = () => {
@@ -48,6 +51,15 @@ export const useProvaContext = () => {
     const updateMateria = ({ dadosParaAlteracao }) => {
         dispatcher({ type: EDITAR_MATERIA, dadosParaAlteracao });
     };
+    const addEstudo = ({ dadosParaAlteracao }) => {
+        dispatcher({ type: ADICIONAR_ESTUDO, dadosParaAlteracao });
+    };
+    const updateEstudo = ({ dadosParaAlteracao }) => {
+        dispatcher({ type: EDITAR_ESTUDO, dadosParaAlteracao });
+    };
+    const delEstudo = ({ dadosParaAlteracao }) => {
+        dispatcher({ type: EXCLUIR_ESTUDO, dadosParaAlteracao });
+    };
 
     return {
         addProva,
@@ -58,6 +70,9 @@ export const useProvaContext = () => {
         addMateria,
         delMateria,
         updateMateria,
+        addEstudo,
+        updateEstudo,
+        delEstudo,
         prova,
         quantidadeDeInputs,
         setQuantidadeDeInputs,

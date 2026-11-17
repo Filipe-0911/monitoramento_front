@@ -9,6 +9,7 @@ import BotaoEstilizado from "../../componentes/Botao";
 import AccordionAssunto from "./AccordionAssunto";
 import AssuntoService from "../../services/AssuntoService";
 import QuestoesService from "../../services/QuestoesService";
+import EstudoService from "../../services/EstudoService";
 import GraficosRendimentoAssuntos from "../../componentes/GraficosRendimentoAssuntos";
 import Loader from "../../componentes/Loader";
 import Alert from "../../componentes/Alert";
@@ -26,6 +27,7 @@ const ProvaEspecifica = () => {
     const materiasService = new MateriasService();
     const assuntoService = new AssuntoService();
     const questoesService = new QuestoesService();
+    const estudoService = new EstudoService();
 
     const [isLoading, setIsLoading] = useState(true);
     const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -43,6 +45,9 @@ const ProvaEspecifica = () => {
         addMateria,
         delMateria,
         updateMateria,
+        addEstudo,
+        updateEstudo,
+        delEstudo,
         prova,
         idMateria,
         setIdMateria,
@@ -185,6 +190,70 @@ const ProvaEspecifica = () => {
         }
     }
 
+    const adicionarEstudoAoAssunto = async (dadosEstudo) => {
+        try {
+            const estudoCriado = await estudoService.adicionaEstudo({
+                idProva: prova.id,
+                idMateria: idMateria,
+                idAssunto: idAssunto,
+                estudo: dadosEstudo,
+            });
+            addEstudo({
+                dadosParaAlteracao: {
+                    idMateria: idMateria,
+                    idAssunto: idAssunto,
+                    estudo: estudoCriado,
+                },
+            });
+            setAlertaSuccess("Estudo registrado com sucesso!");
+        } catch (error) {
+            setAlertaError(error.response?.data || "Erro ao registrar estudo.");
+        }
+    };
+
+    const editarEstudoDoAssunto = async (idEstudo, dadosEstudo) => {
+        try {
+            const estudoAtualizado = await estudoService.editaEstudo({
+                idProva: prova.id,
+                idMateria: idMateria,
+                idAssunto: idAssunto,
+                idEstudo: idEstudo,
+                estudo: dadosEstudo,
+            });
+            updateEstudo({
+                dadosParaAlteracao: {
+                    idMateria: idMateria,
+                    idAssunto: idAssunto,
+                    estudoAlterado: estudoAtualizado,
+                },
+            });
+            setAlertaSuccess("Estudo atualizado com sucesso!");
+        } catch (error) {
+            setAlertaError(error.response?.data || "Erro ao atualizar estudo.");
+        }
+    };
+
+    const excluirEstudoDoAssunto = async (idEstudo) => {
+        try {
+            await estudoService.deletaEstudo({
+                idProva: prova.id,
+                idMateria: idMateria,
+                idAssunto: idAssunto,
+                idEstudo: idEstudo,
+            });
+            delEstudo({
+                dadosParaAlteracao: {
+                    idMateria: idMateria,
+                    idAssunto: idAssunto,
+                    idEstudo: idEstudo,
+                },
+            });
+            setAlertaSuccess("Estudo removido com sucesso!");
+        } catch (error) {
+            setAlertaError(error.response?.data || "Erro ao excluir estudo.");
+        }
+    };
+
     const editarMateria = async (dados) => {
         const dadosParaEnvioAlteracaoMateria = {
             idProva: prova.id,
@@ -265,6 +334,9 @@ const ProvaEspecifica = () => {
                 retornaValoresAssunto={retornaValoresAssunto}
                 alterarAssunto={alterarAssunto}
                 adicionarQuestoesAoAssunto={adicionarQuestoesAoAssunto}
+                adicionarEstudoAoAssunto={adicionarEstudoAoAssunto}
+                editarEstudoDoAssunto={editarEstudoDoAssunto}
+                excluirEstudoDoAssunto={excluirEstudoDoAssunto}
                 editarMateria={editarMateria}
                 acaoUsuario={acaoUsuario}
             />

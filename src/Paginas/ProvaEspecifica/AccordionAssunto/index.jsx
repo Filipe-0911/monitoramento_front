@@ -2,7 +2,7 @@ import Accordion from "../../../componentes/Accordion";
 import { BotaorCard } from "../../../componentes/ComponentesHome";
 import styled from "styled-components";
 
-import { FaPencilAlt, FaQuestion, FaTrash, FaTrashAlt } from "react-icons/fa";
+import { FaClock, FaPencilAlt, FaQuestion, FaTrash, FaTrashAlt } from "react-icons/fa";
 import { MdOutlineAddToPhotos } from "react-icons/md";
 import { TbListDetails } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
@@ -132,6 +132,25 @@ export default function AccordionAssunto({
         setAcaoUsuario("adicionar_questao")
         setModalIsOpen();
     }
+    function gerenciarEstudos(idMateria, idAssunto) {
+        setIdMateria(idMateria);
+        setIdAssunto(idAssunto);
+        setAcaoUsuario("gerenciar_estudos");
+        setModalIsOpen();
+    }
+    function calcularTempoTotalEstudo(assunto) {
+        const estudos = assunto.listaDeEstudos || [];
+        if (estudos.length === 0) {
+            return "Nenhum estudo registrado";
+        }
+        const totalMinutos = estudos.reduce(
+            (acc, est) => acc + (Number(est.horas) || 0) * 60 + (Number(est.minutos) || 0),
+            0
+        );
+        const horas = Math.floor(totalMinutos / 60);
+        const minutos = totalMinutos % 60;
+        return `${horas}h ${minutos}min (${estudos.length} ${estudos.length === 1 ? "registro" : "registros"})`;
+    }
 
     const { usuarioPrefereModoDark } = useUserContext();
 
@@ -181,6 +200,10 @@ export default function AccordionAssunto({
                                             }
                                         </p>
 
+                                        <p>
+                                            Tempo de estudo: {calcularTempoTotalEstudo(assunto)}
+                                        </p>
+
                                         {assunto.comentarios
                                             ?
                                             <p>
@@ -218,6 +241,14 @@ export default function AccordionAssunto({
                                         >
                                             <FaQuestion size={20} />
                                             Estatística de Questões
+                                        </BotaorCard>
+                                        <BotaorCard
+                                            onClick={() => gerenciarEstudos(materia.id, assunto.id)}
+                                            $type="estudo"
+                                            name="gerenciar_estudos"
+                                        >
+                                            <FaClock size={20} />
+                                            Horas de Estudo
                                         </BotaorCard>
                                         <BotaorCard
                                             onClick={() => navigate(`/provas/${prova.id}/materias/${materia.id}/assuntos/${assunto.id}`)}

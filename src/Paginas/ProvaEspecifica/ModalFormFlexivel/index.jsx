@@ -4,6 +4,7 @@ import FormAdicionarMaterias from "../FormAdicionarMaterias";
 import FormAdicionarQuestoes from "../FormAdicionarQuestoes";
 import FormEditarAssuntos from "../FormEditarAssuntos";
 import FormEditarMaterias from "../FormEditarMaterias";
+import FormEstudos from "../FormEstudos";
 
 import ModalComponent from "../../../componentes/Modal";
 
@@ -16,6 +17,9 @@ export default function ModalFormFlexivel(
         retornaValoresAssunto,
         alterarAssunto,
         adicionarQuestoesAoAssunto,
+        adicionarEstudoAoAssunto,
+        editarEstudoDoAssunto,
+        excluirEstudoDoAssunto,
         editarMateria,
         acaoUsuario
     }
@@ -48,6 +52,14 @@ export default function ModalFormFlexivel(
                 acaoUsuario === "adicionar_questao" ? 
                 <FormAdicionarQuestoes
                     adicionarQuestoesAoAssunto={adicionarQuestoesAoAssunto}
+                />
+                :
+                acaoUsuario === "gerenciar_estudos" ?
+                <FormEstudos
+                    retornaValoresAssunto={retornaValoresAssunto}
+                    adicionarEstudoAoAssunto={adicionarEstudoAoAssunto}
+                    editarEstudoDoAssunto={editarEstudoDoAssunto}
+                    excluirEstudoDoAssunto={excluirEstudoDoAssunto}
                 />
                 : null
             }
