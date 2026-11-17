@@ -131,15 +131,9 @@ const LabelCheckboxConcluido = styled.label`
     align-items: center;
     gap: 8px;
     cursor: pointer;
-<<<<<<< HEAD
     font-size: 15px;
     font-weight: bold;
     margin: 2px 0;
-=======
-    font-size: 16px;
-    font-weight: bold;
-    margin: 6px 0;
->>>>>>> dev
     color: ${props => props.$concluido ? "#42AB84" : (props.$darkMode ? "#ffffff" : "#000000")};
 
     input[type="checkbox"] {
