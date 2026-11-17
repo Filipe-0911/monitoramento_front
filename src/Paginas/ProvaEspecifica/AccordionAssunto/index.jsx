@@ -9,9 +9,6 @@ import { useNavigate } from "react-router-dom";
 import { useProvaContext } from "../../../Hooks/useProvaContext";
 import { DivBotoesCrudMateria } from "../ComponentesProvaEspecifica";
 import useUserContext from "../../../Hooks/useUserContext";
-import { RiCloseLargeFill } from "react-icons/ri";
-import { useEffect, useState } from "react";
-import QuestoesService from "../../../services/QuestoesService";
 
 export const LiAcorddionEstilizado = styled.li`
     display: flex;
@@ -95,9 +92,28 @@ const SectionDadosDoAssuntoEstilizado = styled.section`
     }
 `
 
+const LabelCheckboxConcluido = styled.label`
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 6px 0;
+    color: ${props => props.$concluido ? "#42AB84" : (props.$darkMode ? "#ffffff" : "#000000")};
+
+    input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+        accent-color: #42AB84;
+    }
+`;
+
 export default function AccordionAssunto({
     excluirMateria,
     excluirAssunto,
+    alterarStatusConcluidoAssunto,
     setModalIsOpen,
     setAcaoUsuario }) {
 
@@ -108,7 +124,6 @@ export default function AccordionAssunto({
     } = useProvaContext();
 
     const navigate = useNavigate();
-    const questoesService = new QuestoesService();
 
     function adicionarAssunto(idMateria) {
         setAcaoUsuario("adicionar_assunto")
@@ -173,14 +188,25 @@ export default function AccordionAssunto({
                             return (
                                 <LiAcorddionEstilizado key={assunto.id} $darkMode={usuarioPrefereModoDark}>
                                     <SectionDadosDoAssuntoEstilizado $darkMode={usuarioPrefereModoDark}>
-                                        <h5>
+                                        <h5 style={{ textDecoration: assunto.concluido ? "line-through" : "none" }}>
                                             {assunto.nome}
                                         </h5>
+                                        <LabelCheckboxConcluido
+                                            $concluido={Boolean(assunto.concluido)}
+                                            $darkMode={usuarioPrefereModoDark}
+                                        >
+                                            <input
+                                                type="checkbox"
+                                                checked={Boolean(assunto.concluido)}
+                                                onChange={(e) => alterarStatusConcluidoAssunto(materia.id, assunto.id, e.target.checked)}
+                                            />
+                                            {assunto.concluido ? "Matéria concluída" : "Marcar matéria como concluída"}
+                                        </LabelCheckboxConcluido>
                                         <p>
                                             Quantidade páginas no PDF: {assunto.quantidadePdf}
                                         </p>
                                         <p>
-                                            Questões respondidas: {assunto.idQuestoes.length}
+                                            Questões respondidas: {assunto.quantidadeQuestoes ?? 0}
                                         </p>
                                         <p>
                                             Porcentagem de acertos: {

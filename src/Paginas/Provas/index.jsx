@@ -157,7 +157,14 @@ const Provas = () => {
 
     const somaQuantidadeDeQuestoesPorProva = (prova) => {
         let valorInicial = 0;
-        prova.listaDeMaterias.forEach(materia => materia.listaDeAssuntos.forEach(assunto => valorInicial += Number(assunto.idQuestoes.length)));
+        prova.listaDeMaterias.forEach(materia =>
+            materia.listaDeAssuntos.forEach(assunto => {
+                const qtd = assunto.quantidadeQuestoes !== undefined
+                    ? Number(assunto.quantidadeQuestoes)
+                    : Number(assunto.idQuestoes?.length || 0);
+                valorInicial += qtd;
+            })
+        );
         return valorInicial.toString();
     }
 
