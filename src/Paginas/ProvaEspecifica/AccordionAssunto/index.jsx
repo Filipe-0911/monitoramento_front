@@ -3,6 +3,7 @@ import { BotaorCard } from "../../../componentes/ComponentesHome";
 import styled from "styled-components";
 
 import { FaClock, FaPencilAlt, FaQuestion, FaTrashAlt } from "react-icons/fa";
+import { FaClock, FaPencilAlt, FaQuestion, FaTrashAlt } from "react-icons/fa";
 import { MdOutlineAddToPhotos } from "react-icons/md";
 import { TbListDetails } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
@@ -32,6 +33,7 @@ export const LiAcorddionEstilizado = styled.li`
 `
 
 const ContainerAcoesAssunto = styled.div`
+const ContainerAcoesAssunto = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -39,11 +41,51 @@ const ContainerAcoesAssunto = styled.div`
     max-width: 50%;
 
     @media (max-width: 820px) {
+    @media (max-width: 820px) {
         max-width: 346px;
     }
     @media (max-width: 562px) {
         width: 50%;
     }
+`;
+
+const SectionBotoesCrudAccordion = styled.section`
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75em;
+`
+
+const WrapperBotaoComTooltip = styled.div`
+    position: relative;
+    display: inline-flex;
+
+    &::after {
+        content: attr(data-tooltip);
+        position: absolute;
+        bottom: calc(100% + 8px);
+        left: 50%;
+        transform: translateX(-50%) translateY(4px);
+        background-color: rgba(20, 20, 20, 0.92);
+        color: #ffffff;
+        padding: 6px 10px;
+        border-radius: 5px;
+        font-size: 13px;
+        white-space: nowrap;
+        pointer-events: none;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.35);
+        z-index: 20;
+    }
+
+    &:hover::after {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(-50%) translateY(0);
+    }
+`;
 `;
 
 const SectionBotoesCrudAccordion = styled.section`
@@ -131,6 +173,24 @@ const LabelCheckboxConcluido = styled.label`
     align-items: center;
     gap: 8px;
     cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
+    margin: 2px 0;
+    color: ${props => props.$concluido ? "#42AB84" : (props.$darkMode ? "#ffffff" : "#000000")};
+
+    input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+        accent-color: #42AB84;
+    }
+`;
+
+const LabelCheckboxConcluido = styled.label`
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
     font-size: 16px;
     font-weight: bold;
     margin: 6px 0;
@@ -147,6 +207,7 @@ const LabelCheckboxConcluido = styled.label`
 export default function AccordionAssunto({
     excluirMateria,
     excluirAssunto,
+    alterarStatusConcluidoAssunto,
     alterarStatusConcluidoAssunto,
     setModalIsOpen,
     setAcaoUsuario }) {
@@ -220,9 +281,11 @@ export default function AccordionAssunto({
                             return 0;
                         }).map(assunto => {
                             const textoBotaoResumo = assunto.comentarios ? "Ver Resumo" : "Criar Resumo";
+                            const textoBotaoResumo = assunto.comentarios ? "Ver Resumo" : "Criar Resumo";
                             return (
                                 <LiAcorddionEstilizado key={assunto.id} $darkMode={usuarioPrefereModoDark}>
                                     <SectionDadosDoAssuntoEstilizado $darkMode={usuarioPrefereModoDark}>
+                                        <h5 style={{ textDecoration: assunto.concluido ? "line-through" : "none" }}>
                                         <h5 style={{ textDecoration: assunto.concluido ? "line-through" : "none" }}>
                                             {assunto.nome}
                                         </h5>
@@ -230,6 +293,7 @@ export default function AccordionAssunto({
                                             Quantidade páginas no PDF: {assunto.quantidadePdf}
                                         </p>
                                         <p>
+                                            Questões respondidas: {assunto.quantidadeQuestoes ?? 0}
                                             Questões respondidas: {assunto.quantidadeQuestoes ?? 0}
                                         </p>
                                         <p>
@@ -267,6 +331,66 @@ export default function AccordionAssunto({
                                         }
 
                                     </SectionDadosDoAssuntoEstilizado>
+                                    <ContainerAcoesAssunto>
+                                        <SectionBotoesCrudAccordion>
+                                            <WrapperBotaoComTooltip data-tooltip="Excluir Assunto">
+                                                <BotaorCard
+                                                    onClick={(e) => excluirAssunto(assunto.id, materia.id)}
+                                                    $type="excluir"
+                                                    name="excluir_assunto"
+                                                >
+                                                    <FaTrashAlt size={20} />
+                                                </BotaorCard>
+                                            </WrapperBotaoComTooltip>
+                                            <WrapperBotaoComTooltip data-tooltip="Editar Assunto">
+                                                <BotaorCard
+                                                    $type="editar"
+                                                    onClick={() => editarAssunto(materia.id, assunto.id)}
+                                                    name="editar_assunto"
+                                                >
+                                                    <FaPencilAlt size={20} />
+                                                </BotaorCard>
+                                            </WrapperBotaoComTooltip>
+                                            <WrapperBotaoComTooltip data-tooltip="Estatística de Questões">
+                                                <BotaorCard
+                                                    onClick={(e) => adicionarQuestao(materia.id, assunto.id)}
+                                                    $type="questao"
+                                                    name="adicionar_questao"
+                                                >
+                                                    <FaQuestion size={20} />
+                                                </BotaorCard>
+                                            </WrapperBotaoComTooltip>
+                                            <WrapperBotaoComTooltip data-tooltip="Horas de Estudo">
+                                                <BotaorCard
+                                                    onClick={() => gerenciarEstudos(materia.id, assunto.id)}
+                                                    $type="estudo"
+                                                    name="gerenciar_estudos"
+                                                >
+                                                    <FaClock size={20} />
+                                                </BotaorCard>
+                                            </WrapperBotaoComTooltip>
+                                            <WrapperBotaoComTooltip data-tooltip={textoBotaoResumo}>
+                                                <BotaorCard
+                                                    onClick={() => navigate(`/provas/${prova.id}/materias/${materia.id}/assuntos/${assunto.id}`)}
+                                                    $type="adicionar"
+                                                    name="detalhes_assunto"
+                                                >
+                                                    <TbListDetails size={20} />
+                                                </BotaorCard>
+                                            </WrapperBotaoComTooltip>
+                                        </SectionBotoesCrudAccordion>
+                                        <LabelCheckboxConcluido
+                                            $concluido={Boolean(assunto.concluido)}
+                                            $darkMode={usuarioPrefereModoDark}
+                                        >
+                                            <input
+                                                type="checkbox"
+                                                checked={Boolean(assunto.concluido)}
+                                                onChange={(e) => alterarStatusConcluidoAssunto(materia.id, assunto.id, e.target.checked)}
+                                            />
+                                            {assunto.concluido ? "Matéria concluída" : "Marcar matéria como concluída"}
+                                        </LabelCheckboxConcluido>
+                                    </ContainerAcoesAssunto>
                                     <ContainerAcoesAssunto>
                                         <SectionBotoesCrudAccordion>
                                             <WrapperBotaoComTooltip data-tooltip="Excluir Assunto">
@@ -366,3 +490,4 @@ export default function AccordionAssunto({
         })
     );
 }
+
