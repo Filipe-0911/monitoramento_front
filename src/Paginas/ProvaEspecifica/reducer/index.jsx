@@ -58,7 +58,7 @@ const editarAssunto = (prova, { assuntoAlterado }) => {
                     ...materia,
                     listaDeAssuntos: materia.listaDeAssuntos.map(assunto =>
                         assunto.id === assuntoAlterado.id
-                            ? assuntoAlterado
+                            ? { ...assunto, ...assuntoAlterado }
                             : assunto
                     )
                 }
@@ -75,7 +75,10 @@ const adicionarAssunto = (prova, { assunto }) => {
         )
     }
 }
-const adicionarQuestoesAoAssunto = (prova, { idAssunto, idMateria, questao}) => {
+const adicionarQuestoesAoAssunto = (prova, { idAssunto, idMateria, questao, questoesAdicionadas }) => {
+    const incremento = questoesAdicionadas !== undefined
+        ? Number(questoesAdicionadas)
+        : (Number(questao?.questoesFeitas) || 0);
     return {
         ...prova,
         listaDeMaterias: prova.listaDeMaterias.map(materia =>
@@ -86,7 +89,7 @@ const adicionarQuestoesAoAssunto = (prova, { idAssunto, idMateria, questao}) => 
                         assunto.id === idAssunto
                             ? {
                                 ...assunto,
-                                idQuestoes: [...assunto.idQuestoes, questao.id]
+                                quantidadeQuestoes: (Number(assunto.quantidadeQuestoes) || 0) + incremento
                             }
                             : assunto
                     )

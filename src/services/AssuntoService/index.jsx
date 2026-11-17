@@ -70,6 +70,15 @@ export default class AssuntoService {
         }
     }
 
+    async alterarStatusConcluido({ idProva, idMateria, idAssunto, concluido }) {
+        const { data } = await this.axios.put(
+            `/provas/${idProva}/materias/${idMateria}/assuntos/${idAssunto}/concluir`,
+            JSON.stringify({ concluido: Boolean(concluido) }),
+            this.userService.getHeaderWithTokenFromLocalStorage()
+        );
+        return data;
+    }
+
     async adicionarComentarios(dadosParaAdicionarComentarios) {
         const { idProva, idMateria, idAssunto, comentarios } = dadosParaAdicionarComentarios
         console.log(comentarios)

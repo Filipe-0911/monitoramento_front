@@ -159,6 +159,30 @@ const ProvaEspecifica = () => {
             closeModal();
         }
     };
+
+    const alterarStatusConcluidoAssunto = async (idMateriaAlvo, idAssuntoAlvo, concluido) => {
+        try {
+            const response = await assuntoService.alterarStatusConcluido({
+                idProva: prova.id,
+                idMateria: idMateriaAlvo,
+                idAssunto: idAssuntoAlvo,
+                concluido: concluido,
+            });
+            updateAssunto({
+                dadosParaAlteracao: {
+                    assuntoAlterado: response,
+                },
+            });
+            setAlertaSuccess(
+                concluido
+                    ? "Matéria/Assunto marcado como concluído!"
+                    : "Matéria/Assunto desmarcado como concluído!"
+            );
+        } catch (error) {
+            setAlertaError(error.response?.data || "Erro ao atualizar status do assunto.");
+        }
+    };
+
     const adicionaMateria = async (form) => {
         try {
             const { nome, id, listaDeAssuntos } = await materiasService.adicionaMateria(form);
@@ -179,7 +203,8 @@ const ProvaEspecifica = () => {
                 dadosParaAlteracao: {
                     idMateria: idMateria,
                     idAssunto: idAssunto,
-                    questao: r
+                    questao: r,
+                    questoesAdicionadas: Number(dadosQuestao.questoesFeitas) || 0,
                 }
             })
             setAlertaSuccess("Questões adicionadas com sucesso.");
@@ -320,6 +345,7 @@ const ProvaEspecifica = () => {
                                 prova={prova}
                                 excluirMateria={excluirMateria}
                                 excluirAssunto={excluirAssunto}
+                                alterarStatusConcluidoAssunto={alterarStatusConcluidoAssunto}
                                 setAcaoUsuario={setAcaoUsuario}
                                 setModalIsOpen={openModal}
                             />
