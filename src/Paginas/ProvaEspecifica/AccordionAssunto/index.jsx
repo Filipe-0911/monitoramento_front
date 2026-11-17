@@ -33,7 +33,6 @@ export const LiAcorddionEstilizado = styled.li`
 `
 
 const ContainerAcoesAssunto = styled.div`
-const ContainerAcoesAssunto = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -47,45 +46,6 @@ const ContainerAcoesAssunto = styled.div`
     @media (max-width: 562px) {
         width: 50%;
     }
-`;
-
-const SectionBotoesCrudAccordion = styled.section`
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.75em;
-`
-
-const WrapperBotaoComTooltip = styled.div`
-    position: relative;
-    display: inline-flex;
-
-    &::after {
-        content: attr(data-tooltip);
-        position: absolute;
-        bottom: calc(100% + 8px);
-        left: 50%;
-        transform: translateX(-50%) translateY(4px);
-        background-color: rgba(20, 20, 20, 0.92);
-        color: #ffffff;
-        padding: 6px 10px;
-        border-radius: 5px;
-        font-size: 13px;
-        white-space: nowrap;
-        pointer-events: none;
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
-        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.35);
-        z-index: 20;
-    }
-
-    &:hover::after {
-        opacity: 1;
-        visibility: visible;
-        transform: translateX(-50%) translateY(0);
-    }
-`;
 `;
 
 const SectionBotoesCrudAccordion = styled.section`
@@ -167,24 +127,6 @@ const SectionDadosDoAssuntoEstilizado = styled.section`
         }
     }
 `
-
-const LabelCheckboxConcluido = styled.label`
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    font-size: 15px;
-    font-weight: bold;
-    margin: 2px 0;
-    color: ${props => props.$concluido ? "#42AB84" : (props.$darkMode ? "#ffffff" : "#000000")};
-
-    input[type="checkbox"] {
-        width: 18px;
-        height: 18px;
-        cursor: pointer;
-        accent-color: #42AB84;
-    }
-`;
 
 const LabelCheckboxConcluido = styled.label`
     display: flex;
@@ -280,7 +222,6 @@ export default function AccordionAssunto({
                             }
                             return 0;
                         }).map(assunto => {
-                            const textoBotaoResumo = assunto.comentarios ? "Ver Resumo" : "Criar Resumo";
                             const textoBotaoResumo = assunto.comentarios ? "Ver Resumo" : "Criar Resumo";
                             return (
                                 <LiAcorddionEstilizado key={assunto.id} $darkMode={usuarioPrefereModoDark}>
